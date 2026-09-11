@@ -1,0 +1,12 @@
+journey_id,segment,character,start_date,end_date,target_miles,cum_miles_start,cum_miles_end,number_of_distances_logged
+Mordor,The Shire,Frodo,2024-03-27,2024-04-28,145,0,145,29
+Mordor,The Fellowship,Frodo,2024-04-29,2024-07-24,680,145,825,87
+Mordor,Mines of Moria,Frodo,2024-07-24,2024-07-28,40,825,865,5
+Mordor,The Eye of Sauron,Frodo,2024-08-24,2024-12-04,668,865,1533,99
+Mordor,Mordor,Frodo,2024-12-04,2025-01-07,282,1533,1815,35
+Return,Rohan,Aragorn,2025-01-14,2025-03-29,450,0,450,75
+Return,Helm's Deep,Aragorn,2025-03-30,2025-06-04,370,450,820,64
+Return,Gondor,Aragorn,2025-06-05,2025-08-26,662,820,1482,85
+Hobbit,An Unexpected Journey,Bilbo,2026-01-20,2026-04-07,609,0,609,78
+Hobbit,The Desolation of Smaug,Bilbo,2026-04-08,2026-05-31,416,609,1025,55
+Hobbit,The Battle of the Five Armies,Bilbo,2026-06-01,2026-06-10,75,1025,1100,11
