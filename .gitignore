@@ -1,4 +1,3 @@
-# Ignore everything in the All Data folder
-/data/Fit/All Data/
+# Ignore everything in the raw_data folder
 /raw_data/
 
