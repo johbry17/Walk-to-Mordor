@@ -1,0 +1,106 @@
+{
+  "_comment": [
+    "Middle-earth route waypoints for Walk to Mordor.",
+    "",
+    "Coordinate system",
+    "─────────────────",
+    "  SVG viewBox: 0 0 3200 2400",
+    "  Origin (0,0) = top-left (northwest corner of map)",
+    "  x increases eastward; y increases southward.",
+    "  Scale: ~1.71 SVG units per fictional mile (from legend scale bar).",
+    "  Map extent: ~1847 miles E–W × 1380 miles N–S.",
+    "",
+    "IMPORTANT: x/y values below are APPROXIMATE estimates from SVG structure",
+    "analysis.  Open assets/map/poc.html in a browser, click locations on the",
+    "map, and read SVG coords from the browser console to calibrate.",
+    "",
+    "Concept separation",
+    "──────────────────",
+    "  fictional_mile  = the Conqueror challenge's cumulative distance at this",
+    "                    waypoint.  Frodo's Shire segment starts at 0 and the",
+    "                    Mordor segment ends at 1815.",
+    "  x, y            = SVG overlay coordinates for this geographic location.",
+    "",
+    "The Conqueror segments (data/processed/journeys.csv) are separate from",
+    "these geographic waypoints.  To map a user's accumulated mileage to a",
+    "map position: find which two waypoints bracket the current fictional_mile,",
+    "then linearly interpolate between their (x, y).",
+    "",
+    "Per-journey waypoints should be defined even if they share geographic",
+    "locations (e.g. Rivendell appears in both Frodo and Bilbo routes)."
+  ],
+
+  "_scale_note": "At the 200-mile legend scale bar: 4 × 85.3 = 341.2 SVG units = 200 miles → 1 mile ≈ 1.706 SVG units. Map is ~1847 mi E-W × ~1380 mi N-S.",
+
+  "_calibration_reference": {
+    "confirmed_city_markers": [
+      { "svg_xy": [822, 661],  "likely": "Bree (city rect centre)" },
+      { "svg_xy": [996, 501],  "likely": "Weathertop / north Eriador crossroads" },
+      { "svg_xy": [1041, 675], "likely": "Rivendell / Last Bridge area" },
+      { "svg_xy": [1407, 1298],"likely": "Edoras (SVG ellipse marker)" },
+      { "svg_xy": [935, 1210], "likely": "Helm's Deep / Isengard area" },
+      { "svg_xy": [1578, 1498],"likely": "Minas Tirith (city rect centre)" },
+      { "svg_xy": [1580, 1610],"likely": "Osgiliath / Pelargir area" },
+      { "svg_xy": [1576, 1780],"likely": "Southern Gondor / Umbar coast" }
+    ],
+    "region_label_origins": [
+      { "svg_xy": [661,  609], "label": "ERIADOR" },
+      { "svg_xy": [1521, 1372],"label": "ROHAN" },
+      { "svg_xy": [1990, 1864],"label": "GONDOR" }
+    ]
+  },
+
+  "Mordor": {
+    "character": "Frodo",
+    "total_target_miles": 1815,
+    "waypoints": [
+      { "location": "Hobbiton",             "fictional_mile":    0, "x":  630, "y":  940, "note": "~20% x, ~39% y — visual estimate" },
+      { "location": "Bree",                 "fictional_mile":   40, "x":  830, "y":  690, "note": "near city marker (822,661) — approx" },
+      { "location": "Weathertop",           "fictional_mile":   90, "x":  996, "y":  501, "note": "city marker (996,501) — approx" },
+      { "location": "Rivendell",            "fictional_mile":  145, "x": 1041, "y":  675, "note": "city marker (1041,675) — approx" },
+      { "location": "Moria (West Gate)",    "fictional_mile":  350, "x": 1190, "y":  960, "note": "~37% x, ~40% y — visual estimate" },
+      { "location": "Lothlórien",           "fictional_mile":  460, "x": 1330, "y": 1090, "note": "~42% x, ~45% y — visual estimate" },
+      { "location": "Rauros / Amon Hen",    "fictional_mile":  585, "x": 1490, "y": 1160, "note": "~47% x, ~48% y — visual estimate" },
+      { "location": "Emyn Muil",            "fictional_mile":  680, "x": 1560, "y": 1200, "note": "~49% x, ~50% y — visual estimate" },
+      { "location": "Dead Marshes",         "fictional_mile":  825, "x": 1700, "y": 1270, "note": "~53% x, ~53% y — visual estimate" },
+      { "location": "Black Gate (Morannon)","fictional_mile":  960, "x": 1800, "y": 1360, "note": "~56% x, ~57% y — visual estimate" },
+      { "location": "Cross-roads",          "fictional_mile": 1100, "x": 1760, "y": 1470, "note": "~55% x, ~61% y — visual estimate" },
+      { "location": "Shelob's Lair",        "fictional_mile": 1260, "x": 1840, "y": 1460, "note": "~57.5% x, ~61% y — visual estimate" },
+      { "location": "Mt. Doom (Orodruin)",  "fictional_mile": 1533, "x": 1950, "y": 1550, "note": "~61% x, ~65% y — visual estimate" },
+      { "location": "Crack of Doom",        "fictional_mile": 1815, "x": 1960, "y": 1540, "note": "same area as Mt. Doom — calibrate" }
+    ]
+  },
+
+  "Return": {
+    "character": "Aragorn",
+    "total_target_miles": 1482,
+    "waypoints": [
+      { "location": "Edoras",               "fictional_mile":    0, "x": 1407, "y": 1298, "note": "SVG ellipse marker — likely Edoras" },
+      { "location": "Helm's Deep",          "fictional_mile":  120, "x":  935, "y": 1210, "note": "city marker (935,1210) — approx" },
+      { "location": "Isengard",             "fictional_mile":  250, "x": 1060, "y": 1130, "note": "~33% x, ~47% y — visual estimate" },
+      { "location": "Dunharrow",            "fictional_mile":  450, "x": 1490, "y": 1360, "note": "~47% x, ~57% y — visual estimate" },
+      { "location": "Pelargir",             "fictional_mile":  680, "x": 1580, "y": 1610, "note": "city marker area (1580,1610) — approx" },
+      { "location": "Minas Tirith",         "fictional_mile":  820, "x": 1578, "y": 1498, "note": "city marker (1578,1498) — approx" },
+      { "location": "Pelennor Fields",      "fictional_mile":  900, "x": 1640, "y": 1540, "note": "~51% x, ~64% y — visual estimate" },
+      { "location": "Black Gate",           "fictional_mile": 1100, "x": 1800, "y": 1360, "note": "~56% x, ~57% y — visual estimate" },
+      { "location": "Cormallen Fields",     "fictional_mile": 1200, "x": 1770, "y": 1430, "note": "~55% x, ~60% y — visual estimate" },
+      { "location": "Minas Tirith (end)",   "fictional_mile": 1482, "x": 1578, "y": 1498, "note": "returns to Minas Tirith" }
+    ]
+  },
+
+  "Hobbit": {
+    "character": "Bilbo",
+    "total_target_miles": 1100,
+    "waypoints": [
+      { "location": "Bag End / Hobbiton",   "fictional_mile":    0, "x":  630, "y":  940, "note": "~20% x, ~39% y — visual estimate" },
+      { "location": "Rivendell",            "fictional_mile":  100, "x": 1041, "y":  675, "note": "city marker (1041,675) — approx" },
+      { "location": "High Pass / Goblin-town", "fictional_mile": 250, "x": 1180, "y":  680, "note": "~37% x, ~28% y — visual estimate" },
+      { "location": "Beorn's Hall",         "fictional_mile":  360, "x": 1350, "y":  700, "note": "~42% x, ~29% y — visual estimate" },
+      { "location": "Mirkwood (entrance)",  "fictional_mile":  450, "x": 1480, "y":  720, "note": "~46% x, ~30% y — visual estimate" },
+      { "location": "Elvenking's Halls",    "fictional_mile":  650, "x": 1670, "y":  580, "note": "~52% x, ~24% y — visual estimate" },
+      { "location": "Lake-town (Esgaroth)", "fictional_mile":  800, "x": 1760, "y":  600, "note": "~55% x, ~25% y — visual estimate; city marker at 1548,635 may differ" },
+      { "location": "The Lonely Mountain",  "fictional_mile": 1000, "x": 1790, "y":  530, "note": "~56% x, ~22% y — visual estimate" },
+      { "location": "Erebor (Dragon Gate)", "fictional_mile": 1100, "x": 1800, "y":  520, "note": "~56% x, ~22% y — same area as Lonely Mountain" }
+    ]
+  }
+}

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Walk to Mordor — Map PoC</title>
+  <!--
+    PROOF OF CONCEPT: SVG overlay over the mapome Middle-earth map.
+
+    Technique
+    ─────────
+    1. The base map is loaded as <img> (no DOM bloat from 1.75 MB inline SVG).
+    2. An absolutely-positioned overlay <svg> uses the SAME viewBox (0 0 3200 2400).
+       Because both elements share the same intrinsic aspect ratio the browser
+       scales them identically — overlay coordinates map 1-to-1 to map coordinates.
+    3. Route lines and markers are plain SVG elements in the overlay.
+    4. Progress interpolation is linear between named waypoints.
+
+    Coordinate system
+    ─────────────────
+    viewBox: 0 0 3200 2400
+    Origin (0, 0) = top-left (NW corner of map)
+    x increases eastward; y increases southward.
+    Scale: ~1.71 SVG units per fictional mile (from the legend scale bar).
+    Map extent: ~1847 miles E–W × 1380 miles N–S.
+
+    ⚠ WAYPOINT COORDINATES BELOW ARE APPROXIMATE.
+    Open this file in a browser, use browser devtools to inspect the overlay SVG,
+    and click the map to read precise x/y values.  Then update WAYPOINTS in the
+    script section and data/waypoints/routes.json.
+  -->
+  <style>
+    :root {
+      --frodo:      #C17F40;
+      --frodo-dim:  #C17F4044;
+      --accent:     #FFD700;
+      --bg:         #F5F0E8;
+      --panel-bg:   rgba(255,255,255,0.95);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); font-family: system-ui, sans-serif; color: #333; }
+
+    /* ── Controls bar ─────────────────────────────────────────────── */
+    .controls {
+      padding: 12px 20px;
+      background: white;
+      border-bottom: 1px solid #ddd;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+    }
+    .controls h1 { font-size: 14px; font-weight: 600; color: #555; }
+    .slider-row { display: flex; align-items: center; gap: 10px; }
+    .slider-row label { font-size: 12px; color: #777; white-space: nowrap; }
+    input[type="range"] {
+      width: 320px; accent-color: var(--frodo); cursor: pointer;
+    }
+    .stat { font-size: 12px; min-width: 100px; }
+    .stat strong { color: var(--frodo); }
+    .note { font-size: 11px; color: #999; font-style: italic; margin-left: auto; }
+
+    /* ── Map container ────────────────────────────────────────────── */
+    .map-wrap {
+      position: relative;
+      max-width: 1400px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+    #base-map {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    #overlay {
+      position: absolute;
+      top: 0; left: 16px;
+      width: calc(100% - 32px);
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ── Legend panel ─────────────────────────────────────────────── */
+    .legend {
+      position: absolute;
+      bottom: 24px; left: 32px;
+      background: var(--panel-bg);
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 11px;
+      line-height: 1.7;
+      backdrop-filter: blur(4px);
+    }
+    .legend h4 { font-size: 12px; margin-bottom: 5px; }
+    .legend .swatch {
+      display: inline-block; width: 24px; height: 4px;
+      border-radius: 2px; vertical-align: middle; margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Controls ─────────────────────────────────────────────────────── -->
+<div class="controls">
+  <h1>Walk to Mordor — Map PoC</h1>
+  <div class="slider-row">
+    <label>Progress:</label>
+    <input type="range" id="slider" min="0" max="145" value="0" step="1">
+  </div>
+  <div class="stat">Mile <strong id="mile-val">0</strong> / 145</div>
+  <div class="stat"><strong id="pct-val">0%</strong> complete</div>
+  <div class="stat">At: <strong id="loc-val">The Shire</strong></div>
+  <span class="note">⚠ Waypoint coordinates are approximate — visual calibration needed</span>
+</div>
+
+<!-- ── Map ──────────────────────────────────────────────────────────── -->
+<div class="map-wrap">
+
+  <!-- Base map (referenced, not inlined — keeps HTML light) -->
+  <img id="base-map" src="../map/preview-mapome-slim.svg" alt="Middle-earth map (mapome by k1tesurfen, CC BY-SA 4.0)">
+
+  <!--
+    Overlay SVG — same viewBox as the base map.
+    Any (x, y) pair here maps to the exact same pixel as (x, y) in the base SVG.
+  -->
+  <svg id="overlay" viewBox="0 0 3200 2400" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <!-- Soft glow behind the progress marker -->
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="8" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <!-- Arrow marker for directional hints -->
+      <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5"
+              markerWidth="5" markerHeight="5" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#C17F40" opacity="0.7"/>
+      </marker>
+    </defs>
+
+    <!-- Route line (full, dimmed) -->
+    <polyline id="route-dim"
+      points="630,940 830,690 1041,675"
+      fill="none"
+      stroke="#C17F40"
+      stroke-width="7"
+      stroke-opacity="0.18"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+
+    <!-- Route line (progress — drawn progressively by JS) -->
+    <polyline id="route-travelled"
+      points="630,940"
+      fill="none"
+      stroke="#C17F40"
+      stroke-width="7"
+      stroke-opacity="0.85"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      marker-mid="url(#arrowhead)"/>
+
+    <!-- Waypoint markers -->
+    <g id="waypoints">
+      <!-- A: Hobbiton (The Shire) -->
+      <circle cx="630" cy="940" r="16" fill="#C17F40" stroke="white" stroke-width="4"/>
+      <!-- B: Bree -->
+      <circle cx="830" cy="690" r="16" fill="#C17F40" stroke="white" stroke-width="4"/>
+      <!-- C: Rivendell -->
+      <circle cx="1041" cy="675" r="16" fill="#C17F40" stroke="white" stroke-width="4"/>
+    </g>
+
+    <!-- Waypoint labels (white stroke = "halo" for legibility) -->
+    <g id="labels" font-family="'Georgia', serif" font-size="32" paint-order="stroke"
+       stroke="white" stroke-width="8" stroke-linejoin="round">
+      <text x="656" y="927" fill="#C17F40" font-weight="bold">Hobbiton</text>
+      <text x="856" y="677" fill="#C17F40" font-weight="bold">Bree</text>
+      <text x="1067" y="662" fill="#C17F40" font-weight="bold">Rivendell</text>
+    </g>
+
+    <!-- Progress marker -->
+    <circle id="marker-outer" cx="630" cy="940" r="28"
+            fill="none" stroke="#FFD700" stroke-width="4" opacity="0.5"/>
+    <circle id="marker" cx="630" cy="940" r="20"
+            fill="#FFD700" stroke="white" stroke-width="5"
+            filter="url(#glow)"/>
+  </svg>
+
+  <!-- Legend -->
+  <div class="legend">
+    <h4>PoC overlay</h4>
+    <div><span class="swatch" style="background:#C17F40;opacity:0.2;"></span> Full route</div>
+    <div><span class="swatch" style="background:#C17F40;"></span> Travelled</div>
+    <div>
+      <svg width="24" height="16" style="vertical-align:middle;margin-right:6px">
+        <circle cx="12" cy="8" r="7" fill="#FFD700" stroke="white" stroke-width="2"/>
+      </svg>
+      Current position
+    </div>
+    <div style="margin-top:6px;color:#999;font-size:10px;">
+      viewBox 0 0 3200 2400<br>
+      ~1.71 SVG units / mile
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Waypoint data ──────────────────────────────────────────────────────────
+// ⚠ THESE ARE APPROXIMATE. Replace with visually-calibrated coordinates.
+// To calibrate: open page in browser, open devtools console, click on the
+// overlay SVG and log the SVG-space coordinates (see calibration helper below).
+const WAYPOINTS = [
+  { name: "Hobbiton",  mile:   0, x:  630, y:  940 },  // visual estimate ~20% x, 39% y
+  { name: "Bree",      mile:  40, x:  830, y:  690 },  // near city rect (822,661)
+  { name: "Rivendell", mile: 145, x: 1041, y:  675 },  // city rect centre (1041,675)
+];
+
+const maxMile = WAYPOINTS[WAYPOINTS.length - 1].mile;
+
+// ── Interpolate position along the waypoint chain ─────────────────────────
+function posAtMile(mile) {
+  mile = Math.max(0, Math.min(mile, maxMile));
+  for (let i = 0; i < WAYPOINTS.length - 1; i++) {
+    const a = WAYPOINTS[i], b = WAYPOINTS[i + 1];
+    if (mile >= a.mile && mile <= b.mile) {
+      const t = (mile - a.mile) / (b.mile - a.mile);
+      return {
+        x: a.x + t * (b.x - a.x),
+        y: a.y + t * (b.y - a.y),
+        name: t < 0.5 ? a.name : b.name,
+      };
+    }
+  }
+  const last = WAYPOINTS[WAYPOINTS.length - 1];
+  return { x: last.x, y: last.y, name: last.name };
+}
+
+// ── Build partial "travelled" polyline ────────────────────────────────────
+function partialPoints(mile) {
+  const pts = [];
+  for (const w of WAYPOINTS) {
+    pts.push(`${w.x},${w.y}`);
+    if (w.mile >= mile) break;
+  }
+  const pos = posAtMile(mile);
+  // Replace last segment end with actual interpolated position
+  if (pts.length > 1) pts.pop();
+  pts.push(`${pos.x.toFixed(1)},${pos.y.toFixed(1)}`);
+  return pts.join(" ");
+}
+
+// ── Initialise full route dim underline ──────────────────────────────────
+const allPts = WAYPOINTS.map(w => `${w.x},${w.y}`).join(" ");
+document.getElementById("route-dim").setAttribute("points", allPts);
+
+// ── Slider handler ────────────────────────────────────────────────────────
+const slider   = document.getElementById("slider");
+const marker   = document.getElementById("marker");
+const markerO  = document.getElementById("marker-outer");
+const routeProg = document.getElementById("route-travelled");
+
+slider.addEventListener("input", update);
+
+function update() {
+  const mile = +slider.value;
+  const pos  = posAtMile(mile);
+
+  marker.setAttribute("cx", pos.x.toFixed(1));
+  marker.setAttribute("cy", pos.y.toFixed(1));
+  markerO.setAttribute("cx", pos.x.toFixed(1));
+  markerO.setAttribute("cy", pos.y.toFixed(1));
+
+  routeProg.setAttribute("points", partialPoints(mile));
+
+  document.getElementById("mile-val").textContent = mile;
+  document.getElementById("pct-val").textContent  = `${Math.round(mile / maxMile * 100)}%`;
+  document.getElementById("loc-val").textContent  = pos.name;
+}
+
+update();  // render initial state
+
+// ── Coordinate calibration helper ─────────────────────────────────────────
+// Open devtools console, click anywhere on the map, and the SVG coordinates
+// will be logged. Use these to update WAYPOINTS above.
+const overlay = document.getElementById("overlay");
+overlay.style.pointerEvents = "all";  // temporarily enable clicks for calibration
+overlay.addEventListener("click", e => {
+  const rect = overlay.getBoundingClientRect();
+  const vb   = [0, 0, 3200, 2400];
+  const sx   = (e.clientX - rect.left)  / rect.width  * vb[2];
+  const sy   = (e.clientY - rect.top)   / rect.height * vb[3];
+  console.log(`Clicked SVG coords: x=${sx.toFixed(0)}, y=${sy.toFixed(0)}`);
+});
+</script>
+
+</body>
+</html>
