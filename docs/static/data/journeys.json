@@ -1,0 +1,112 @@
+[
+  {
+    "journey_id": "Mordor",
+    "segment": "The Shire",
+    "character": "Frodo",
+    "start_date": "2024-03-27",
+    "end_date": "2024-04-28",
+    "target_miles": 145,
+    "cum_miles_start": 0,
+    "cum_miles_end": 145
+  },
+  {
+    "journey_id": "Mordor",
+    "segment": "The Fellowship",
+    "character": "Frodo",
+    "start_date": "2024-04-29",
+    "end_date": "2024-07-24",
+    "target_miles": 680,
+    "cum_miles_start": 145,
+    "cum_miles_end": 825
+  },
+  {
+    "journey_id": "Mordor",
+    "segment": "Mines of Moria",
+    "character": "Frodo",
+    "start_date": "2024-07-24",
+    "end_date": "2024-07-28",
+    "target_miles": 40,
+    "cum_miles_start": 825,
+    "cum_miles_end": 865
+  },
+  {
+    "journey_id": "Mordor",
+    "segment": "The Eye of Sauron",
+    "character": "Frodo",
+    "start_date": "2024-08-24",
+    "end_date": "2024-12-04",
+    "target_miles": 668,
+    "cum_miles_start": 865,
+    "cum_miles_end": 1533
+  },
+  {
+    "journey_id": "Mordor",
+    "segment": "Mordor",
+    "character": "Frodo",
+    "start_date": "2024-12-04",
+    "end_date": "2025-01-07",
+    "target_miles": 282,
+    "cum_miles_start": 1533,
+    "cum_miles_end": 1815
+  },
+  {
+    "journey_id": "Return",
+    "segment": "Rohan",
+    "character": "Aragorn",
+    "start_date": "2025-01-14",
+    "end_date": "2025-03-29",
+    "target_miles": 450,
+    "cum_miles_start": 0,
+    "cum_miles_end": 450
+  },
+  {
+    "journey_id": "Return",
+    "segment": "Helm's Deep",
+    "character": "Aragorn",
+    "start_date": "2025-03-30",
+    "end_date": "2025-06-04",
+    "target_miles": 370,
+    "cum_miles_start": 450,
+    "cum_miles_end": 820
+  },
+  {
+    "journey_id": "Return",
+    "segment": "Gondor",
+    "character": "Aragorn",
+    "start_date": "2025-06-05",
+    "end_date": "2025-08-26",
+    "target_miles": 662,
+    "cum_miles_start": 820,
+    "cum_miles_end": 1482
+  },
+  {
+    "journey_id": "Hobbit",
+    "segment": "An Unexpected Journey",
+    "character": "Bilbo",
+    "start_date": "2026-01-20",
+    "end_date": "2026-04-07",
+    "target_miles": 609,
+    "cum_miles_start": 0,
+    "cum_miles_end": 609
+  },
+  {
+    "journey_id": "Hobbit",
+    "segment": "The Desolation of Smaug",
+    "character": "Bilbo",
+    "start_date": "2026-04-08",
+    "end_date": "2026-05-31",
+    "target_miles": 416,
+    "cum_miles_start": 609,
+    "cum_miles_end": 1025
+  },
+  {
+    "journey_id": "Hobbit",
+    "segment": "The Battle of the Five Armies",
+    "character": "Bilbo",
+    "start_date": "2026-06-01",
+    "end_date": "2026-06-10",
+    "target_miles": 75,
+    "cum_miles_start": 1025,
+    "cum_miles_end": 1100
+  }
+]
