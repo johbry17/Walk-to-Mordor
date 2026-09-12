@@ -1,53 +1,30 @@
 /**
  * app.js — main orchestrator for Walk to Mordor
- *
- * Loads data, connects TimelineController ↔ MapController,
- * manages mode selection, and updates the info panel.
  */
 'use strict';
 
 /* ── Constants ───────────────────────────────────────────────────────── */
 const JOURNEY_CONFIG = {
-  Mordor: {
-    character:   'Frodo',
-    title:       'The Road to Mordor',
-    color:       '#C17F40',
-    totalMiles:  1815,
-  },
-  Return: {
-    character:   'Aragorn',
-    title:       'Return of the King',
-    color:       '#4A7C8E',
-    totalMiles:  1482,
-  },
-  Hobbit: {
-    character:   'Bilbo',
-    title:       'The Hobbit',
-    color:       '#5F8A5A',
-    totalMiles:  1100,
-  },
+  Mordor: { character: 'Frodo',   title: 'The Road to Mordor',  color: '#C17F40', totalMiles: 1815 },
+  Return: { character: 'Aragorn', title: 'Return of the King',  color: '#4A7C8E', totalMiles: 1482 },
+  Hobbit: { character: 'Bilbo',   title: 'The Hobbit',          color: '#5F8A5A', totalMiles: 1100 },
 };
 
-// Frodo's intentional challenge pause
 const FRODO_PAUSE = { start: '2024-07-29', end: '2024-08-23' };
 
 /* ── Data loading ────────────────────────────────────────────────────── */
 async function fetchData() {
-  const base = '';  // relative to index.html
-
   const [walkingTxt, journeysJson, routesJson, eventsJson] = await Promise.all([
-    fetch(`${base}data/walking.csv`).then(r => { if (!r.ok) throw r; return r.text(); }),
-    fetch(`${base}data/journeys.json`).then(r => r.json()),
-    fetch(`${base}data/routes.json`).then(r => r.json()),
-    fetch(`${base}data/events.json`).then(r => r.json()),
+    fetch('data/walking.csv').then(r => { if (!r.ok) throw r; return r.text(); }),
+    fetch('data/journeys.json').then(r => r.json()),
+    fetch('data/routes.json').then(r => r.json()),
+    fetch('data/events.json').then(r => r.json()),
   ]);
-
-  const walking = _parseCsv(walkingTxt);
-  return { walking, journeys: journeysJson, routes: routesJson, events: eventsJson };
+  return { walking: _parseCsv(walkingTxt), journeys: journeysJson, routes: routesJson, events: eventsJson };
 }
 
 function _parseCsv(text) {
-  const lines   = text.trim().split('\n');
+  const lines = text.trim().split('\n');
   const headers = lines[0].split(',');
   return lines.slice(1).map(line => {
     const vals = line.split(',');
@@ -67,39 +44,37 @@ function _parseCsv(text) {
 /* ── Pre-computation ─────────────────────────────────────────────────── */
 
 /**
- * Build per-journey cumulative mile arrays (carries forward the last known value).
- * Returns { Mordor: Float64Array, Return: Float64Array, Hobbit: Float64Array }
+ * Build a date-string → { Mordor, Return, Hobbit } cumulative-miles map.
+ * Reads cumulative_miles directly from the ETL output and carries forward
+ * the last known value on gap/unassigned days.
  */
-function buildCumulativeLookup(walking) {
-  const result  = {};
-  const jids    = ['Mordor', 'Return', 'Hobbit'];
-  for (const jid of jids) result[jid] = new Float64Array(walking.length);
-
-  const last = { Mordor: 0, Return: 0, Hobbit: 0 };
-
-  for (let i = 0; i < walking.length; i++) {
-    const row = walking[i];
+function buildCumulativeByDate(walking) {
+  const byDate = {};
+  const last   = { Mordor: 0, Return: 0, Hobbit: 0 };
+  for (const row of walking) {
     if (row.journey_id && row.cumulative_miles !== null) {
       last[row.journey_id] = row.cumulative_miles;
     }
-    for (const jid of jids) result[jid][i] = last[jid];
+    byDate[row.date] = { Mordor: last.Mordor, Return: last.Return, Hobbit: last.Hobbit };
   }
-
-  return result;
+  return byDate;
 }
 
 /**
- * Build date → index lookup for fast binary search.
+ * Generate a continuous calendar-date sequence (every day, no gaps).
+ * Using UTC noon avoids DST edge cases on date arithmetic.
  */
-function buildDateIndex(walking) {
-  const map = {};
-  walking.forEach((row, i) => { map[row.date] = i; });
-  return map;
+function generateCalendarDates(startDate, endDate) {
+  const dates = [];
+  const d   = new Date(startDate + 'T12:00:00Z');
+  const end = new Date(endDate   + 'T12:00:00Z');
+  while (d <= end) {
+    dates.push(d.toISOString().slice(0, 10));
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return dates;
 }
 
-/**
- * Extract journey date ranges from journeys list.
- */
 function buildJourneyRanges(journeys) {
   const ranges = {};
   for (const seg of journeys) {
@@ -114,9 +89,6 @@ function buildJourneyRanges(journeys) {
   return ranges;
 }
 
-/**
- * Group segment metadata by journey for tick rendering.
- */
 function buildSegmentsByJourney(journeys) {
   const result = {};
   for (const seg of journeys) {
@@ -126,18 +98,15 @@ function buildSegmentsByJourney(journeys) {
   return result;
 }
 
-/**
- * Build event lookup: date → event text (first event wins).
- */
 function buildEventLookup(events) {
   const map = {};
   for (const ev of events) map[ev.date] = ev;
   return map;
 }
 
-/* ── Journey state calculator ────────────────────────────────────────── */
+/* ── Journey state ───────────────────────────────────────────────────── */
 
-function computeJourneyState(jid, date, dateIndex, cumulativeLookup, journeyRanges, routes) {
+function computeJourneyState(jid, date, cumulativeByDate, journeyRanges, routes) {
   const range = journeyRanges[jid];
   if (!range) return null;
 
@@ -146,45 +115,34 @@ function computeJourneyState(jid, date, dateIndex, cumulativeLookup, journeyRang
   else if (date > range.end)   status = 'completed';
   else                         status = 'active';
 
-  // Frodo's mid-journey pause
   if (jid === 'Mordor' && date >= FRODO_PAUSE.start && date <= FRODO_PAUSE.end) {
     status = 'paused';
   }
 
-  const cumMiles = cumulativeLookup[jid]?.[dateIndex] ?? 0;
-  const position = (status !== 'unstarted')
-    ? getRoutePosition(routes[jid], cumMiles)
-    : null;
-
+  const cumMiles = cumulativeByDate[date]?.[jid] ?? 0;
   const location = (status !== 'unstarted' && cumMiles > 0)
     ? getNearestLocation(routes[jid], cumMiles)
     : (routes[jid]?.[0]?.location || '');
 
-  // Find current segment name from journeySegments
-  return { status, cumMiles, position, location };
+  return { status, cumMiles, location };
 }
 
-/* ── Info panel updater ──────────────────────────────────────────────── */
-const fmt = new Intl.DateTimeFormat('en-US', { year:'numeric', month:'long', day:'numeric' });
-const fmtMiles = n => n >= 1 ? `${Math.round(n).toLocaleString()} mi` : `${(n).toFixed(1)} mi`;
+/* ── Info panel ──────────────────────────────────────────────────────── */
+const fmt      = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const fmtMiles = n => n >= 1 ? `${Math.round(n).toLocaleString()} mi` : `${n.toFixed(1)} mi`;
 
 function updateInfoPanel(mode, date, journeyStates, eventLookup, segmentsByJourney) {
-  document.getElementById('info-date').textContent =
-    date ? fmt.format(_parseDate(date)) : '—';
+  document.getElementById('info-date').textContent = date ? fmt.format(_parseDate(date)) : '—';
 
-  const isPaused = (date >= FRODO_PAUSE.start && date <= FRODO_PAUSE.end);
+  const isPaused = date >= FRODO_PAUSE.start && date <= FRODO_PAUSE.end;
+  document.getElementById('pause-badge').hidden = !isPaused;
 
-  // Pause badge
-  const pauseBadge = document.getElementById('pause-badge');
-  pauseBadge.hidden = !isPaused;
-
-  // Event text
-  const ev = eventLookup[date];
+  const ev  = eventLookup[date];
   const evEl = document.getElementById('info-event');
   if (ev) {
     evEl.textContent = ev.text;
-    evEl.hidden = false;
-    evEl.className = 'info-event' + (ev.type === 'pause' ? ' pause-event' : '');
+    evEl.hidden      = false;
+    evEl.className   = 'info-event' + (ev.type === 'pause' ? ' pause-event' : '');
   } else {
     evEl.hidden = true;
   }
@@ -192,82 +150,88 @@ function updateInfoPanel(mode, date, journeyStates, eventLookup, segmentsByJourn
   if (mode === 'ALL') {
     _updateAllTimePanel(date, journeyStates, segmentsByJourney);
   } else {
-    _updateSinglePanel(mode, date, journeyStates[mode], segmentsByJourney[mode], isPaused);
+    _updateSinglePanel(mode, date, journeyStates, segmentsByJourney[mode], isPaused);
   }
 }
 
 function _updateAllTimePanel(date, journeyStates, segmentsByJourney) {
-  // Find the primary "active" journey
-  const active = ['Mordor', 'Return', 'Hobbit'].find(
-    jid => journeyStates[jid]?.status === 'active' || journeyStates[jid]?.status === 'paused'
-  );
-  const jid = active || 'Mordor';
-  const js  = journeyStates[jid];
+  // Primary display: the currently active journey (or Frodo if none active)
+  const activeJid = ['Mordor', 'Return', 'Hobbit'].find(
+    j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
+  ) || 'Mordor';
+  const js  = journeyStates[activeJid];
+  const cfg = JOURNEY_CONFIG[activeJid];
 
   if (js && js.status !== 'unstarted') {
     document.getElementById('info-location').textContent = js.location || '—';
     document.getElementById('info-miles').textContent    = `${fmtMiles(js.cumMiles)} walked`;
-    const cfg = JOURNEY_CONFIG[jid];
-    document.getElementById('info-journey').innerHTML =
-      `<strong>${cfg.character}</strong>${_segmentLabel(jid, js.cumMiles, segmentsByJourney)}`;
+    document.getElementById('info-journey').innerHTML    =
+      `<strong>${cfg.character}</strong>${_segmentLabel(activeJid, js.cumMiles, segmentsByJourney)}`;
   } else {
     document.getElementById('info-location').textContent = 'The Shire';
     document.getElementById('info-miles').textContent    = '';
     document.getElementById('info-journey').innerHTML    = '';
   }
 
-  // Journey rows
-  document.getElementById('journey-rows').hidden = false;
-  for (const jid2 of ['Mordor', 'Return', 'Hobbit']) {
-    const js2 = journeyStates[jid2];
-    const row = document.querySelector(`.journey-row[data-journey="${jid2}"]`);
-    if (!row) continue;
-
-    const totalMiles = JOURNEY_CONFIG[jid2].totalMiles;
-    const cum = js2?.cumMiles ?? 0;
-    const pct = Math.min((cum / totalMiles) * 100, 100);
-
-    document.getElementById(`fill-${jid2}`).style.width = `${pct}%`;
-    document.getElementById(`val-${jid2}`).textContent  = cum > 0 ? fmtMiles(cum) : '—';
-    row.classList.toggle('has-progress', cum > 0);
-  }
+  // All three progress bars — all visible in ALL TIME mode
+  _renderProgressBars(journeyStates, null);
 }
 
-function _updateSinglePanel(jid, date, js, segments, isPaused) {
-  document.getElementById('journey-rows').hidden = true;
-  if (!js) return;
-
+function _updateSinglePanel(jid, date, journeyStates, segments, isPaused) {
+  const js  = journeyStates[jid];
   const cfg = JOURNEY_CONFIG[jid];
 
   document.getElementById('info-location').textContent =
-    (js.status === 'unstarted') ? cfg.character + "'s journey hasn't started yet" : js.location || '—';
+    (!js || js.status === 'unstarted')
+      ? `${cfg.character}'s journey hasn't started yet`
+      : js.location || '—';
 
   document.getElementById('info-miles').textContent =
-    (js.status !== 'unstarted')
-      ? `${fmtMiles(js.cumMiles)} walked`
-      : '';
+    (js && js.status !== 'unstarted') ? `${fmtMiles(js.cumMiles)} walked` : '';
 
-  const statusLabel = isPaused    ? '⏸ Challenge paused'
-                    : js.status === 'completed'  ? '✓ Complete'
-                    : js.status === 'active'     ? _segmentLabel(jid, js.cumMiles, { [jid]: segments })
-                    : '';
+  const statusLabel =
+    isPaused               ? '⏸ Challenge paused'
+    : js?.status === 'completed' ? '✓ Complete'
+    : js?.status === 'active'    ? _segmentLabel(jid, js.cumMiles, { [jid]: segments })
+    : '';
 
   document.getElementById('info-journey').innerHTML =
     `<strong>${cfg.character}</strong>${cfg.title}<br>${statusLabel}`;
+
+  // Progress bars: only the selected journey shows progress; others are zero.
+  _renderProgressBars(journeyStates, jid);
+}
+
+/**
+ * Render the three journey progress bars.
+ * @param {object} journeyStates
+ * @param {string|null} activeOnly - if set, only this journey shows progress; others are 0.
+ *                                   null means show all (ALL TIME mode).
+ */
+function _renderProgressBars(journeyStates, activeOnly) {
+  document.getElementById('journey-rows').hidden = false;
+
+  for (const jid of ['Mordor', 'Return', 'Hobbit']) {
+    const row = document.querySelector(`.journey-row[data-journey="${jid}"]`);
+    if (!row) continue;
+
+    const showProgress = (activeOnly === null || activeOnly === jid);
+    const cum = showProgress ? (journeyStates[jid]?.cumMiles ?? 0) : 0;
+    const pct = showProgress ? Math.min((cum / JOURNEY_CONFIG[jid].totalMiles) * 100, 100) : 0;
+
+    document.getElementById(`fill-${jid}`).style.width = `${pct}%`;
+    document.getElementById(`val-${jid}`).textContent  = (showProgress && cum > 0) ? fmtMiles(cum) : '—';
+    row.classList.toggle('has-progress', showProgress && cum > 0);
+  }
 }
 
 function _segmentLabel(jid, cumMiles, segmentsByJourney) {
   const segs = segmentsByJourney?.[jid];
   if (!segs || segs.length === 0) return '';
   for (const s of segs) {
-    if (cumMiles >= s.cum_miles_start && cumMiles <= s.cum_miles_end) {
-      return `<br>${s.segment}`;
-    }
+    if (cumMiles >= s.cum_miles_start && cumMiles <= s.cum_miles_end) return `<br>${s.segment}`;
   }
-  // cumMiles exceeded target (user walked slightly over) — show last segment
-  if (cumMiles > segs[segs.length - 1].cum_miles_end) {
-    return `<br>${segs[segs.length - 1].segment}`;
-  }
+  if (cumMiles > segs[segs.length - 1].cum_miles_end) return `<br>${segs[segs.length - 1].segment}`;
   return '';
 }
 
@@ -282,23 +246,22 @@ document.body.classList.add('loading');
 
 fetchData().then(({ walking, journeys, routes, events }) => {
 
-  // Pre-process
-  const cumulativeLookup  = buildCumulativeLookup(walking);
-  const dateIndex         = buildDateIndex(walking);
+  const cumulativeByDate  = buildCumulativeByDate(walking);
   const journeyRanges     = buildJourneyRanges(journeys);
   const segmentsByJourney = buildSegmentsByJourney(journeys);
   const eventLookup       = buildEventLookup(events);
-  const allDates          = walking.map(r => r.date);
 
-  // ── Map ──
-  const mapCtrl = new MapController(
-    document.getElementById('overlay'),
-    routes
-  );
+  // Full continuous calendar from first journey start to last journey end.
+  // The CSV already contains every calendar day, but generating explicitly
+  // makes the sequence robust to any CSV gaps.
+  const projectStart = Object.values(journeyRanges).map(r => r.start).sort()[0];
+  const projectEnd   = Object.values(journeyRanges).map(r => r.end).sort().pop();
+  const allCalDates  = generateCalendarDates(projectStart, projectEnd);
 
-  // ── Timeline ──
+  const mapCtrl = new MapController(document.getElementById('overlay'), routes);
+
   const timeline = new TimelineController(
-    allDates,
+    allCalDates,
     journeyRanges,
     segmentsByJourney,
     document.getElementById('timeline'),
@@ -307,7 +270,7 @@ fetchData().then(({ walking, journeys, routes, events }) => {
     document.getElementById('tl-ticks')
   );
 
-  // ── Mode buttons ──
+  // ── Mode buttons ──────────────────────────────────────────────────
   let currentMode = 'ALL';
 
   document.querySelectorAll('.mode-btn').forEach(btn => {
@@ -322,10 +285,9 @@ fetchData().then(({ walking, journeys, routes, events }) => {
         b.tabIndex = b.dataset.mode === mode ? 0 : -1;
       });
 
-      timeline.setMode(mode);
+      timeline.setMode(mode);  // resets index to 0, emits onChange
     });
 
-    // Roving tabindex keyboard nav
     btn.addEventListener('keydown', e => {
       const btns = [...document.querySelectorAll('.mode-btn')];
       const idx  = btns.indexOf(e.currentTarget);
@@ -334,45 +296,42 @@ fetchData().then(({ walking, journeys, routes, events }) => {
     });
   });
 
-  // ── Play button ──
+  // ── Play button ───────────────────────────────────────────────────
   const playBtn = document.getElementById('play-btn');
-  playBtn.addEventListener('click', () => {
-    timeline.toggle();
+
+  function syncPlayBtn() {
     const playing = timeline.playing;
     playBtn.classList.toggle('playing', playing);
     playBtn.querySelector('.icon-play').style.display  = playing ? 'none' : '';
     playBtn.querySelector('.icon-pause').style.display = playing ? ''     : 'none';
     playBtn.setAttribute('aria-label', playing ? 'Pause journey' : 'Play journey');
-  });
+  }
 
-  // Stop play button when animation ends naturally
-  const origPause = timeline.pause.bind(timeline);
-  timeline.pause = function () {
-    origPause();
-    playBtn.classList.remove('playing');
-    playBtn.querySelector('.icon-play').style.display  = '';
-    playBtn.querySelector('.icon-pause').style.display = 'none';
-    playBtn.setAttribute('aria-label', 'Play journey');
-  };
+  playBtn.addEventListener('click', () => { timeline.toggle(); syncPlayBtn(); });
 
-  // Keyboard: Space = play/pause, Arrow keys scrub
+  // Patch timeline.pause so the button syncs when playback ends naturally.
+  const _origPause = timeline.pause.bind(timeline);
+  timeline.pause = function () { _origPause(); syncPlayBtn(); };
+
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT') return;
-    if (e.key === ' ')           { e.preventDefault(); playBtn.click(); }
-    if (e.key === 'ArrowRight')  { e.preventDefault(); timeline.setIndex(timeline.index + 1); }
-    if (e.key === 'ArrowLeft')   { e.preventDefault(); timeline.setIndex(timeline.index - 1); }
+    if (e.key === ' ')          { e.preventDefault(); playBtn.click(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); timeline.setIndex(timeline.index + 1); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); timeline.setIndex(timeline.index - 1); }
   });
 
-  // ── Timeline change handler ──
-  function onDateChange(idx, date) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    playBtn.style.display = 'none';
+  }
+
+  // ── Main render function ──────────────────────────────────────────
+  function onDateChange(_idx, date) {
     if (!date) return;
-    const wIdx = dateIndex[date] ?? 0;
 
     const journeyStates = {};
     for (const jid of ['Mordor', 'Return', 'Hobbit']) {
       journeyStates[jid] = computeJourneyState(
-        jid, date, wIdx,
-        cumulativeLookup, journeyRanges, routes
+        jid, date, cumulativeByDate, journeyRanges, routes
       );
     }
 
@@ -382,14 +341,8 @@ fetchData().then(({ walking, journeys, routes, events }) => {
 
   timeline.onChange(onDateChange);
 
-  // ── Reduced motion: disable playback ──
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    playBtn.style.display = 'none';
-  }
-
-  // ── Initial render ──
   document.body.classList.remove('loading');
-  onDateChange(0, allDates[0]);
+  onDateChange(0, allCalDates[0]);
 
 }).catch(err => {
   document.body.classList.remove('loading');

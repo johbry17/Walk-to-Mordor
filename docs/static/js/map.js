@@ -1,8 +1,5 @@
 /**
  * map.js — SVG overlay rendering for Walk to Mordor
- *
- * Manages the three route paths, waypoint markers, and position dots
- * drawn on top of the Middle-earth SVG base map.
  */
 'use strict';
 
@@ -15,163 +12,186 @@ const JOURNEY_META = {
 class MapController {
   constructor(svgEl, routes) {
     this._svg    = svgEl;
-    this._routes = routes;  // { Mordor: [{location,mile,x,y}], ... }
-    this._els    = {};      // { Mordor: { ghost, active, markerPulse, markerCore }, ... }
+    this._routes = routes;
+    this._els    = {};
+    this._geom   = {};
 
+    // Geometry MUST be built first so dasharray is applied synchronously.
+    this._buildGeometry();
     this._buildElements();
   }
 
-  /** Create all SVG groups and paths on first load. */
+  /**
+   * Pre-compute cumulative Euclidean path lengths at each waypoint.
+   * The path is a straight polyline of the waypoints, so these values
+   * equal getTotalLength() — but available without requiring DOM layout.
+   */
+  _buildGeometry() {
+    for (const jid of ['Hobbit', 'Return', 'Mordor']) {
+      const wpts = this._routes[jid];
+      if (!wpts || wpts.length < 2) continue;
+      const cumLen = [0];
+      let total = 0;
+      for (let i = 1; i < wpts.length; i++) {
+        total += Math.hypot(wpts[i].x - wpts[i - 1].x, wpts[i].y - wpts[i - 1].y);
+        cumLen.push(total);
+      }
+      this._geom[jid] = { totalLen: total, cumLen };
+    }
+  }
+
+  /**
+   * Single authoritative function: given fictional cumulative miles,
+   * return { x, y, revealLen }.
+   *
+   * Both the marker position and the stroke-dashoffset are derived from
+   * this one call, so they always agree — the filled route ends exactly
+   * where the marker sits.
+   */
+  _resolve(jid, cumMiles) {
+    const wpts = this._routes[jid];
+    const geom = this._geom[jid];
+    if (!wpts || !geom) return null;
+
+    const maxMile = wpts[wpts.length - 1].mile;
+    const clamped = Math.min(Math.max(cumMiles, 0), maxMile);
+
+    if (clamped <= 0) {
+      return { x: wpts[0].x, y: wpts[0].y, revealLen: 0 };
+    }
+
+    for (let i = 0; i < wpts.length - 1; i++) {
+      const a = wpts[i], b = wpts[i + 1];
+      if (clamped >= a.mile && clamped <= b.mile) {
+        const segMiles = b.mile - a.mile;
+        const t = segMiles === 0 ? 1 : (clamped - a.mile) / segMiles;
+        return {
+          x:         a.x           + t * (b.x           - a.x),
+          y:         a.y           + t * (b.y           - a.y),
+          revealLen: geom.cumLen[i] + t * (geom.cumLen[i + 1] - geom.cumLen[i]),
+        };
+      }
+    }
+
+    const last = wpts[wpts.length - 1];
+    return { x: last.x, y: last.y, revealLen: geom.totalLen };
+  }
+
   _buildElements() {
-    const svg = this._svg;
+    this._svg.innerHTML = '';
 
-    // Clear any previous content
-    svg.innerHTML = '';
-
-    // One group per journey, rendered back→front (Hobbit first, Mordor on top)
     for (const jid of ['Hobbit', 'Return', 'Mordor']) {
       const { color } = JOURNEY_META[jid];
       const wpts = this._routes[jid];
       if (!wpts) continue;
 
-      const d = _waypointsToPath(wpts);
-      const g = _svgEl('g', { id: `journey-${jid}` });
+      const d    = _waypointsToPath(wpts);
+      const geom = this._geom[jid];
+      const g    = _svgEl('g', { id: `journey-${jid}` });
 
-      // Ghost — full route, always drawn, low opacity
       const ghost = _svgEl('path', {
-        class: 'route-ghost',
-        d,
-        stroke: color,
-        'stroke-width': '4',
-        'stroke-opacity': '0.15',
-        fill: 'none',
+        class: 'route-ghost', d, stroke: color,
+        'stroke-width': '4', 'stroke-opacity': '0.15', fill: 'none',
       });
 
-      // Active — same path, revealed via stroke-dashoffset
       const active = _svgEl('path', {
-        class: 'route-active',
-        d,
-        stroke: color,
-        'stroke-width': '5',
-        'stroke-opacity': '0.9',
-        fill: 'none',
+        class: 'route-active', d, stroke: color,
+        'stroke-width': '5', fill: 'none',
       });
 
-      // Pulse ring (animated, behind core)
+      // Apply dasharray synchronously from pre-computed geometry — no rAF needed.
+      if (geom) {
+        active.style.strokeDasharray  = `${geom.totalLen}`;
+        active.style.strokeDashoffset = `${geom.totalLen}`;  // fully hidden
+        active.style.strokeOpacity    = '0';
+      }
+
       const pulse = _svgEl('circle', {
-        class: 'marker-pulse',
-        cx: '0', cy: '0', r: '14',
-        fill: color,
+        class: 'marker-pulse', cx: '0', cy: '0', r: '14', fill: color,
       });
-
-      // Position marker core
       const ring = _svgEl('circle', {
-        class: 'marker-ring',
-        cx: '0', cy: '0', r: '22',
-        stroke: color,
-        fill: 'none',
-        'stroke-width': '2',
-        opacity: '0.4',
+        class: 'marker-ring', cx: '0', cy: '0', r: '22',
+        stroke: color, fill: 'none', 'stroke-width': '2', opacity: '0.4',
       });
       const core = _svgEl('circle', {
-        class: 'marker-core',
-        cx: '0', cy: '0', r: '12',
-        fill: '#D4A853',
-        stroke: '#13110D',
-        'stroke-width': '3',
+        class: 'marker-core', cx: '0', cy: '0', r: '12',
+        fill: '#D4A853', stroke: '#13110D', 'stroke-width': '3',
       });
 
+      for (const el of [pulse, ring, core]) el.style.display = 'none';
+
       g.append(ghost, active, pulse, ring, core);
-      svg.appendChild(g);
-
+      this._svg.appendChild(g);
       this._els[jid] = { ghost, active, pulse, ring, core };
-
-      // Initialise dashoffset after element is in DOM
-      requestAnimationFrame(() => this._initDash(jid));
     }
   }
 
-  _initDash(jid) {
-    const { active } = this._els[jid];
-    const len = active.getTotalLength();
-    active.style.strokeDasharray  = len;
-    active.style.strokeDashoffset = len;  // fully hidden at start
-    active.dataset.totalLen = len;
-  }
-
   /**
-   * Update all three route visuals.
-   * @param {object} state - { mode, journeyStates: { Mordor, Return, Hobbit } }
-   *   Each journeyState: { status: 'unstarted'|'active'|'completed'|'paused', cumMiles, position }
+   * Update all route visuals from current journey states.
+   * @param {{ mode: string, journeyStates: { [jid]: { status, cumMiles } } }} state
    */
   update(state) {
     const { mode, journeyStates } = state;
 
     for (const jid of ['Mordor', 'Return', 'Hobbit']) {
-      const js = journeyStates[jid];
+      const js  = journeyStates[jid];
       const els = this._els[jid];
       if (!js || !els) continue;
 
-      const { status, cumMiles, position } = js;
-      const meta = JOURNEY_META[jid];
-      const isFocused = (mode === 'ALL' || mode === jid);
-      const isOther   = (mode !== 'ALL' && mode !== jid);
+      const { status, cumMiles } = js;
+      const isOther  = (mode !== 'ALL' && mode !== jid);
+      const resolved = (status !== 'unstarted') ? this._resolve(jid, cumMiles) : null;
 
-      this._updateRoute(jid, status, cumMiles, meta.totalMiles, isOther);
-      this._updateMarker(jid, status, position, isOther);
+      this._updateRoute(jid, status, resolved, isOther);
+      this._updateMarker(status, resolved, isOther, els);
     }
   }
 
-  _updateRoute(jid, status, cumMiles, totalMiles, isOther) {
+  _updateRoute(jid, status, resolved, isOther) {
     const { ghost, active } = this._els[jid];
-    const totalLen = parseFloat(active.dataset.totalLen) || 0;
-    if (!totalLen) return;
+    const geom = this._geom[jid];
+    if (!geom) return;
 
-    const fraction = Math.min(cumMiles / totalMiles, 1);
-
-    // Ghost (full route)
     let ghostOpacity;
-    if (status === 'unstarted')  ghostOpacity = isOther ? 0.06 : 0.12;
-    else if (isOther)            ghostOpacity = 0.08;
-    else                         ghostOpacity = 0.18;
+    if      (status === 'unstarted') ghostOpacity = isOther ? 0.06 : 0.12;
+    else if (isOther)                ghostOpacity = 0.08;
+    else                             ghostOpacity = 0.18;
     ghost.setAttribute('stroke-opacity', ghostOpacity);
 
-    // Active (revealed portion)
-    if (status === 'unstarted') {
-      active.style.strokeDashoffset = totalLen;
-      active.style.strokeOpacity = '0';
-    } else {
-      const offset = totalLen * (1 - fraction);
-      active.style.strokeDashoffset = offset;
-      const opacity = isOther
-        ? (status === 'completed' ? '0.35' : '0.4')
-        : (status === 'completed' ? '0.65' : '0.9');
-      active.style.strokeOpacity = opacity;
-    }
-  }
-
-  _updateMarker(jid, status, position, isOther) {
-    const { pulse, ring, core } = this._els[jid];
-
-    if (!position || status === 'unstarted') {
-      pulse.style.display = 'none';
-      ring.style.display  = 'none';
-      core.style.display  = 'none';
+    if (!resolved || status === 'unstarted') {
+      active.style.strokeDashoffset = `${geom.totalLen}`;
+      active.style.strokeOpacity    = '0';
       return;
     }
 
-    const { x, y } = position;
+    // dashoffset = totalLen - revealLen  →  first revealLen units of path are shown.
+    // revealLen comes from _resolve(), same call that produces marker x/y.
+    active.style.strokeDashoffset = `${geom.totalLen - resolved.revealLen}`;
+
+    const opacity = isOther
+      ? (status === 'completed' ? '0.35' : '0.4')
+      : (status === 'completed' ? '0.65' : '0.9');
+    active.style.strokeOpacity = opacity;
+  }
+
+  _updateMarker(status, resolved, isOther, els) {
+    const { pulse, ring, core } = els;
+
+    if (!resolved || status === 'unstarted') {
+      for (const el of [pulse, ring, core]) el.style.display = 'none';
+      return;
+    }
+
+    const { x, y } = resolved;
     for (const el of [pulse, ring, core]) {
       el.setAttribute('cx', x);
       el.setAttribute('cy', y);
       el.style.display = '';
     }
 
-    // Pulse only for active, non-other journeys
     pulse.style.display = (!isOther && status === 'active') ? '' : 'none';
     ring.style.display  = (!isOther && status === 'active') ? '' : 'none';
 
-    // Core size and opacity
     if (isOther) {
       core.setAttribute('r', '8');
       core.style.opacity = '0.4';
@@ -198,33 +218,8 @@ function _svgEl(tag, attrs = {}) {
 }
 
 /**
- * Interpolate SVG (x,y) from cumulative miles and waypoint list.
- * @returns {{ x: number, y: number } | null}
- */
-function getRoutePosition(waypoints, cumMiles) {
-  if (!waypoints || waypoints.length === 0) return null;
-  if (cumMiles <= 0) return { x: waypoints[0].x, y: waypoints[0].y };
-
-  const maxMile = waypoints[waypoints.length - 1].mile;
-  const clamped = Math.min(cumMiles, maxMile);
-
-  for (let i = 0; i < waypoints.length - 1; i++) {
-    const a = waypoints[i], b = waypoints[i + 1];
-    if (clamped >= a.mile && clamped <= b.mile) {
-      const t = (clamped - a.mile) / (b.mile - a.mile);
-      return {
-        x: a.x + t * (b.x - a.x),
-        y: a.y + t * (b.y - a.y),
-      };
-    }
-  }
-
-  const last = waypoints[waypoints.length - 1];
-  return { x: last.x, y: last.y };
-}
-
-/**
- * Return the name of the most recently passed waypoint.
+ * Return the last waypoint name at or before cumMiles.
+ * Used by app.js for the info-panel location display.
  */
 function getNearestLocation(waypoints, cumMiles) {
   if (!waypoints || waypoints.length === 0) return '';
@@ -236,7 +231,5 @@ function getNearestLocation(waypoints, cumMiles) {
   return name;
 }
 
-// Expose to app.js
-window.MapController   = MapController;
-window.getRoutePosition = getRoutePosition;
+window.MapController      = MapController;
 window.getNearestLocation = getNearestLocation;
