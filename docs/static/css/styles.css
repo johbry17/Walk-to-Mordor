@@ -1,0 +1,451 @@
+/* ── Design tokens ──────────────────────────────────────────────────── */
+:root {
+  /* --bg:          #13110D; */
+  --bg-overlay:  rgba(15, 12, 8, 0.88);
+  --text:        #D6CBBA;
+  --text-muted:  #6E6355;
+  --text-bright: #F0E8D6;
+  --border:      #2A2520;
+
+  --frodo:       #C17F40;
+  --aragorn:     #4A7C8E;
+  --bilbo:       #5F8A5A;
+  --gold:        #D4A853;
+  --pause:       #8B5E3C;
+
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --radius: 4px;
+  --transition: 120ms ease;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 16px;
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  /* background: rgba(10, 8, 5, 0.7); */
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  flex-shrink: 0;
+}
+.title-main {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.04em;
+}
+.title-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Mode navigation */
+.mode-nav {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.mode-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: 4px 12px;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.mode-btn:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.mode-btn.active,
+.mode-btn[aria-selected="true"] {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(212, 168, 83, 0.08);
+}
+
+.mode-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Per-mode color accent when active */
+.mode-btn[data-mode="Mordor"].active  { color: var(--frodo);   border-color: var(--frodo);   background: rgba(193, 127, 64, 0.1); }
+.mode-btn[data-mode="Return"].active  { color: var(--aragorn); border-color: var(--aragorn); background: rgba(74, 124, 142, 0.1); }
+.mode-btn[data-mode="Hobbit"].active  { color: var(--bilbo);   border-color: var(--bilbo);   background: rgba(95, 138, 90, 0.1); }
+
+/* Play button */
+.play-btn {
+  margin-left: auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition), background var(--transition);
+  flex-shrink: 0;
+}
+.play-btn:hover    { border-color: var(--gold); background: rgba(212, 168, 83, 0.1); }
+.play-btn.playing  { border-color: var(--gold); color: var(--gold); }
+.play-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.play-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* ── Main area ──────────────────────────────────────────────────────── */
+.main-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Map container ──────────────────────────────────────────────────── */
+.map-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: #0d0b08; */
+}
+
+#base-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  user-select: none;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ── Info panel ─────────────────────────────────────────────────────── */
+.info-panel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  min-width: 180px;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-date {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.info-location {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-bright);
+  line-height: 1.2;
+}
+
+.info-miles {
+  font-size: 13px;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.info-journey {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+}
+
+.info-journey strong {
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  margin-bottom: 1px;
+}
+
+.info-event {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-style: italic;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  line-height: 1.55;
+}
+.info-event.pause-event { color: var(--pause); }
+
+/* Journey progress rows */
+.journey-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.journey-row {
+  display: grid;
+  grid-template-columns: 8px 50px 1fr 44px;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  opacity: 0.4;
+  transition: opacity var(--transition);
+}
+.journey-row.has-progress { opacity: 1; }
+
+.jr-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.jr-name { color: var(--text-muted); white-space: nowrap; }
+.jr-bar  { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.jr-fill { height: 100%; border-radius: 2px; transition: width 200ms ease; width: 0; }
+.jr-val  { text-align: right; color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+#fill-Mordor { background: var(--frodo); }
+#fill-Return { background: var(--aragorn); }
+#fill-Hobbit { background: var(--bilbo); }
+
+/* Pause badge */
+.pause-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(139, 94, 60, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--pause);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  font-size: 11px;
+  color: #E8C49A;
+  letter-spacing: 0.05em;
+}
+
+/* ── Timeline bar ──────────────────────────────────────────────────── */
+.timeline-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  /* background: rgba(10, 8, 5, 0.8); */
+  flex-shrink: 0;
+  height: 48px;
+}
+
+.tl-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  width: 80px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-slider-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-slider {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  cursor: pointer;
+  outline: none;
+  accent-color: var(--gold);
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+.timeline-slider:hover::-webkit-slider-thumb { transform: scale(1.25); }
+.timeline-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+  cursor: pointer;
+}
+
+.timeline-slider:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Segment tick marks */
+.tl-ticks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.tl-tick {
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 1px;
+  height: 8px;
+  background: rgba(255,255,255,0.15);
+}
+
+/* ── SVG route styles ───────────────────────────────────────────────── */
+.route-ghost {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-opacity 300ms ease;
+}
+
+.route-active {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-active { transition: none; }
+  .play-btn { display: none; }
+}
+
+.marker-ring {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.4;
+}
+
+.marker-core {
+  fill: var(--gold);
+  stroke: #1a1612;
+  stroke-width: 3;
+}
+
+/* Pulse animation for active marker */
+@keyframes marker-pulse {
+  0%   { r: 14; opacity: 0.7; }
+  70%  { r: 22; opacity: 0; }
+  100% { r: 22; opacity: 0; }
+}
+
+.marker-pulse {
+  fill: var(--gold);
+  opacity: 0;
+  animation: marker-pulse 2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker-pulse { animation: none; display: none; }
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .title-sub { display: none; }
+
+  .mode-btn { padding: 4px 8px; font-size: 11px; }
+
+  .info-panel {
+    top: 8px;
+    left: 8px;
+    padding: 10px 12px;
+    max-width: 160px;
+    gap: 7px;
+  }
+
+  .info-location { font-size: 16px; }
+  .journey-rows  { display: none; }
+
+  .timeline-bar { padding: 8px 12px; }
+  .tl-label:first-child { display: none; }
+  .tl-label:last-child  { display: none; }
+}
+
+/* ── Loading state ───────────────────────────────────────────────────── */
+body.loading .main-area::after {
+  content: 'Loading…';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--bg);
+}
+
+body.loading .timeline-bar,
+body.loading .mode-nav,
+body.loading .play-btn { opacity: 0.3; pointer-events: none; }

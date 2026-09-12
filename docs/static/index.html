@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Walk to Mordor</title>
+  <meta name="description" content="Three journeys through Middle-earth, powered by real walking data.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ── Header ───────────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <div class="header-title">
+      <span class="title-main">Walk to Mordor</span>
+      <span class="title-sub">Three journeys. One walker.</span>
+    </div>
+
+    <nav class="mode-nav" role="tablist" aria-label="Journey mode">
+      <button class="mode-btn active" data-mode="ALL"     role="tab" aria-selected="true"  tabindex="0">All Time</button>
+      <button class="mode-btn"        data-mode="Mordor"  role="tab" aria-selected="false" tabindex="-1">Frodo</button>
+      <button class="mode-btn"        data-mode="Return"  role="tab" aria-selected="false" tabindex="-1">Aragorn</button>
+      <button class="mode-btn"        data-mode="Hobbit"  role="tab" aria-selected="false" tabindex="-1">Bilbo</button>
+    </nav>
+
+    <button id="play-btn" class="play-btn" aria-label="Play journey">
+      <svg class="icon-play"  viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+    </button>
+  </header>
+
+  <!-- ── Main area (map + info panel) ─────────────────────────────── -->
+  <main class="main-area">
+
+    <!-- Info panel floats over the map -->
+    <aside class="info-panel" aria-live="polite" aria-label="Journey information">
+      <div class="info-date" id="info-date">—</div>
+
+      <div class="info-location" id="info-location">Loading…</div>
+
+      <div class="info-miles" id="info-miles"></div>
+
+      <div class="info-journey" id="info-journey"></div>
+
+      <div class="info-event" id="info-event" hidden></div>
+
+      <!-- Journey status rows (ALL TIME mode) -->
+      <div class="journey-rows" id="journey-rows">
+        <div class="journey-row" data-journey="Mordor">
+          <span class="jr-dot" style="background:#C17F40"></span>
+          <span class="jr-name">Frodo</span>
+          <div class="jr-bar"><div class="jr-fill" id="fill-Mordor"></div></div>
+          <span class="jr-val" id="val-Mordor">—</span>
+        </div>
+        <div class="journey-row" data-journey="Return">
+          <span class="jr-dot" style="background:#4A7C8E"></span>
+          <span class="jr-name">Aragorn</span>
+          <div class="jr-bar"><div class="jr-fill" id="fill-Return"></div></div>
+          <span class="jr-val" id="val-Return">—</span>
+        </div>
+        <div class="journey-row" data-journey="Hobbit">
+          <span class="jr-dot" style="background:#5F8A5A"></span>
+          <span class="jr-name">Bilbo</span>
+          <div class="jr-bar"><div class="jr-fill" id="fill-Hobbit"></div></div>
+          <span class="jr-val" id="val-Hobbit">—</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Map container: base image + SVG overlay -->
+    <div class="map-wrap" id="map-wrap">
+      <img id="base-map"
+           src="assets/preview-mapome-slim.svg"
+           alt="Middle-earth map (mapome by k1tesurfen, CC BY-SA 4.0)"
+           draggable="false">
+
+      <svg id="overlay"
+           viewBox="0 0 3200 2400"
+           preserveAspectRatio="xMidYMid meet"
+           aria-hidden="true">
+        <!-- Populated by map.js -->
+      </svg>
+
+      <!-- Pause indicator badge -->
+      <div class="pause-badge" id="pause-badge" hidden>
+        <span>⏸</span> Challenge pause
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Timeline bar ──────────────────────────────────────────────── -->
+  <footer class="timeline-bar" role="contentinfo">
+    <span class="tl-label" id="tl-start" aria-hidden="true">—</span>
+
+    <div class="tl-slider-wrap">
+      <input type="range"
+             id="timeline"
+             class="timeline-slider"
+             min="0" max="100" value="0" step="1"
+             aria-label="Timeline position">
+      <!-- Segment marker ticks drawn by timeline.js -->
+      <div class="tl-ticks" id="tl-ticks" aria-hidden="true"></div>
+    </div>
+
+    <span class="tl-label" id="tl-end" aria-hidden="true">—</span>
+  </footer>
+
+  <script src="js/timeline.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
