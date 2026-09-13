@@ -75,14 +75,16 @@
     {"location": "Black Gate",             "mile": 1482, "x": 2153, "y": 1455}
   ],
   "Hobbit": [
-    {"location": "Bag End",                "mile":    0, "x":  630, "y":  940},
-    {"location": "Rivendell",              "mile":  100, "x": 1041, "y":  675},
-    {"location": "High Pass",              "mile":  250, "x": 1180, "y":  680},
-    {"location": "Beorn's Hall",           "mile":  360, "x": 1350, "y":  700},
-    {"location": "Mirkwood",               "mile":  450, "x": 1480, "y":  720},
-    {"location": "Elvenking's Halls",      "mile":  650, "x": 1670, "y":  580},
-    {"location": "Lake-town",              "mile":  800, "x": 1760, "y":  600},
-    {"location": "Lonely Mountain",        "mile": 1000, "x": 1790, "y":  530},
-    {"location": "Erebor",                 "mile": 1100, "x": 1800, "y":  520}
+    {"location": "Bag End",                "mile":    0, "x":  814, "y":  653},
+    {"location": "Trollshaws",             "mile":  387, "x": 1459, "y":  620},
+    {"location": "Rivendell",              "mile":  491, "x": 1546, "y":  631},
+    {"location": "Goblin-Town",            "mile":  559, "x": 1637, "y":  602},
+    {"location": "Eagle's Eyrie",          "mile":  600, "x": 1693, "y":  521},
+    {"location": "Beorn's Hall",           "mile":  619, "x": 1780, "y":  564},
+    {"location": "Mirkwood",               "mile":  786, "x": 1792, "y":  471},
+    {"location": "Elvenking's Halls",      "mile":  934, "x": 2040, "y":  453},
+    {"location": "Esgaroth",               "mile":  951, "x": 2127, "y":  471},
+    {"location": "Lonely Mountain",        "mile": 1050, "x": 2109, "y":  416},
+    {"location": "Erebor",                 "mile": 1100, "x": 2127, "y":  403}
   ]
 }
