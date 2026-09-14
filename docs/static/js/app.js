@@ -244,6 +244,13 @@ function _parseDate(dateStr) {
 
 document.body.classList.add('loading');
 
+// Pan/zoom is pure presentation — wired up before data loads.
+const panZoom = new PanZoomController(
+  document.getElementById('map-viewport'),
+  document.getElementById('map-layer'),
+  document.getElementById('reset-view')
+);
+
 fetchData().then(({ walking, journeys, routes, events }) => {
 
   const cumulativeByDate  = buildCumulativeByDate(walking);

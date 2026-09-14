@@ -140,13 +140,26 @@ body {
 }
 
 /* ── Map container ──────────────────────────────────────────────────── */
-.map-wrap {
+.map-viewport {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* background: #0d0b08; */
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.map-viewport.dragging {
+  cursor: grabbing;
+}
+
+.map-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  will-change: transform;
 }
 
 #base-map {
@@ -268,6 +281,7 @@ body {
   position: absolute;
   top: 16px;
   right: 16px;
+  z-index: 10;
   background: rgba(139, 94, 60, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid var(--pause);
@@ -277,6 +291,30 @@ body {
   color: #E8C49A;
   letter-spacing: 0.05em;
 }
+
+/* Reset view button */
+.reset-view {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+  display: none;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: color var(--transition), border-color var(--transition);
+}
+.reset-view.visible { display: block; }
+.reset-view:hover   { border-color: var(--gold); color: var(--text); }
+.reset-view:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* ── Timeline bar ──────────────────────────────────────────────────── */
 .timeline-bar {
