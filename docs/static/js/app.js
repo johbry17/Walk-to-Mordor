@@ -5,7 +5,7 @@
 
 /* ── Constants ───────────────────────────────────────────────────────── */
 const JOURNEY_CONFIG = {
-  Mordor: { character: 'Frodo',   title: 'The Road to Mordor',  color: '#C17F40', totalMiles: 1815 },
+  Mordor: { character: 'Frodo',   title: 'The Walk to Mordor',  color: '#C17F40', totalMiles: 1815 },
   Return: { character: 'Aragorn', title: 'Return of the King',  color: '#4A7C8E', totalMiles: 1482 },
   Hobbit: { character: 'Bilbo',   title: 'The Hobbit',          color: '#5F8A5A', totalMiles: 1100 },
 };
@@ -166,7 +166,7 @@ function _updateAllTimePanel(date, journeyStates, segmentsByJourney) {
     document.getElementById('info-location').textContent = js.location || '—';
     document.getElementById('info-miles').textContent    = `${fmtMiles(js.cumMiles)} walked`;
     document.getElementById('info-journey').innerHTML    =
-      `<strong>${cfg.character}</strong>${_segmentLabel(activeJid, js.cumMiles, segmentsByJourney)}`;
+      `<strong>${cfg.character}</strong>${cfg.title}${_segmentLabel(activeJid, js.cumMiles, segmentsByJourney)}`;
   } else {
     document.getElementById('info-location').textContent = 'The Shire';
     document.getElementById('info-miles').textContent    = '';
@@ -190,7 +190,7 @@ function _updateSinglePanel(jid, date, journeyStates, segments, isPaused) {
     (js && js.status !== 'unstarted') ? `${fmtMiles(js.cumMiles)} walked` : '';
 
   const statusLabel =
-    isPaused               ? '⏸ Challenge paused'
+    isPaused               ? 'Pause for a month,<br>Lament for Gandalf'
     : js?.status === 'completed' ? '✓ Complete'
     : js?.status === 'active'    ? _segmentLabel(jid, js.cumMiles, { [jid]: segments })
     : '';
