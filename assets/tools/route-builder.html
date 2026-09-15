@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Route Builder — Walk to Mordor</title>
+  <style>
+    :root {
+      --bg:      #13110D;
+      --bg2:     #1C1812;
+      --text:    #D6CBBA;
+      --muted:   #6E6355;
+      --border:  #2A2520;
+      --gold:    #D4A853;
+      --frodo:   #C17F40;
+      --aragorn: #4A7C8E;
+      --bilbo:   #5F8A5A;
+      --sel:     #FFD700;
+      --warn:    #E8C49A;
+      --danger:  #CC4400;
+      --ok:      #6DB46D;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font: 12px/1.5 'Segoe UI', system-ui, sans-serif; }
+
+    #app  { display: flex; flex-direction: column; height: 100%; }
+
+    /* ── Toolbar ── */
+    #toolbar {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 10px; border-bottom: 1px solid var(--border);
+      background: var(--bg2); flex-shrink: 0; flex-wrap: wrap;
+    }
+    .sep { width: 1px; height: 22px; background: var(--border); margin: 0 2px; }
+    .tb-label { font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+    /* ── Main ── */
+    #main { display: flex; flex: 1; min-height: 0; }
+
+    /* ── Viewport ── */
+    #viewport {
+      flex: 1; position: relative; overflow: hidden;
+      background: #0D0B08; cursor: default; user-select: none;
+    }
+    #viewport.mode-DRAW   { cursor: crosshair; }
+    #viewport.mode-ANCHOR { cursor: cell; }
+
+    #canvas-layer { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 0 0; }
+    #base-map     { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; -webkit-user-drag: none; }
+    #overlay      { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* ── Right panel ── */
+    #panel {
+      width: 256px; flex-shrink: 0; overflow-y: auto;
+      border-left: 1px solid var(--border); background: var(--bg2);
+      display: flex; flex-direction: column;
+    }
+    #panel > section { padding: 10px; border-bottom: 1px solid var(--border); }
+    section h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+
+    .row  { display: flex; justify-content: space-between; font-size: 11px; padding: 2px 0; }
+    .row .lbl { color: var(--muted); }
+    .row .val { color: var(--text); font-variant-numeric: tabular-nums; text-align: right; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Buttons */
+    button {
+      background: var(--bg); border: 1px solid var(--border); color: var(--text);
+      padding: 3px 9px; font: inherit; font-size: 11px; cursor: pointer;
+      border-radius: 3px; transition: border-color 80ms, background 80ms; white-space: nowrap;
+    }
+    button:hover { border-color: var(--muted); }
+    button.active { border-color: var(--gold); color: var(--gold); background: rgba(212,168,83,.08); }
+    button.danger { border-color: var(--danger); color: var(--danger); }
+    button.danger:hover { background: rgba(204,68,0,.1); }
+    button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+    .jbtn.active[data-jid="Mordor"]  { border-color: var(--frodo);   color: var(--frodo);   background: rgba(193,127,64,.10); }
+    .jbtn.active[data-jid="Return"]  { border-color: var(--aragorn); color: var(--aragorn); background: rgba(74,124,142,.10); }
+    .jbtn.active[data-jid="Hobbit"]  { border-color: var(--bilbo);   color: var(--bilbo);   background: rgba(95,138,90,.10);  }
+
+    /* Form */
+    .frow { margin-bottom: 6px; }
+    .frow label { display: block; font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+    .frow input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); padding: 3px 6px; font: inherit; font-size: 11px; border-radius: 2px;
+    }
+    .frow input:focus { border-color: var(--gold); outline: none; }
+
+    .brow { display: flex; gap: 4px; flex-wrap: wrap; }
+    .brow button { flex: 1; min-width: 0; }
+
+    .warn  { color: var(--warn);   font-size: 10.5px; line-height: 1.4; }
+    .ok    { color: var(--ok);     font-size: 10.5px; }
+    .dirty { color: var(--warn);   font-size: 10px; }
+    .info-badge { font-size: 10px; color: var(--muted); background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 2px 6px; }
+
+    #anchor-section { display: none; }
+    #anchor-section.on { display: block; }
+
+    #existing-anchor-box {
+      display: none; margin: 6px 0; padding: 6px;
+      border: 1px solid var(--border); border-radius: 3px; font-size: 10.5px;
+    }
+    .ea-title { color: var(--gold); font-size: 10px; margin-bottom: 4px; }
+
+    #anchor-list-box { max-height: 160px; overflow-y: auto; margin-top: 4px; font-size: 10.5px; }
+    .anc-item { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid var(--border); }
+    .anc-item.sel { color: var(--sel); }
+    .anc-item.bad { color: var(--warn); }
+
+    #keys-help { font-size: 10px; color: var(--muted); line-height: 1.7; }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Toolbar ───────────────────────────────────────────────────── -->
+  <div id="toolbar">
+    <span class="tb-label">Journey:</span>
+    <button class="jbtn active" data-jid="Mordor">Frodo — Mordor</button>
+    <button class="jbtn"        data-jid="Return">Aragorn — Return</button>
+    <button class="jbtn"        data-jid="Hobbit">Bilbo — Hobbit</button>
+
+    <div class="sep"></div>
+    <span class="tb-label">Mode:</span>
+    <button class="mbtn active" data-mode="VIEW">VIEW</button>
+    <button class="mbtn"        data-mode="DRAW">DRAW</button>
+    <button class="mbtn"        data-mode="ANCHOR">ANCHOR</button>
+
+    <div class="sep"></div>
+    <button id="btn-reset">⊙ Reset</button>
+    <button id="btn-zoomin" title="+">+</button>
+    <button id="btn-zoomout" title="−">−</button>
+
+    <div class="sep"></div>
+    <span id="status-bar" style="font-size:10px;color:var(--muted)">No data loaded</span>
+    <span id="dirty-badge" class="dirty" style="display:none">⚠ Unsaved</span>
+  </div>
+
+  <!-- ── Main ──────────────────────────────────────────────────────── -->
+  <div id="main">
+
+    <!-- Map workspace -->
+    <div id="viewport">
+      <div id="canvas-layer">
+        <img id="base-map"
+             src="../../docs/static/assets/preview-mapome-slim.svg"
+             alt="Middle-earth">
+        <svg id="overlay"
+             viewBox="0 0 3200 2400"
+             preserveAspectRatio="xMidYMid meet"
+             xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- per-journey arrow markers, built at runtime -->
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Right panel -->
+    <div id="panel">
+
+      <!-- Status -->
+      <section>
+        <h3>Status</h3>
+        <div class="row"><span class="lbl">Journey</span> <span class="val" id="s-jid">—</span></div>
+        <div class="row"><span class="lbl">Mode</span>    <span class="val" id="s-mode">—</span></div>
+        <div class="row"><span class="lbl">Geom pts</span><span class="val" id="s-geom">0</span></div>
+        <div class="row"><span class="lbl">Anchors</span> <span class="val" id="s-anc">0</span></div>
+        <div class="row"><span class="lbl">Endpoint</span><span class="val" id="s-end">—</span></div>
+        <div class="row"><span class="lbl">Last anchor</span><span class="val" id="s-last-anc">—</span></div>
+        <div class="row"><span class="lbl">Mouse (SVG)</span><span class="val" id="s-mouse">—</span></div>
+      </section>
+
+      <!-- Anchor editing (ANCHOR mode) -->
+      <section id="anchor-section">
+        <h3>Selected Point</h3>
+        <div class="row"><span class="lbl">Geom index</span><span class="val" id="a-idx">—</span></div>
+        <div class="row"><span class="lbl">SVG x, y</span>  <span class="val" id="a-xy">—</span></div>
+        <div class="row"><span class="lbl">Click dist</span><span class="val" id="a-dist">—</span></div>
+
+        <div id="existing-anchor-box">
+          <div class="ea-title">Existing anchor</div>
+          <div class="row"><span class="lbl">Mile</span>    <span class="val" id="ea-mile">—</span></div>
+          <div class="row"><span class="lbl">Location</span><span class="val" id="ea-loc">—</span></div>
+          <button class="danger" id="btn-del-anc" style="width:100%;margin-top:6px">Delete Anchor</button>
+        </div>
+
+        <div class="frow" style="margin-top:8px">
+          <label>Fictional mile</label>
+          <input type="number" id="inp-mile" min="0" step="0.1" placeholder="e.g. 145">
+        </div>
+        <div class="frow">
+          <label>Location (optional)</label>
+          <input type="text" id="inp-loc" placeholder="e.g. Bree">
+        </div>
+        <div id="anc-warns" class="warn" style="margin-bottom:4px;min-height:14px"></div>
+        <button id="btn-save-anc" style="width:100%">Create / Update Anchor</button>
+
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
+          <button class="danger" id="btn-del-geom" style="width:100%">Delete This Geom Point</button>
+          <div style="font-size:9.5px;color:var(--muted);margin-top:3px">Adjusts all anchor indices after this point.</div>
+        </div>
+      </section>
+
+      <!-- Anchor list -->
+      <section>
+        <h3>Anchors <span id="anc-count" style="font-weight:normal;color:var(--muted)"></span></h3>
+        <div id="anchor-list-box"></div>
+        <div id="anc-validation" class="warn" style="margin-top:4px;font-size:10px"></div>
+      </section>
+
+      <!-- Save -->
+      <section>
+        <h3>Save / Export</h3>
+        <p style="font-size:10px;color:var(--muted);margin-bottom:8px">Exports all three journeys. Anchors saved without redundant x/y.</p>
+        <div class="brow">
+          <button id="btn-copy">Copy JSON</button>
+          <button id="btn-dl">Download</button>
+        </div>
+        <button id="btn-save-as" style="width:100%;margin-top:4px">Save As… (Chrome/Edge)</button>
+        <div id="save-msg" style="height:14px;margin-top:4px;font-size:10px;"></div>
+      </section>
+
+      <!-- Load -->
+      <section>
+        <h3>Load</h3>
+        <div class="brow">
+          <button id="btn-load-proj">From project</button>
+          <button id="btn-load-file">Open file…</button>
+        </div>
+        <input type="file" id="file-inp" accept=".json" style="display:none">
+        <div id="load-msg" style="font-size:10px;margin-top:4px;color:var(--muted)"></div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+          <button class="danger" id="btn-clear-geom" style="width:100%">Clear Geometry…</button>
+          <div style="font-size:9.5px;color:var(--muted);margin-top:3px">Removes all geom pts. Anchors become invalid until re-pinned.</div>
+        </div>
+      </section>
+
+      <!-- Keys -->
+      <section>
+        <h3>Keys</h3>
+        <div id="keys-help">
+          V — VIEW mode<br>
+          D — DRAW mode<br>
+          A — ANCHOR mode<br>
+          Esc — back to VIEW<br>
+          Backspace — undo last draw pt<br>
+          Ctrl+S — download JSON<br>
+          Ctrl+C — copy JSON<br>
+          Scroll — zoom<br>
+          Drag — pan
+        </div>
+      </section>
+
+    </div><!-- panel -->
+  </div><!-- main -->
+</div><!-- app -->
+
+<script src="route-builder.js"></script>
+</body>
+</html>
