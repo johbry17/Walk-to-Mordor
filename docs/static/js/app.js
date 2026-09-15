@@ -123,6 +123,33 @@ function buildChronologyByJourney(chronology) {
   return result;
 }
 
+/**
+ * Return the narrative text for the most recently passed story beat at cumMiles.
+ *
+ * Rule: find the chronology anchor with the highest mile value ≤ cumMiles.
+ * For rest stops (two consecutive entries with the same mile), return the
+ * FIRST entry's text (arrival text, not departure text).
+ *
+ * Returns null if no anchor has been reached yet, or if the matched entry
+ * has no text.
+ *
+ * This function is the single source of narrative for BOTH clocks.
+ * My Time calls it with walking-derived cumMiles.
+ * ME Time calls it with chronology-interpolated cumMiles.
+ * Neither clock uses real-world dates to select narrative.
+ */
+function getNarrativeForMileage(jid, cumMiles, chronologyByJourney) {
+  const entries = chronologyByJourney[jid];
+  if (!entries || !entries.length) return null;
+  let best = null;
+  for (const entry of entries) {
+    if (entry.mile <= cumMiles && (!best || entry.mile > best.mile)) {
+      best = entry;  // prefer first entry when multiple share the same mile
+    }
+  }
+  return best?.text ?? null;
+}
+
 // ME slider uses only the unique anchor dates — no day-by-day generation needed.
 function buildMESliderDates(chronologyByJourney) {
   const all = Object.values(chronologyByJourney).flat().map(e => e.me_date);
@@ -257,34 +284,31 @@ function _fmtMEDate(dateStr) {
   return `${_ME_MONTHS[m - 1]} ${d}, T.A. ${y}`;
 }
 
-function updateInfoPanel(clockMode, journeyMode, date, journeyStates, eventLookup, segmentsByJourney) {
+function updateInfoPanel(clockMode, journeyMode, date, journeyStates, chronologyByJourney, segmentsByJourney) {
   document.getElementById('info-date').textContent =
     clockMode === 'ME' ? _fmtMEDate(date) : (date ? fmt.format(_parseDate(date)) : '—');
 
-  // Pause detection: ME uses resolved status; My Time uses hardcoded date range
+  // Pause detection
   const isPaused = clockMode === 'ME'
     ? Object.values(journeyStates).some(js => js?.status === 'paused')
     : (date >= FRODO_PAUSE.start && date <= FRODO_PAUSE.end);
   document.getElementById('pause-badge').hidden = !isPaused;
 
-  // Narrative text: ME clock uses chronology text; My Time uses events.json
-  const evEl = document.getElementById('info-event');
-  let evText = null, evClass = 'info-event';
-
-  if (clockMode === 'ME') {
-    const activeJid = ['Mordor', 'Return', 'Hobbit'].find(
-      j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
-    );
-    if (activeJid) evText = journeyStates[activeJid].text;
-  } else {
-    const ev = eventLookup[date];
-    if (ev) { evText = ev.text; if (ev.type === 'pause') evClass += ' pause-event'; }
-  }
+  // Narrative: always from chronology, keyed by fictional mileage — never by real-world date.
+  // The same text appears regardless of which clock is active.
+  const evEl      = document.getElementById('info-event');
+  const activeJid = ['Mordor', 'Return', 'Hobbit'].find(
+    j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
+  ) || 'Mordor';
+  const activeState = journeyStates[activeJid];
+  const evText = (activeState && activeState.status !== 'unstarted')
+    ? getNarrativeForMileage(activeJid, activeState.cumMiles, chronologyByJourney)
+    : null;
 
   if (evText) {
     evEl.textContent = evText;
     evEl.hidden      = false;
-    evEl.className   = evClass;
+    evEl.className   = 'info-event';
   } else {
     evEl.hidden = true;
   }
@@ -388,7 +412,7 @@ fetchData().then(({ walking, journeys, routes, events, chronology }) => {
   const cumulativeByDate  = buildCumulativeByDate(walking);
   const journeyRanges     = buildJourneyRanges(journeys);
   const segmentsByJourney = buildSegmentsByJourney(journeys);
-  const eventLookup       = buildEventLookup(events);
+  // events.json is no longer used for narrative display; chronology.json is the sole source
   const projectStart      = Object.values(journeyRanges).map(r => r.start).sort()[0];
   const projectEnd        = Object.values(journeyRanges).map(r => r.end).sort().pop();
   const myCalDates        = generateCalendarDates(projectStart, projectEnd);
@@ -493,7 +517,7 @@ fetchData().then(({ walking, journeys, routes, events, chronology }) => {
       : buildMyTimeJourneyStates(date, cumulativeByDate, journeyRanges, routes);
 
     mapCtrl.update({ mode: currentMode, journeyStates });
-    updateInfoPanel(clockMode, currentMode, date, journeyStates, eventLookup, segmentsByJourney);
+    updateInfoPanel(clockMode, currentMode, date, journeyStates, chronologyByJourney, segmentsByJourney);
   }
 
   timeline.onChange(onDateChange);

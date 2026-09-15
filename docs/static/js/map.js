@@ -44,44 +44,81 @@ class MapController {
   }
 
   /**
-   * Single authoritative function: given fictional cumulative miles,
-   * return { x, y, revealLen }.
+   * Resolve fictional cumulative miles to { x, y, revealLen }.
    *
-   * Both the marker position and the stroke-dashoffset are derived from
-   * this one call, so they always agree — the filled route ends exactly
-   * where the marker sits.
+   * Algorithm:
+   *   1. Find the two calibration anchors bracketing cumMiles.
+   *   2. Compute t = (cumMiles - a.mile) / (b.mile - a.mile).
+   *   3. Compute targetArc = arcA + t * (arcB - arcA) along the DENSE geometry.
+   *   4. Walk dense geometry from geom_idx_A to geom_idx_B to find the
+   *      exact small segment containing targetArc, then interpolate x/y there.
+   *
+   * The marker never cuts straight between anchors; it follows every bend of
+   * the dense geometry path.  revealLen = targetArc ensures the stroke-dashoffset
+   * always ends exactly at the marker position.
    */
   _resolve(jid, cumMiles) {
     const routeData = this._routes[jid];
     const geom      = this._geom[jid];
     if (!routeData || !geom) return null;
 
-    const anchors = routeData.anchors || routeData;  // new format or legacy
+    const pts     = routeData.geometry || routeData;  // dense geometry
+    const anchors = routeData.anchors  || routeData;  // calibration anchors
+    if (!pts.length || !anchors.length) return null;
+
+    const nPts    = pts.length;
     const maxMile = anchors[anchors.length - 1].mile;
     const clamped = Math.min(Math.max(cumMiles, 0), maxMile);
 
+    const clampIdx = idx => Math.max(0, Math.min(idx, nPts - 1));
+
     if (clamped <= 0) {
-      return { x: anchors[0].x, y: anchors[0].y, revealLen: 0 };
+      const i0 = clampIdx(anchors[0].geom_idx ?? 0);
+      return { x: pts[i0].x, y: pts[i0].y, revealLen: geom.cumLen[i0] };
     }
 
-    for (let i = 0; i < anchors.length - 1; i++) {
-      const a = anchors[i], b = anchors[i + 1];
-      if (clamped >= a.mile && clamped <= b.mile) {
-        const segMiles = b.mile - a.mile;
-        const t = segMiles === 0 ? 1 : (clamped - a.mile) / segMiles;
-        // geom_idx present → reference dense geometry cumLen; else fall back to anchor index
-        const idxA = a.geom_idx !== undefined ? a.geom_idx : i;
-        const idxB = b.geom_idx !== undefined ? b.geom_idx : i + 1;
-        return {
-          x:         a.x + t * (b.x - a.x),
-          y:         a.y + t * (b.y - a.y),
-          revealLen: geom.cumLen[idxA] + t * (geom.cumLen[idxB] - geom.cumLen[idxA]),
-        };
+    for (let ai = 0; ai < anchors.length - 1; ai++) {
+      const a = anchors[ai], b = anchors[ai + 1];
+      if (clamped < a.mile || clamped > b.mile) continue;
+
+      const idxA = clampIdx(a.geom_idx !== undefined ? a.geom_idx : ai);
+      const idxB = clampIdx(b.geom_idx !== undefined ? b.geom_idx : ai + 1);
+      const arcA = geom.cumLen[idxA];
+      const arcB = geom.cumLen[idxB];
+
+      // Same-mile stop or degenerate indices: no movement, stay at anchor A
+      const segMiles = b.mile - a.mile;
+      if (segMiles === 0 || idxA === idxB) {
+        return { x: pts[idxA].x, y: pts[idxA].y, revealLen: arcA };
       }
+
+      const t         = (clamped - a.mile) / segMiles;
+      const targetArc = arcA + t * (arcB - arcA);
+
+      // Walk the dense geometry sub-section [idxA..idxB] to find the segment
+      // whose cumLen range contains targetArc, then interpolate within it.
+      for (let k = idxA; k < idxB; k++) {
+        if (targetArc <= geom.cumLen[k + 1] || k === idxB - 1) {
+          const segStart = geom.cumLen[k];
+          const segEnd   = geom.cumLen[k + 1];
+          const segLen   = segEnd - segStart;
+          const u = segLen < 1e-9 ? 0 : Math.max(0, Math.min(1, (targetArc - segStart) / segLen));
+          return {
+            x:         pts[k].x + u * (pts[k + 1].x - pts[k].x),
+            y:         pts[k].y + u * (pts[k + 1].y - pts[k].y),
+            revealLen: targetArc,
+          };
+        }
+      }
+
+      // Floating-point fallback: sit at anchor B's geometry position
+      return { x: pts[idxB].x, y: pts[idxB].y, revealLen: arcB };
     }
 
-    const last = anchors[anchors.length - 1];
-    return { x: last.x, y: last.y, revealLen: geom.totalLen };
+    // After last anchor
+    const last    = anchors[anchors.length - 1];
+    const lastIdx = clampIdx(last.geom_idx !== undefined ? last.geom_idx : nPts - 1);
+    return { x: pts[lastIdx].x, y: pts[lastIdx].y, revealLen: geom.totalLen };
   }
 
   _buildElements() {
