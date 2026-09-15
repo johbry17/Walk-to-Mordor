@@ -23,6 +23,11 @@
       <button class="mode-btn"        data-mode="Hobbit"  role="tab" aria-selected="false" tabindex="-1">Bilbo</button>
     </nav>
 
+    <div class="clock-toggle" role="group" aria-label="Time mode">
+      <button class="clock-btn active" data-clock="MY" aria-pressed="true">My Time</button>
+      <button class="clock-btn"        data-clock="ME" aria-pressed="false">Middle-earth</button>
+    </div>
+
     <button id="play-btn" class="play-btn" aria-label="Play journey">
       <svg class="icon-play"  viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
       <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>

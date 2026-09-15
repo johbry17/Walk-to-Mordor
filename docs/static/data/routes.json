@@ -1,90 +1,922 @@
 {
-  "Mordor": [
-    {"location": "Bag End",                "mile":    0, "x":  814, "y":  653},
-    {"location": "Hobbiton",               "mile":   12, "x":  824, "y":  664},
-    {"location": "South Farthing",         "mile":   27, "x":  846, "y":  712},
-    {"location": "Woody End",              "mile":   40, "x":  889, "y":  712},
-    {"location": "Maggot's Farm",          "mile":   60, "x":  900, "y":  707},
-    {"location": "Bucklebury Ferry",       "mile":   65, "x":  906, "y":  696},
-    {"location": "Bree",                   "mile":  145, "x": 1025, "y":  669},
-    {"location": "Prancing Pony",          "mile":  147, "x": 1036, "y":  669},
-    {"location": "Midgewater Marshes",     "mile":  195, "x": 1096, "y":  636},
-    {"location": "Weathertop",             "mile":  245, "x": 1199, "y":  642},
-    {"location": "Stone Trolls",           "mile":  390, "x": 1459, "y":  620},
-    {"location": "Ford of Bruinen",        "mile":  465, "x": 1513, "y":  653},
-    {"location": "Rivendell",              "mile":  487, "x": 1546, "y":  631},
-    {"location": "Hollin Ridge",           "mile":  719, "x": 1481, "y":  880},
-    {"location": "Caradhras",              "mile":  777, "x": 1519, "y":  880},
-    {"location": "Doors of Durin",         "mile":  825, "x": 1502, "y":  924},
-    {"location": "Mithril Ore",            "mile":  835, "x": 1513, "y":  923},
-    {"location": "Fork in the Road",       "mile":  839, "x": 1520, "y":  922},
-    {"location": "21st Hall",              "mile":  851, "x": 1533, "y":  920},
-    {"location": "Chamber of Mazarbul",    "mile":  852, "x": 1534, "y":  919},
-    {"location": "Stairs over Rift",       "mile":  857, "x": 1540, "y":  919},
-    {"location": "2nd Hall",               "mile":  860, "x": 1544, "y":  918},
-    {"location": "Bridge of Khazad-dûm",   "mile":  862, "x": 1547, "y":  918},
-    {"location": "Dimrill Dale Gate",      "mile":  865, "x": 1551, "y":  918},
-    {"location": "Mirrormere",             "mile":  869, "x": 1562, "y":  918},
-    {"location": "Flet Outpost",           "mile":  885, "x": 1589, "y":  956},
-    {"location": "Lothlórien",             "mile":  915, "x": 1616, "y":  989},
-    {"location": "Caras Galadhon",         "mile":  952, "x": 1692, "y": 1005},
-    {"location": "Silverlode Hythe",       "mile":  962, "x": 1698, "y": 1021},
-    {"location": "Anduin",                 "mile":  987, "x": 1708, "y": 1027},
-    {"location": "Argonath",               "mile": 1346, "x": 1893, "y": 1428},
-    {"location": "Nen Hithoel",            "mile": 1356, "x": 1887, "y": 1450},
-    {"location": "Parth Galen",            "mile": 1366, "x": 1898, "y": 1466},
-    {"location": "Amon Hen",               "mile": 1367, "x": 1898, "y": 1472},
-    {"location": "Shelving Shore",         "mile": 1377, "x": 1909, "y": 1455},
-    {"location": "Emyn Muil",              "mile": 1441, "x": 1974, "y": 1401},
-    {"location": "Dead Marshes",           "mile": 1476, "x": 2023, "y": 1434},
-    {"location": "Camp in the Marshes",    "mile": 1491, "x": 2072, "y": 1461},
-    {"location": "Black Gate",             "mile": 1528, "x": 2153, "y": 1455},
-    {"location": "Night Camp",             "mile": 1537, "x": 2104, "y": 1488},
-    {"location": "Edge of Ithilien",       "mile": 1557, "x": 2094, "y": 1553},
-    {"location": "Henneth Annûn",          "mile": 1567, "x": 2088, "y": 1586},
-    {"location": "Osgiliath",              "mile": 1611, "x": 2072, "y": 1678},
-    {"location": "North Ithlien Forest",   "mile": 1616, "x": 2104, "y": 1672},
-    {"location": "Minas Morgul",           "mile": 1621, "x": 2126, "y": 1672},
-    {"location": "Stairs of Cirith Ungol", "mile": 1622, "x": 2126, "y": 1667},
-    {"location": "Ledge Camp",             "mile": 1627, "x": 2132, "y": 1664},
-    {"location": "Shelob's Lair",          "mile": 1640, "x": 2154, "y": 1652},
-    {"location": "Tower of Cirith Ungol",  "mile": 1653, "x": 2169, "y": 1645},
-    {"location": "Mordor",                 "mile": 1654, "x": 2175, "y": 1645},
-    {"location": "Orc Encounter",          "mile": 1730, "x": 2168, "y": 1537},
-    {"location": "Escape from Orcs",       "mile": 1740, "x": 2186, "y": 1531},
-    {"location": "Sammath Naur Door",      "mile": 1813, "x": 2256, "y": 1607},
-    {"location": "Sammath Naur",           "mile": 1814, "x": 2257, "y": 1607},
-    {"location": "Crack of Doom",          "mile": 1815, "x": 2258, "y": 1607}
-  ],
-  "Return": [
-    {"location": "Parth Galen",            "mile":    0, "x": 1898, "y": 1466},
-    {"location": "East Emnet",             "mile":   69, "x": 1805, "y": 1408},
-    {"location": "Borders of Fangorn",     "mile":  228, "x": 1625, "y": 1271},
-    {"location": "Fangorn Forest",         "mile":  239, "x": 1594, "y": 1259},
-    {"location": "Edoras",                 "mile":  370, "x": 1575, "y": 1495},
-    {"location": "Plains of Edoras Camp",  "mile":  400, "x": 1544, "y": 1464},
-    {"location": "Helm's Deep",            "mile":  444, "x": 1464, "y": 1433},
-    {"location": "Isengard",               "mile":  561, "x": 1402, "y": 1290},
-    {"location": "Dunharrow",              "mile":  757, "x": 1550, "y": 1526},
-    {"location": "Dimholt Road",           "mile":  762, "x": 1557, "y": 1532},
-    {"location": "Dark Door",              "mile":  770, "x": 1569, "y": 1544},
-    {"location": "Paths of the Dead",      "mile":  772, "x": 1570, "y": 1547},
-    {"location": "Pelargir",               "mile": 1182, "x": 1978, "y": 1891},
-    {"location": "Harlond",                "mile": 1340, "x": 2053, "y": 1699},
-    {"location": "Minas Tirith",           "mile": 1350, "x": 2040, "y": 1687},
-    {"location": "Black Gate",             "mile": 1482, "x": 2153, "y": 1455}
-  ],
-  "Hobbit": [
-    {"location": "Bag End",                "mile":    0, "x":  814, "y":  653},
-    {"location": "Trollshaws",             "mile":  387, "x": 1459, "y":  620},
-    {"location": "Rivendell",              "mile":  491, "x": 1546, "y":  631},
-    {"location": "Goblin-Town",            "mile":  559, "x": 1637, "y":  602},
-    {"location": "Eagle's Eyrie",          "mile":  600, "x": 1693, "y":  521},
-    {"location": "Beorn's Hall",           "mile":  619, "x": 1780, "y":  564},
-    {"location": "Mirkwood",               "mile":  786, "x": 1792, "y":  471},
-    {"location": "Elvenking's Halls",      "mile":  934, "x": 2040, "y":  453},
-    {"location": "Esgaroth",               "mile":  951, "x": 2127, "y":  471},
-    {"location": "Lonely Mountain",        "mile": 1050, "x": 2109, "y":  416},
-    {"location": "Erebor",                 "mile": 1100, "x": 2127, "y":  403}
-  ]
+  "Mordor": {
+    "geometry": [
+      {
+        "x": 814,
+        "y": 653
+      },
+      {
+        "x": 824,
+        "y": 664
+      },
+      {
+        "x": 846,
+        "y": 712
+      },
+      {
+        "x": 889,
+        "y": 712
+      },
+      {
+        "x": 900,
+        "y": 707
+      },
+      {
+        "x": 906,
+        "y": 696
+      },
+      {
+        "x": 1025,
+        "y": 669
+      },
+      {
+        "x": 1036,
+        "y": 669
+      },
+      {
+        "x": 1096,
+        "y": 636
+      },
+      {
+        "x": 1199,
+        "y": 642
+      },
+      {
+        "x": 1459,
+        "y": 620
+      },
+      {
+        "x": 1513,
+        "y": 653
+      },
+      {
+        "x": 1546,
+        "y": 631
+      },
+      {
+        "x": 1481,
+        "y": 880
+      },
+      {
+        "x": 1519,
+        "y": 880
+      },
+      {
+        "x": 1502,
+        "y": 924
+      },
+      {
+        "x": 1513,
+        "y": 923
+      },
+      {
+        "x": 1520,
+        "y": 922
+      },
+      {
+        "x": 1533,
+        "y": 920
+      },
+      {
+        "x": 1534,
+        "y": 919
+      },
+      {
+        "x": 1540,
+        "y": 919
+      },
+      {
+        "x": 1544,
+        "y": 918
+      },
+      {
+        "x": 1547,
+        "y": 918
+      },
+      {
+        "x": 1551,
+        "y": 918
+      },
+      {
+        "x": 1562,
+        "y": 918
+      },
+      {
+        "x": 1589,
+        "y": 956
+      },
+      {
+        "x": 1616,
+        "y": 989
+      },
+      {
+        "x": 1692,
+        "y": 1005
+      },
+      {
+        "x": 1698,
+        "y": 1021
+      },
+      {
+        "x": 1708,
+        "y": 1027
+      },
+      {
+        "x": 1893,
+        "y": 1428
+      },
+      {
+        "x": 1887,
+        "y": 1450
+      },
+      {
+        "x": 1898,
+        "y": 1466
+      },
+      {
+        "x": 1898,
+        "y": 1472
+      },
+      {
+        "x": 1909,
+        "y": 1455
+      },
+      {
+        "x": 1974,
+        "y": 1401
+      },
+      {
+        "x": 2023,
+        "y": 1434
+      },
+      {
+        "x": 2072,
+        "y": 1461
+      },
+      {
+        "x": 2153,
+        "y": 1455
+      },
+      {
+        "x": 2104,
+        "y": 1488
+      },
+      {
+        "x": 2094,
+        "y": 1553
+      },
+      {
+        "x": 2088,
+        "y": 1586
+      },
+      {
+        "x": 2072,
+        "y": 1678
+      },
+      {
+        "x": 2104,
+        "y": 1672
+      },
+      {
+        "x": 2126,
+        "y": 1672
+      },
+      {
+        "x": 2126,
+        "y": 1667
+      },
+      {
+        "x": 2132,
+        "y": 1664
+      },
+      {
+        "x": 2154,
+        "y": 1652
+      },
+      {
+        "x": 2169,
+        "y": 1645
+      },
+      {
+        "x": 2175,
+        "y": 1645
+      },
+      {
+        "x": 2168,
+        "y": 1537
+      },
+      {
+        "x": 2186,
+        "y": 1531
+      },
+      {
+        "x": 2256,
+        "y": 1607
+      },
+      {
+        "x": 2257,
+        "y": 1607
+      },
+      {
+        "x": 2258,
+        "y": 1607
+      }
+    ],
+    "anchors": [
+      {
+        "geom_idx": 0,
+        "x": 814,
+        "y": 653,
+        "mile": 0,
+        "location": "Bag End"
+      },
+      {
+        "geom_idx": 1,
+        "x": 824,
+        "y": 664,
+        "mile": 12,
+        "location": "Hobbiton"
+      },
+      {
+        "geom_idx": 2,
+        "x": 846,
+        "y": 712,
+        "mile": 27,
+        "location": "South Farthing"
+      },
+      {
+        "geom_idx": 3,
+        "x": 889,
+        "y": 712,
+        "mile": 40,
+        "location": "Woody End"
+      },
+      {
+        "geom_idx": 4,
+        "x": 900,
+        "y": 707,
+        "mile": 60,
+        "location": "Maggot's Farm"
+      },
+      {
+        "geom_idx": 5,
+        "x": 906,
+        "y": 696,
+        "mile": 65,
+        "location": "Bucklebury Ferry"
+      },
+      {
+        "geom_idx": 6,
+        "x": 1025,
+        "y": 669,
+        "mile": 145,
+        "location": "Bree"
+      },
+      {
+        "geom_idx": 7,
+        "x": 1036,
+        "y": 669,
+        "mile": 147,
+        "location": "Prancing Pony"
+      },
+      {
+        "geom_idx": 8,
+        "x": 1096,
+        "y": 636,
+        "mile": 195,
+        "location": "Midgewater Marshes"
+      },
+      {
+        "geom_idx": 9,
+        "x": 1199,
+        "y": 642,
+        "mile": 245,
+        "location": "Weathertop"
+      },
+      {
+        "geom_idx": 10,
+        "x": 1459,
+        "y": 620,
+        "mile": 390,
+        "location": "Stone Trolls"
+      },
+      {
+        "geom_idx": 11,
+        "x": 1513,
+        "y": 653,
+        "mile": 465,
+        "location": "Ford of Bruinen"
+      },
+      {
+        "geom_idx": 12,
+        "x": 1546,
+        "y": 631,
+        "mile": 487,
+        "location": "Rivendell"
+      },
+      {
+        "geom_idx": 13,
+        "x": 1481,
+        "y": 880,
+        "mile": 719,
+        "location": "Hollin Ridge"
+      },
+      {
+        "geom_idx": 14,
+        "x": 1519,
+        "y": 880,
+        "mile": 777,
+        "location": "Caradhras"
+      },
+      {
+        "geom_idx": 15,
+        "x": 1502,
+        "y": 924,
+        "mile": 825,
+        "location": "Doors of Durin"
+      },
+      {
+        "geom_idx": 16,
+        "x": 1513,
+        "y": 923,
+        "mile": 835,
+        "location": "Mithril Ore"
+      },
+      {
+        "geom_idx": 17,
+        "x": 1520,
+        "y": 922,
+        "mile": 839,
+        "location": "Fork in the Road"
+      },
+      {
+        "geom_idx": 18,
+        "x": 1533,
+        "y": 920,
+        "mile": 851,
+        "location": "21st Hall"
+      },
+      {
+        "geom_idx": 19,
+        "x": 1534,
+        "y": 919,
+        "mile": 852,
+        "location": "Chamber of Mazarbul"
+      },
+      {
+        "geom_idx": 20,
+        "x": 1540,
+        "y": 919,
+        "mile": 857,
+        "location": "Stairs over Rift"
+      },
+      {
+        "geom_idx": 21,
+        "x": 1544,
+        "y": 918,
+        "mile": 860,
+        "location": "2nd Hall"
+      },
+      {
+        "geom_idx": 22,
+        "x": 1547,
+        "y": 918,
+        "mile": 862,
+        "location": "Bridge of Khazad-dûm"
+      },
+      {
+        "geom_idx": 23,
+        "x": 1551,
+        "y": 918,
+        "mile": 865,
+        "location": "Dimrill Dale Gate"
+      },
+      {
+        "geom_idx": 24,
+        "x": 1562,
+        "y": 918,
+        "mile": 869,
+        "location": "Mirrormere"
+      },
+      {
+        "geom_idx": 25,
+        "x": 1589,
+        "y": 956,
+        "mile": 885,
+        "location": "Flet Outpost"
+      },
+      {
+        "geom_idx": 26,
+        "x": 1616,
+        "y": 989,
+        "mile": 915,
+        "location": "Lothlórien"
+      },
+      {
+        "geom_idx": 27,
+        "x": 1692,
+        "y": 1005,
+        "mile": 952,
+        "location": "Caras Galadhon"
+      },
+      {
+        "geom_idx": 28,
+        "x": 1698,
+        "y": 1021,
+        "mile": 962,
+        "location": "Silverlode Hythe"
+      },
+      {
+        "geom_idx": 29,
+        "x": 1708,
+        "y": 1027,
+        "mile": 987,
+        "location": "Anduin"
+      },
+      {
+        "geom_idx": 30,
+        "x": 1893,
+        "y": 1428,
+        "mile": 1346,
+        "location": "Argonath"
+      },
+      {
+        "geom_idx": 31,
+        "x": 1887,
+        "y": 1450,
+        "mile": 1356,
+        "location": "Nen Hithoel"
+      },
+      {
+        "geom_idx": 32,
+        "x": 1898,
+        "y": 1466,
+        "mile": 1366,
+        "location": "Parth Galen"
+      },
+      {
+        "geom_idx": 33,
+        "x": 1898,
+        "y": 1472,
+        "mile": 1367,
+        "location": "Amon Hen"
+      },
+      {
+        "geom_idx": 34,
+        "x": 1909,
+        "y": 1455,
+        "mile": 1377,
+        "location": "Shelving Shore"
+      },
+      {
+        "geom_idx": 35,
+        "x": 1974,
+        "y": 1401,
+        "mile": 1441,
+        "location": "Emyn Muil"
+      },
+      {
+        "geom_idx": 36,
+        "x": 2023,
+        "y": 1434,
+        "mile": 1476,
+        "location": "Dead Marshes"
+      },
+      {
+        "geom_idx": 37,
+        "x": 2072,
+        "y": 1461,
+        "mile": 1491,
+        "location": "Camp in the Marshes"
+      },
+      {
+        "geom_idx": 38,
+        "x": 2153,
+        "y": 1455,
+        "mile": 1528,
+        "location": "Black Gate"
+      },
+      {
+        "geom_idx": 39,
+        "x": 2104,
+        "y": 1488,
+        "mile": 1537,
+        "location": "Night Camp"
+      },
+      {
+        "geom_idx": 40,
+        "x": 2094,
+        "y": 1553,
+        "mile": 1557,
+        "location": "Edge of Ithilien"
+      },
+      {
+        "geom_idx": 41,
+        "x": 2088,
+        "y": 1586,
+        "mile": 1567,
+        "location": "Henneth Annûn"
+      },
+      {
+        "geom_idx": 42,
+        "x": 2072,
+        "y": 1678,
+        "mile": 1611,
+        "location": "Osgiliath"
+      },
+      {
+        "geom_idx": 43,
+        "x": 2104,
+        "y": 1672,
+        "mile": 1616,
+        "location": "North Ithlien Forest"
+      },
+      {
+        "geom_idx": 44,
+        "x": 2126,
+        "y": 1672,
+        "mile": 1621,
+        "location": "Minas Morgul"
+      },
+      {
+        "geom_idx": 45,
+        "x": 2126,
+        "y": 1667,
+        "mile": 1622,
+        "location": "Stairs of Cirith Ungol"
+      },
+      {
+        "geom_idx": 46,
+        "x": 2132,
+        "y": 1664,
+        "mile": 1627,
+        "location": "Ledge Camp"
+      },
+      {
+        "geom_idx": 47,
+        "x": 2154,
+        "y": 1652,
+        "mile": 1640,
+        "location": "Shelob's Lair"
+      },
+      {
+        "geom_idx": 48,
+        "x": 2169,
+        "y": 1645,
+        "mile": 1653,
+        "location": "Tower of Cirith Ungol"
+      },
+      {
+        "geom_idx": 49,
+        "x": 2175,
+        "y": 1645,
+        "mile": 1654,
+        "location": "Mordor"
+      },
+      {
+        "geom_idx": 50,
+        "x": 2168,
+        "y": 1537,
+        "mile": 1730,
+        "location": "Orc Encounter"
+      },
+      {
+        "geom_idx": 51,
+        "x": 2186,
+        "y": 1531,
+        "mile": 1740,
+        "location": "Escape from Orcs"
+      },
+      {
+        "geom_idx": 52,
+        "x": 2256,
+        "y": 1607,
+        "mile": 1813,
+        "location": "Sammath Naur Door"
+      },
+      {
+        "geom_idx": 53,
+        "x": 2257,
+        "y": 1607,
+        "mile": 1814,
+        "location": "Sammath Naur"
+      },
+      {
+        "geom_idx": 54,
+        "x": 2258,
+        "y": 1607,
+        "mile": 1815,
+        "location": "Crack of Doom"
+      }
+    ]
+  },
+  "Return": {
+    "geometry": [
+      {
+        "x": 1898,
+        "y": 1466
+      },
+      {
+        "x": 1805,
+        "y": 1408
+      },
+      {
+        "x": 1625,
+        "y": 1271
+      },
+      {
+        "x": 1594,
+        "y": 1259
+      },
+      {
+        "x": 1575,
+        "y": 1495
+      },
+      {
+        "x": 1544,
+        "y": 1464
+      },
+      {
+        "x": 1464,
+        "y": 1433
+      },
+      {
+        "x": 1402,
+        "y": 1290
+      },
+      {
+        "x": 1550,
+        "y": 1526
+      },
+      {
+        "x": 1557,
+        "y": 1532
+      },
+      {
+        "x": 1569,
+        "y": 1544
+      },
+      {
+        "x": 1570,
+        "y": 1547
+      },
+      {
+        "x": 1978,
+        "y": 1891
+      },
+      {
+        "x": 2053,
+        "y": 1699
+      },
+      {
+        "x": 2040,
+        "y": 1687
+      },
+      {
+        "x": 2153,
+        "y": 1455
+      }
+    ],
+    "anchors": [
+      {
+        "geom_idx": 0,
+        "x": 1898,
+        "y": 1466,
+        "mile": 0,
+        "location": "Parth Galen"
+      },
+      {
+        "geom_idx": 1,
+        "x": 1805,
+        "y": 1408,
+        "mile": 69,
+        "location": "East Emnet"
+      },
+      {
+        "geom_idx": 2,
+        "x": 1625,
+        "y": 1271,
+        "mile": 228,
+        "location": "Borders of Fangorn"
+      },
+      {
+        "geom_idx": 3,
+        "x": 1594,
+        "y": 1259,
+        "mile": 239,
+        "location": "Fangorn Forest"
+      },
+      {
+        "geom_idx": 4,
+        "x": 1575,
+        "y": 1495,
+        "mile": 370,
+        "location": "Edoras"
+      },
+      {
+        "geom_idx": 5,
+        "x": 1544,
+        "y": 1464,
+        "mile": 400,
+        "location": "Plains of Edoras Camp"
+      },
+      {
+        "geom_idx": 6,
+        "x": 1464,
+        "y": 1433,
+        "mile": 444,
+        "location": "Helm's Deep"
+      },
+      {
+        "geom_idx": 7,
+        "x": 1402,
+        "y": 1290,
+        "mile": 561,
+        "location": "Isengard"
+      },
+      {
+        "geom_idx": 8,
+        "x": 1550,
+        "y": 1526,
+        "mile": 757,
+        "location": "Dunharrow"
+      },
+      {
+        "geom_idx": 9,
+        "x": 1557,
+        "y": 1532,
+        "mile": 762,
+        "location": "Dimholt Road"
+      },
+      {
+        "geom_idx": 10,
+        "x": 1569,
+        "y": 1544,
+        "mile": 770,
+        "location": "Dark Door"
+      },
+      {
+        "geom_idx": 11,
+        "x": 1570,
+        "y": 1547,
+        "mile": 772,
+        "location": "Paths of the Dead"
+      },
+      {
+        "geom_idx": 12,
+        "x": 1978,
+        "y": 1891,
+        "mile": 1182,
+        "location": "Pelargir"
+      },
+      {
+        "geom_idx": 13,
+        "x": 2053,
+        "y": 1699,
+        "mile": 1340,
+        "location": "Harlond"
+      },
+      {
+        "geom_idx": 14,
+        "x": 2040,
+        "y": 1687,
+        "mile": 1350,
+        "location": "Minas Tirith"
+      },
+      {
+        "geom_idx": 15,
+        "x": 2153,
+        "y": 1455,
+        "mile": 1482,
+        "location": "Black Gate"
+      }
+    ]
+  },
+  "Hobbit": {
+    "geometry": [
+      {
+        "x": 814,
+        "y": 653
+      },
+      {
+        "x": 1459,
+        "y": 620
+      },
+      {
+        "x": 1546,
+        "y": 631
+      },
+      {
+        "x": 1637,
+        "y": 602
+      },
+      {
+        "x": 1693,
+        "y": 521
+      },
+      {
+        "x": 1780,
+        "y": 564
+      },
+      {
+        "x": 1792,
+        "y": 471
+      },
+      {
+        "x": 2040,
+        "y": 453
+      },
+      {
+        "x": 2127,
+        "y": 471
+      },
+      {
+        "x": 2109,
+        "y": 416
+      },
+      {
+        "x": 2127,
+        "y": 403
+      }
+    ],
+    "anchors": [
+      {
+        "geom_idx": 0,
+        "x": 814,
+        "y": 653,
+        "mile": 0,
+        "location": "Bag End"
+      },
+      {
+        "geom_idx": 1,
+        "x": 1459,
+        "y": 620,
+        "mile": 387,
+        "location": "Trollshaws"
+      },
+      {
+        "geom_idx": 2,
+        "x": 1546,
+        "y": 631,
+        "mile": 491,
+        "location": "Rivendell"
+      },
+      {
+        "geom_idx": 3,
+        "x": 1637,
+        "y": 602,
+        "mile": 559,
+        "location": "Goblin-Town"
+      },
+      {
+        "geom_idx": 4,
+        "x": 1693,
+        "y": 521,
+        "mile": 600,
+        "location": "Eagle's Eyrie"
+      },
+      {
+        "geom_idx": 5,
+        "x": 1780,
+        "y": 564,
+        "mile": 619,
+        "location": "Beorn's Hall"
+      },
+      {
+        "geom_idx": 6,
+        "x": 1792,
+        "y": 471,
+        "mile": 786,
+        "location": "Mirkwood"
+      },
+      {
+        "geom_idx": 7,
+        "x": 2040,
+        "y": 453,
+        "mile": 934,
+        "location": "Elvenking's Halls"
+      },
+      {
+        "geom_idx": 8,
+        "x": 2127,
+        "y": 471,
+        "mile": 951,
+        "location": "Esgaroth"
+      },
+      {
+        "geom_idx": 9,
+        "x": 2109,
+        "y": 416,
+        "mile": 1050,
+        "location": "Lonely Mountain"
+      },
+      {
+        "geom_idx": 10,
+        "x": 2127,
+        "y": 403,
+        "mile": 1100,
+        "location": "Erebor"
+      }
+    ]
+  }
 }

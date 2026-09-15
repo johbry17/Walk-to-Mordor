@@ -28,12 +28,15 @@ class MapController {
    */
   _buildGeometry() {
     for (const jid of ['Hobbit', 'Return', 'Mordor']) {
-      const wpts = this._routes[jid];
-      if (!wpts || wpts.length < 2) continue;
+      const routeData = this._routes[jid];
+      if (!routeData) continue;
+      // Support new { geometry, anchors } format and legacy flat array
+      const pts = routeData.geometry || routeData;
+      if (!pts || pts.length < 2) continue;
       const cumLen = [0];
       let total = 0;
-      for (let i = 1; i < wpts.length; i++) {
-        total += Math.hypot(wpts[i].x - wpts[i - 1].x, wpts[i].y - wpts[i - 1].y);
+      for (let i = 1; i < pts.length; i++) {
+        total += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
         cumLen.push(total);
       }
       this._geom[jid] = { totalLen: total, cumLen };
@@ -49,31 +52,35 @@ class MapController {
    * where the marker sits.
    */
   _resolve(jid, cumMiles) {
-    const wpts = this._routes[jid];
-    const geom = this._geom[jid];
-    if (!wpts || !geom) return null;
+    const routeData = this._routes[jid];
+    const geom      = this._geom[jid];
+    if (!routeData || !geom) return null;
 
-    const maxMile = wpts[wpts.length - 1].mile;
+    const anchors = routeData.anchors || routeData;  // new format or legacy
+    const maxMile = anchors[anchors.length - 1].mile;
     const clamped = Math.min(Math.max(cumMiles, 0), maxMile);
 
     if (clamped <= 0) {
-      return { x: wpts[0].x, y: wpts[0].y, revealLen: 0 };
+      return { x: anchors[0].x, y: anchors[0].y, revealLen: 0 };
     }
 
-    for (let i = 0; i < wpts.length - 1; i++) {
-      const a = wpts[i], b = wpts[i + 1];
+    for (let i = 0; i < anchors.length - 1; i++) {
+      const a = anchors[i], b = anchors[i + 1];
       if (clamped >= a.mile && clamped <= b.mile) {
         const segMiles = b.mile - a.mile;
         const t = segMiles === 0 ? 1 : (clamped - a.mile) / segMiles;
+        // geom_idx present → reference dense geometry cumLen; else fall back to anchor index
+        const idxA = a.geom_idx !== undefined ? a.geom_idx : i;
+        const idxB = b.geom_idx !== undefined ? b.geom_idx : i + 1;
         return {
-          x:         a.x           + t * (b.x           - a.x),
-          y:         a.y           + t * (b.y           - a.y),
-          revealLen: geom.cumLen[i] + t * (geom.cumLen[i + 1] - geom.cumLen[i]),
+          x:         a.x + t * (b.x - a.x),
+          y:         a.y + t * (b.y - a.y),
+          revealLen: geom.cumLen[idxA] + t * (geom.cumLen[idxB] - geom.cumLen[idxA]),
         };
       }
     }
 
-    const last = wpts[wpts.length - 1];
+    const last = anchors[anchors.length - 1];
     return { x: last.x, y: last.y, revealLen: geom.totalLen };
   }
 
@@ -82,10 +89,12 @@ class MapController {
 
     for (const jid of ['Hobbit', 'Return', 'Mordor']) {
       const { color } = JOURNEY_META[jid];
-      const wpts = this._routes[jid];
-      if (!wpts) continue;
+      const routeData = this._routes[jid];
+      if (!routeData) continue;
 
-      const d    = _waypointsToPath(wpts);
+      // geometry[] for visual path; anchors[] (or legacy flat array) for resolution
+      const pts  = routeData.geometry || routeData;
+      const d    = _waypointsToPath(pts);
       const geom = this._geom[jid];
       const g    = _svgEl('g', { id: `journey-${jid}` });
 

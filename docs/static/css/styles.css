@@ -110,9 +110,38 @@ body {
 .mode-btn[data-mode="Return"].active  { color: var(--aragorn); border-color: var(--aragorn); background: rgba(74, 124, 142, 0.1); }
 .mode-btn[data-mode="Hobbit"].active  { color: var(--bilbo);   border-color: var(--bilbo);   background: rgba(95, 138, 90, 0.1); }
 
+/* Clock toggle */
+.clock-toggle {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.clock-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 3px 10px;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+.clock-btn:hover { color: var(--text); border-color: var(--text-muted); }
+.clock-btn.active,
+.clock-btn[aria-pressed="true"] {
+  color: var(--text-bright);
+  border-color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+}
+.clock-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
 /* Play button */
 .play-btn {
-  margin-left: auto;
+  margin-left: 8px;
   width: 34px;
   height: 34px;
   border-radius: 50%;

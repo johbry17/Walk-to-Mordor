@@ -63,6 +63,28 @@ class TimelineController {
     if (wasPlaying) this.play();
   }
 
+  /** Replace the full date/range/segment dataset — used when switching clock modes. */
+  setCalendar(allDates, ranges, segmentsByJourney) {
+    const wasPlaying = this._playing;
+    if (wasPlaying) this.pause();
+
+    this._allDates = allDates;
+    this._ranges   = ranges;
+    this._segments = segmentsByJourney;
+
+    this._dates = this._datesForMode(this._mode);
+    this._index = 0;
+
+    this._slider.max   = Math.max(0, this._dates.length - 1);
+    this._slider.value = 0;
+
+    this._updateLabels();
+    this._drawTicks();
+    this._emit();
+
+    if (wasPlaying) this.play();
+  }
+
   setIndex(i) {
     this._index = Math.max(0, Math.min(i, this._dates.length - 1));
     this._slider.value = this._index;

@@ -1,17 +1,78 @@
 [
-  {"journey":"Mordor", "date":"2024-03-27", "text":"Frodo and the Fellowship set out from the Shire."},
-  {"journey":"Mordor", "date":"2024-04-29", "text":"The Council of Elrond. The Fellowship forms in Rivendell."},
-  {"journey":"Mordor", "date":"2024-07-24", "text":"The Fellowship enters the Mines of Moria."},
-  {"journey":"Mordor", "date":"2024-07-29", "text":"Gandalf has fallen. Pause to mourn. The challenge is on hold.", "type":"pause"},
-  {"journey":"Mordor", "date":"2024-08-24", "text":"The Eye of Sauron segment begins. The long march through Mordor resumes."},
-  {"journey":"Mordor", "date":"2024-12-04", "text":"The final Mordor segment. Frodo approaches the Crack of Doom."},
-  {"journey":"Mordor", "date":"2025-01-07", "text":"The quest is complete. The One Ring is destroyed."},
-  {"journey":"Return", "date":"2025-01-14", "text":"Aragorn rides out of Edoras. The Return of the King begins."},
-  {"journey":"Return", "date":"2025-03-31", "text":"The siege of Helm's Deep. Aragorn holds the fortress."},
-  {"journey":"Return", "date":"2025-06-06", "text":"Aragorn answers the call of the Dead and leads the Grey Company south to Gondor."},
-  {"journey":"Return", "date":"2025-08-26", "text":"Aragorn is crowned King Elessar in Minas Tirith."},
-  {"journey":"Hobbit", "date":"2026-01-20", "text":"Bilbo Baggins leaves Bag End on an unexpected adventure."},
-  {"journey":"Hobbit", "date":"2026-04-08", "text":"The Desolation of Smaug. Bilbo and the Dwarves press on through Mirkwood."},
-  {"journey":"Hobbit", "date":"2026-06-01", "text":"The Battle of the Five Armies is joined beneath the Lonely Mountain."},
-  {"journey":"Hobbit", "date":"2026-06-10", "text":"There and back again. The journey ends at Erebor."}
+  {
+    "date": "2024-03-27",
+    "text": "Frodo and the Fellowship set out from the Shire.",
+    "journey_id": "Mordor"
+  },
+  {
+    "date": "2024-04-29",
+    "text": "The Council of Elrond. The Fellowship forms in Rivendell.",
+    "journey_id": "Mordor"
+  },
+  {
+    "date": "2024-07-24",
+    "text": "The Fellowship enters the Mines of Moria.",
+    "journey_id": "Mordor"
+  },
+  {
+    "date": "2024-07-29",
+    "text": "Gandalf has fallen. Pause to mourn. The challenge is on hold.",
+    "type": "pause",
+    "journey_id": "Mordor"
+  },
+  {
+    "date": "2024-08-24",
+    "text": "The Eye of Sauron segment begins. The long march through Mordor resumes.",
+    "journey_id": "Mordor"
+  },
+  {
+    "date": "2024-12-04",
+    "text": "The final Mordor segment. Frodo approaches the Crack of Doom.",
+    "journey_id": "Mordor"
+  },
+  {
+    "date": "2025-01-07",
+    "text": "The quest is complete. The One Ring is destroyed.",
+    "journey_id": "Mordor"
+  },
+  {
+    "date": "2025-01-14",
+    "text": "Aragorn rides out of Edoras. The Return of the King begins.",
+    "journey_id": "Return"
+  },
+  {
+    "date": "2025-03-31",
+    "text": "The siege of Helm's Deep. Aragorn holds the fortress.",
+    "journey_id": "Return"
+  },
+  {
+    "date": "2025-06-06",
+    "text": "Aragorn answers the call of the Dead and leads the Grey Company south to Gondor.",
+    "journey_id": "Return"
+  },
+  {
+    "date": "2025-08-26",
+    "text": "Aragorn is crowned King Elessar in Minas Tirith.",
+    "journey_id": "Return"
+  },
+  {
+    "date": "2026-01-20",
+    "text": "Bilbo Baggins leaves Bag End on an unexpected adventure.",
+    "journey_id": "Hobbit"
+  },
+  {
+    "date": "2026-04-08",
+    "text": "The Desolation of Smaug. Bilbo and the Dwarves press on through Mirkwood.",
+    "journey_id": "Hobbit"
+  },
+  {
+    "date": "2026-06-01",
+    "text": "The Battle of the Five Armies is joined beneath the Lonely Mountain.",
+    "journey_id": "Hobbit"
+  },
+  {
+    "date": "2026-06-10",
+    "text": "There and back again. The journey ends at Erebor.",
+    "journey_id": "Hobbit"
+  }
 ]
