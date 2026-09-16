@@ -340,7 +340,7 @@ function render() {
     svg.appendChild(svgEl('path', {
       d:              ptsToPath(geom),
       stroke:         color,
-      'stroke-width': '5',
+      'stroke-width': '1',
       'stroke-opacity': '0.75',
       'stroke-linecap':  'round',
       'stroke-linejoin': 'round',
@@ -375,7 +375,7 @@ function render() {
   }));
   svg.appendChild(svgEl('circle', {
     cx: ep.x, cy: ep.y, r: ENDPOINT_R,
-    fill: '#FFD700', stroke: '#0D0B08', 'stroke-width': '3',
+    fill: 'none', stroke: '#FFD700', 'stroke-width': '3',
   }));
 
   // ── Anchor markers (diamonds with labels) ───────────────────────
@@ -386,14 +386,14 @@ function render() {
     const r = ANCHOR_R;
     svg.appendChild(svgEl('polygon', {
       points: `${p.x},${p.y - r} ${p.x + r},${p.y} ${p.x},${p.y + r} ${p.x - r},${p.y}`,
-      fill: '#0D0B08', stroke: color, 'stroke-width': '2.5',
+      fill: 'none', stroke: color, 'stroke-width': '1',
     }));
     if (anc.location) {
       const lbl = svgEl('text', {
         x: p.x + r + 5, y: p.y + 5,
         fill: color, 'font-size': '20', 'font-family': 'sans-serif',
-        'paint-order': 'stroke', stroke: '#0D0B08',
-        'stroke-width': '6', 'stroke-linejoin': 'round',
+        'paint-order': 'stroke', stroke: '#ffffff',
+        opacity: '0.35', 'stroke-width': '6', 'stroke-linejoin': 'round',
       });
       lbl.textContent = `${anc.location} (${anc.mile})`;
       svg.appendChild(lbl);
@@ -419,11 +419,11 @@ function render() {
     const p = geom[selIdx];
     svg.appendChild(svgEl('circle', {
       cx: p.x, cy: p.y, r: SEL_R,
-      fill: 'none', stroke: '#FFD700', 'stroke-width': '3',
+      fill: 'none', stroke: '#FFD700', 'stroke-width': '2', opacity: '0.35',
     }));
     svg.appendChild(svgEl('circle', {
       cx: p.x, cy: p.y, r: GEOM_DOT_R + 3,
-      fill: '#FFD700',
+      fill: 'none', stroke: '#FFD700', 'stroke-width': '3',
     }));
   }
 }
@@ -678,6 +678,27 @@ document.addEventListener('keydown', e => {
       updateStatus();
       render();
       return;
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+      e.preventDefault();
+      if (mode === 'DRAW' && routes) {
+        const geom = routes[currentJid].geometry;
+        if (!geom.length) return;
+        const lastIdx = geom.length - 1;
+        const isAnchored = routes[currentJid].anchors.some(
+          a => a.geom_idx === lastIdx
+        );
+        if (isAnchored && !confirm(`Point ${lastIdx} has an anchor. Remove it?`)) return;
+        if (isAnchored) {
+          routes[currentJid].anchors =
+              routes[currentJid].anchors.filter(a => a.geom_idx !== lastIdx);
+        }
+        geom.pop();
+        markDirty();
+        updateStatus();
+        render();
+      }
     }
   }
 
