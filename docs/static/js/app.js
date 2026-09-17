@@ -22,18 +22,16 @@ const FRODO_PAUSE = { start: '2024-07-29', end: '2024-08-23' };
 
 /* ── Data loading ────────────────────────────────────────────────────── */
 async function fetchData() {
-  const [walkingTxt, journeysJson, routesJson, eventsJson, chronologyJson] = await Promise.all([
+  const [walkingTxt, journeysJson, routesJson, chronologyJson] = await Promise.all([
     fetch('data/walking.csv').then(r => { if (!r.ok) throw r; return r.text(); }),
     fetch('data/journeys.json').then(r => r.json()),
     fetch('data/routes.json').then(r => r.json()),
-    fetch('data/events.json').then(r => r.json()),
     fetch('data/chronology.json').then(r => r.json()),
   ]);
   return {
     walking:    _parseCsv(walkingTxt),
     journeys:   journeysJson,
     routes:     routesJson,
-    events:     eventsJson,
     chronology: chronologyJson,
   };
 }
@@ -102,12 +100,6 @@ function buildSegmentsByJourney(journeys) {
     result[seg.journey_id].push(seg);
   }
   return result;
-}
-
-function buildEventLookup(events) {
-  const map = {};
-  for (const ev of events) map[ev.date] = ev;
-  return map;
 }
 
 /* ── ME Time pre-computation ─────────────────────────────────────────── */
@@ -406,13 +398,12 @@ const panZoom = new PanZoomController(
   document.getElementById('reset-view')
 );
 
-fetchData().then(({ walking, journeys, routes, events, chronology }) => {
+fetchData().then(({ walking, journeys, routes, chronology }) => {
 
   // ── My Time ───────────────────────────────────────────────────────
   const cumulativeByDate  = buildCumulativeByDate(walking);
   const journeyRanges     = buildJourneyRanges(journeys);
   const segmentsByJourney = buildSegmentsByJourney(journeys);
-  // events.json is no longer used for narrative display; chronology.json is the sole source
   const projectStart      = Object.values(journeyRanges).map(r => r.start).sort()[0];
   const projectEnd        = Object.values(journeyRanges).map(r => r.end).sort().pop();
   const myCalDates        = generateCalendarDates(projectStart, projectEnd);
