@@ -1,0 +1,73 @@
+journey_id,me_year,me_day,me_date,mile,location,confidence,notes
+Hobbit,2941,?,2941-04-25,0,Bag End,high,Gandalf visits Bilbo at Bag End
+Hobbit,2941,?,2941-04-26,0,Bag End,high,Wednesday. The Unexpected Party
+Hobbit,2941,?,2941-04-27,0,Bag End,high,Bilbo leaves Bag End; established in Unfinished Tales
+Hobbit,2941,?,2941-05-29,387,Trollshaws,estimated,Captured by Trolls
+Hobbit,2941,?,2941-06-04,491,Rivendell,estimated,Arrival in Rivendell
+Hobbit,2941,?,2941-06-05,491,Rivendell,estimated,Rest in Rivendell; same fictional mile
+Hobbit,2941,?,2941-07-01,491,Rivendell,high,Depart Rivendell; Midyear's Day (not July 1)
+Hobbit,2941,?,2941-07-19,559,Goblin-Town,estimated,Escape from Goblin-Town; Riddles in the Dark
+Hobbit,2941,?,2941-07-20,600,Eagle's Eyrie,estimated,Eagles rescue Thorin and company
+Hobbit,2941,?,2941-07-21,619,Beorn's Hall,estimated,Rest at Beorn's
+Hobbit,2941,?,2941-07-25,786,Mirkwood,estimated,Gandalf departs with ponies at edge of Mirkwood
+Hobbit,2941,?,2941-08-24,934,Elvenking's Halls,estimated,Captured by Wood-elves
+Hobbit,2941,?,2941-09-21,934,Elvenking's Halls,high,Escape in barrels
+Hobbit,2941,?,2941-09-22,951,Esgaroth,high,Established date in chronology
+Hobbit,2941,?,2941-10-09,951,Esgaroth,estimated,Departure from Esgaroth
+Hobbit,2941,?,2941-10-14,1050,Lonely Mountain,estimated,Erebor arrival
+Hobbit,2941,?,2941-10-19,1050,Lonely Mountain,estimated,Durin's Day
+Hobbit,2941,?,2941-10-30,1050,Lonely Mountain,estimated,Durin's Day
+Hobbit,2941,?,2941-11-01,1050,Erebor,estimated,Smaug sequence
+Hobbit,2941,?,2941-11-23,1100,Erebor,estimated,Battle of Five Armies
+Mordor,3018,?,3018-09-23,0,Bag End,high,Frodo leaves Bag End
+Mordor,3018,?,3018-09-25,65,Buckland / Bucklebury Ferry,high,Frodo reaches Bucklebury Ferry
+Mordor,3018,?,3018-09-29,145,Bree,high,Frodo reaches Bree
+Mordor,3018,?,3018-09-30,147,Prancing Pony,high,Frodo leaves Bree
+Mordor,3018,?,3018-10-03,195,Midgewater Marshes,estimated,See flashes from Weathertop
+Mordor,3018,?,3018-10-06,245,Weathertop,high,Frodo wounded at Weathertop
+Mordor,3018,?,3018-10-18,390,Stone Trolls,high,Frodo encounters Bilbo's Stone Trolls
+Mordor,3018,?,3018-10-20,465,Ford of Bruinen,high,Frodo crosses the Ford
+Mordor,3018,?,3018-10-20,487,Rivendell,high,Arrival at Rivendell
+Mordor,3018,?,3018-10-24,487,Rivendell,high,Frodo wakes in Rivendell
+Mordor,3018,?,3018-10-25,487,Rivendell,high,Council of Elrond
+Mordor,3018,?,3018-12-25,487,Rivendell,high,Company leaves Rivendell
+Mordor,3019,?,3019-01-08,719,Hollin Ridge,high,Fellowship reaches Hollin
+Mordor,3019,?,3019-01-11,777,Caradhras,high,Attempt to cross Caradhras
+Mordor,3019,?,3019-01-13,825,Doors of Durin,high,Fellowship reaches Moria entrance
+Mordor,3019,?,3019-01-14,851,21st Hall,high,Fellowship reaches Hall Twenty-one
+Mordor,3019,?,3019-01-15,852,Chamber of Mazarbul,high,Chamber of Mazarbul
+Mordor,3019,?,3019-01-15,862,Bridge of Khazad-dûm,high,Gandalf falls
+Mordor,3019,?,3019-01-17,952,Caras Galadhon,high,Fellowship reaches Caras Galadhon
+Mordor,3019,?,3019-01-18,952,Caras Galadhon,high,Rest in Lothlórien
+Mordor,3019,?,3019-02-14,952,Caras Galadhon,high,Frodo looks into the Mirror
+Mordor,3019,?,3019-02-15,952,Caras Galadhon,high,Final day in Lothlórien
+Mordor,3019,?,3019-02-16,962,Silverlode Hythe,high,Farewell to Lorien
+Mordor,3019,?,3019-02-25,1346,Argonath,high,Company passes the Argonath
+Mordor,3019,?,3019-02-26,1366,Parth Galen,high,Company reaches Parth Galen
+Mordor,3019,?,3019-02-26,1367,Amon Hen,high,Breaking of the Fellowship
+Mordor,3019,?,3019-02-29,1441,Emyn Muil,high,Frodo descends from Emyn Muil (remember February 30)
+Mordor,3019,?,3019-03-01,1476,Dead Marshes,high,Frodo and Sam enter Dead Marshes
+Mordor,3019,?,3019-03-05,1528,Black Gate,high,Frodo reaches Morannon
+Mordor,3019,?,3019-03-07,1567,Henneth Annûn,high,Frodo taken to Henneth Annûn
+Mordor,3019,?,3019-03-08,1567,Henneth Annûn,high,Frodo and Sam leave Henneth Annûn
+Mordor,3019,?,3019-03-10,1621,Minas Morgul,high,Dawnless Day
+Mordor,3019,?,3019-03-12,1640,Shelob's Lair,high,Shelob's Lair
+Mordor,3019,?,3019-03-13,1653,Tower of Cirith Ungol,high,Frodo captured
+Mordor,3019,?,3019-03-15,1654,Mordor,high,Sam rescues Frodo from the Tower
+Mordor,3019,?,3019-03-18,1730,Orc Encounter,high,Orc company encountered
+Mordor,3019,?,3019-03-19,1740,Escape from Orcs,high,Frodo and Sam escape
+Mordor,3019,?,3019-03-24,1812,Mount Doom,high,Frodo and Sam reach Mount Doom
+Mordor,3019,?,3019-03-25,1815,Crack of Doom,high,Gollum seizes the Ring and falls in the Cracks of Doom; downfall of Barad-dûr and passing of Sauron
+Return,3019,?,3019-02-26,0,Parth Galen,high,Aragorn begins the Return journey
+Return,3019,?,3019-02-27,69,East Emnet,estimated,Working route alignment
+Return,3019,?,3019-03-01,239,Fangorn Forest,high,Aragorn meets Gandalf the White
+Return,3019,?,3019-03-02,370,Edoras,high,Aragorn reaches Edoras
+Return,3019,?,3019-03-03,444,Helm's Deep,high,Battle of Helm's Deep
+Return,3019,?,3019-03-05,561,Isengard,high,Parlay with Saruman in Orthanc
+Return,3019,?,3019-03-07,757,Dunharrow,high,Aragorn reaches Dunharrow
+Return,3019,?,3019-03-08,772,Paths of the Dead,high,Aragorn takes the Paths of the Dead
+Return,3019,?,3019-03-13,1182,Pelargir,high,Aragorn reaches Pelargir and captures the fleet
+Return,3019,?,3019-03-15,1350,Minas Tirith,high,Aragorn arrives for Battle of Pelennor
+Return,3019,?,3019-03-18,1350,Minas Tirith,high,The Host of the West marches from Minas Tirith
+Return,3019,?,3019-03-24,1482,Black Gate,high,Aragorn reaches the Black Gate
+Return,3019,?,3019-03-25,1482,Black Gate,high,The Host is surrounded on the Slag-Hills; downfall of Barad-dûr and passing of Sauron
