@@ -38,7 +38,7 @@ async function fetchData() {
 }
 
 function _parseCsv(text) {
-  const lines   = text.trim().split('\n');
+  const lines   = text.trim().split(/\r?\n/);
   const headers = lines[0].split(',');
   return lines.slice(1).map(line => {
     const vals = line.split(',');
