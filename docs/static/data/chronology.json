@@ -8,87 +8,94 @@
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-05-28",
+    "me_date": "2941-05-29",
     "mile": 387,
     "location": "Trollshaws",
     "text": "The Company encounters three trolls in the Trollshaws."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-06-10",
+    "me_date": "2941-06-04",
     "mile": 491,
     "location": "Rivendell",
-    "text": "The Company arrives in Rivendell. Elrond reads the moon-letters."
+    "text": "The Company arrives in Rivendell."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-06-24",
+    "me_date": "2941-07-01",
     "mile": 491,
     "location": "Rivendell",
     "text": "The Company departs from Rivendell."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-07-02",
+    "me_date": "2941-07-19",
     "mile": 559,
     "location": "Goblin-Town",
-    "text": "Captured by Goblins in the High Pass. Bilbo finds the One Ring."
+    "text": "Escape from Goblin-Town. Bilbo finds the One Ring."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-07-04",
+    "me_date": "2941-07-20",
     "mile": 619,
     "location": "Beorn's Hall",
     "text": "Rescued by the Eagles. The Company reaches Beorn's Hall."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-07-18",
+    "me_date": "2941-07-25",
     "mile": 786,
     "location": "Mirkwood",
     "text": "The Company enters Mirkwood forest."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-09-22",
+    "me_date": "2941-08-24",
     "mile": 934,
     "location": "Elvenking's Halls",
-    "text": "Bilbo rescues the Dwarves from the Elvenking of Mirkwood."
+    "text": "Captured by Wood-elves."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-11-02",
+    "me_date": "2941-09-21",
     "mile": 934,
     "location": "Elvenking's Halls",
     "text": "The Company escapes in barrels down the Forest River."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-11-09",
+    "me_date": "2941-09-22",
     "mile": 951,
     "location": "Esgaroth",
     "text": "The Company arrives at Lake-town. The Master receives them."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-11-11",
+    "me_date": "2941-10-09",
     "mile": 951,
     "location": "Esgaroth",
     "text": "The Company departs Lake-town for the Lonely Mountain."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-11-25",
+    "me_date": "2941-10-14",
     "mile": 1050,
     "location": "Lonely Mountain",
-    "text": "The Company reaches the Lonely Mountain. Smaug is roused."
+    "text": "The Company reaches the Lonely Mountain."
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "2941-12-01",
+    "me_date": "2941-11-01",
     "mile": 1100,
     "location": "Erebor",
-    "text": "The Battle of Five Armies. Smaug is slain. The quest is complete."
+    "text": "Smaug is slain."
+  },
+  {
+    "journey_id": "Hobbit",
+    "me_date": "2941-11-23",
+    "mile": 1100,
+    "location": "Erebor",
+    "text": "The Battle of Five Armies."
   },
   {
     "journey_id": "Mordor",
@@ -99,7 +106,7 @@
   },
   {
     "journey_id": "Mordor",
-    "me_date": "3018-09-28",
+    "me_date": "3018-09-25",
     "mile": 65,
     "location": "Bucklebury Ferry",
     "text": "The hobbits cross the Bucklebury Ferry into Buckland."
@@ -130,7 +137,7 @@
     "me_date": "3018-10-25",
     "mile": 487,
     "location": "Rivendell",
-    "text": "Frodo arrives in Rivendell. The Council of Elrond is convened."
+    "text": "The Council of Elrond."
   },
   {
     "journey_id": "Mordor",
@@ -155,24 +162,17 @@
   },
   {
     "journey_id": "Mordor",
-    "me_date": "3019-01-17",
-    "mile": 915,
-    "location": "Lothlrien",
-    "text": "Gandalf falls on the Bridge of Khazad-dum. The Fellowship escapes into Lothlorien."
+    "me_date": "3019-01-15",
+    "mile": 862,
+    "location": "Bridge of Khazad-dûm",
+    "text": "Gandalf falls on the Bridge of Khazad-dûm. The Fellowship escapes into Lothlórien."
   },
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-16",
-    "mile": 915,
-    "location": "Lothlorien",
-    "text": "The Fellowship departs Lothlorien by boat down the Silverlode."
-  },
-  {
-    "journey_id": "Mordor",
-    "me_date": "3019-02-17",
-    "mile": 987,
-    "location": "Anduin",
-    "text": "The boats pass onto the Great River Anduin."
+    "mile": 962,
+    "location": "Lothlórien",
+    "text": "The Fellowship departs Lothlórien by boat down the Silverlode."
   },
   {
     "journey_id": "Mordor",
@@ -190,28 +190,28 @@
   },
   {
     "journey_id": "Mordor",
-    "me_date": "3019-03-05",
+    "me_date": "3019-02-29",
     "mile": 1441,
     "location": "Emyn Muil",
     "text": "Frodo and Sam encounter Gollum, who becomes their guide."
   },
   {
     "journey_id": "Mordor",
-    "me_date": "3019-03-12",
+    "me_date": "3019-03-05",
     "mile": 1528,
     "location": "Black Gate",
     "text": "Frodo looks upon the Black Gate and turns aside towards Cirith Ungol."
   },
   {
     "journey_id": "Mordor",
-    "me_date": "3019-03-13",
+    "me_date": "3019-03-07",
     "mile": 1567,
-    "location": "Henneth Annun",
-    "text": "Frodo and Sam are brought before Faramir at Henneth Annun."
+    "location": "Henneth Annûn",
+    "text": "Frodo and Sam are brought before Faramir at Henneth Annûn."
   },
   {
     "journey_id": "Mordor",
-    "me_date": "3019-03-18",
+    "me_date": "3019-03-13",
     "mile": 1640,
     "location": "Shelob's Lair",
     "text": "Frodo is stung by Shelob. Sam takes the Ring and presses on alone."
@@ -219,7 +219,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-24",
-    "mile": 1813,
+    "mile": 1812,
     "location": "Sammath Naur",
     "text": "Frodo and Sam reach the slopes of Mount Doom."
   },
@@ -239,21 +239,21 @@
   },
   {
     "journey_id": "Return",
-    "me_date": "3019-03-02",
+    "me_date": "3019-03-01",
     "mile": 239,
     "location": "Fangorn Forest",
     "text": "Aragorn meets Gandalf the White in Fangorn. The White Rider lives."
   },
   {
     "journey_id": "Return",
-    "me_date": "3019-03-03",
+    "me_date": "3019-03-02",
     "mile": 370,
     "location": "Edoras",
-    "text": "Gandalf releases Theoden from Saruman's spell. The king rides to war."
+    "text": "Gandalf releases Théoden from Saruman's spell. The king rides to war."
   },
   {
     "journey_id": "Return",
-    "me_date": "3019-03-04",
+    "me_date": "3019-03-03",
     "mile": 444,
     "location": "Helm's Deep",
     "text": "The Battle of the Hornburg. Aragorn holds the fortress until dawn."
@@ -263,13 +263,13 @@
     "me_date": "3019-03-05",
     "mile": 561,
     "location": "Isengard",
-    "text": "Victory at Isengard. The Ents have broken the walls. Saruman is overthrown."
+    "text": "Parlay with Saruman at Isengard."
   },
   {
     "journey_id": "Return",
-    "me_date": "3019-03-07",
-    "mile": 757,
-    "location": "Dunharrow",
+    "me_date": "3019-03-08",
+    "mile": 772,
+    "location": "Paths of the Dead",
     "text": "Aragorn takes the Paths of the Dead and summons the Dead Men of Dunharrow."
   },
   {
