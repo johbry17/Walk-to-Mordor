@@ -17,19 +17,20 @@ const JOURNEY_CONFIG = {
   Hobbit: { character: 'Bilbo',   title: 'The Hobbit',         color: '#5F8A5A', totalMiles: 1100 },
 };
 
-// My Time: intentional challenge pause between Mines of Moria and Eye of Sauron
 const FRODO_PAUSE = { start: '2024-07-29', end: '2024-08-23' };
 
 /* ── Data loading ────────────────────────────────────────────────────── */
 async function fetchData() {
-  const [walkingTxt, journeysJson, routesJson, chronologyJson] = await Promise.all([
+  const [walkingTxt, meTimeTxt, journeysJson, routesJson, chronologyJson] = await Promise.all([
     fetch('data/walking.csv').then(r => { if (!r.ok) throw r; return r.text(); }),
+    fetch('data/me_time.csv').then(r => { if (!r.ok) throw r; return r.text(); }),
     fetch('data/journeys.json').then(r => r.json()),
     fetch('data/routes.json').then(r => r.json()),
     fetch('data/chronology.json').then(r => r.json()),
   ]);
   return {
     walking:    _parseCsv(walkingTxt),
+    meTime:     _parseCsv(meTimeTxt),
     journeys:   journeysJson,
     routes:     routesJson,
     chronology: chronologyJson,
@@ -44,7 +45,7 @@ function _parseCsv(text) {
     const row  = {};
     headers.forEach((h, i) => {
       const v = vals[i] ?? '';
-      if (h === 'date' || h === 'journey_id' || h === 'character' || h === 'segment') {
+      if (h === 'date' || h === 'me_date' || h === 'journey_id' || h === 'character' || h === 'segment') {
         row[h] = v || null;
       } else {
         row[h] = v !== '' ? parseFloat(v) : null;
@@ -104,16 +105,102 @@ function buildSegmentsByJourney(journeys) {
 
 /* ── ME Time pre-computation ─────────────────────────────────────────── */
 
+/**
+ * Build the ME Time timeline from me_time.csv rows.
+ *
+ * Returns:
+ *   meOrdinals   — sorted unique numeric ordinals (the slider axis)
+ *   ordinalToMeDate — Map<ordinal, me_date string> for display
+ *   meTimeByOrdinalByJourney — Map<ordinal, Map<journey_id, cumulative_miles>>
+ *   meJourneyOrdinalRanges — { jid: { start: ordinal, end: ordinal } }
+ */
+function buildMETimeIndex(meTime) {
+  const ordinalSet         = new Set();
+  const ordinalToMeDate    = new Map();
+  // ordinal → { jid → cumMiles }
+  const byOrdinal          = new Map();
+
+  for (const row of meTime) {
+    const ord = row.me_ordinal;
+    if (ord === null || ord === undefined) continue;
+
+    ordinalSet.add(ord);
+
+    if (!ordinalToMeDate.has(ord)) {
+      ordinalToMeDate.set(ord, row.me_date);
+    }
+
+    if (!byOrdinal.has(ord)) byOrdinal.set(ord, {});
+    // Multiple journeys can share an ordinal — store each separately.
+    // If the same journey appears twice at same ordinal (shouldn't happen),
+    // take the later (higher miles) value.
+    const jid = row.journey_id;
+    const existing = byOrdinal.get(ord)[jid];
+    if (existing === undefined || row.cumulative_miles > existing) {
+      byOrdinal.get(ord)[jid] = row.cumulative_miles;
+    }
+  }
+
+  const meOrdinals = [...ordinalSet].sort((a, b) => a - b);
+
+  // Per-journey ordinal ranges (for mode filtering)
+  const meJourneyOrdinalRanges = {};
+  for (const jid of ['Mordor', 'Return', 'Hobbit']) {
+    const jidOrdinals = meTime
+      .filter(r => r.journey_id === jid && r.me_ordinal !== null)
+      .map(r => r.me_ordinal);
+    if (jidOrdinals.length) {
+      meJourneyOrdinalRanges[jid] = {
+        start: Math.min(...jidOrdinals),
+        end:   Math.max(...jidOrdinals),
+      };
+    }
+  }
+
+  return { meOrdinals, ordinalToMeDate, byOrdinal, meJourneyOrdinalRanges };
+}
+
 function buildChronologyByJourney(chronology) {
   const result = { Mordor: [], Return: [], Hobbit: [] };
   for (const entry of chronology) {
     if (result[entry.journey_id]) result[entry.journey_id].push(entry);
   }
-  for (const jid of Object.keys(result)) {
-    result[jid].sort((a, b) => a.me_date.localeCompare(b.me_date));
+  // Used by My Time: mileage-keyed narrative lookup.
+  return result;
+}
+
+/**
+ * Build an ordinal-keyed chronology index for ME Time narrative.
+ * meDateToOrdinal is derived from me_time.csv rows at startup.
+ *
+ * Returns { Mordor: [{ordinal, entry}, ...], Return: [...], Hobbit: [...] }
+ * sorted ascending by ordinal. When a journey has multiple events on the
+ * same day, keeps the highest-mile (most advanced) one.
+ *
+ * Limitation: only covers me_date strings present in me_time.csv.
+ * Gap-era events added to chronology.json in the future will need their
+ * ordinals tracked in the source data.
+ */
+function buildChronologyByOrdinal(chronology, meDateToOrdinal) {
+  const temp = { Mordor: new Map(), Return: new Map(), Hobbit: new Map() };
+  for (const entry of chronology) {
+    const ord = meDateToOrdinal.get(entry.me_date);
+    if (ord === undefined || !temp[entry.journey_id]) continue;
+    const existing = temp[entry.journey_id].get(ord);
+    if (!existing || entry.mile >= existing.mile) {
+      temp[entry.journey_id].set(ord, entry);
+    }
+  }
+  const result = {};
+  for (const jid of ['Mordor', 'Return', 'Hobbit']) {
+    result[jid] = [...temp[jid].entries()]
+      .sort(([a], [b]) => a - b)
+      .map(([ordinal, entry]) => ({ ordinal, entry }));
   }
   return result;
 }
+
+/* ── Narrative lookup ────────────────────────────────────────────────── */
 
 /**
  * Return the narrative text for the most recently passed story beat at cumMiles.
@@ -130,94 +217,143 @@ function buildChronologyByJourney(chronology) {
  * ME Time calls it with chronology-interpolated cumMiles.
  * Neither clock uses real-world dates to select narrative.
  */
+
 function getNarrativeForMileage(jid, cumMiles, chronologyByJourney) {
   const entries = chronologyByJourney[jid];
   if (!entries || !entries.length) return null;
   let best = null;
   for (const entry of entries) {
     if (entry.mile <= cumMiles && (!best || entry.mile > best.mile)) {
-      best = entry;  // prefer first entry when multiple share the same mile
+      best = entry;
     }
   }
   return best?.text ?? null;
 }
 
-// ME slider uses only the unique anchor dates — no day-by-day generation needed.
-function buildMESliderDates(chronologyByJourney) {
-  const all = Object.values(chronologyByJourney).flat().map(e => e.me_date);
-  return [...new Set(all)].sort();
-}
-
-function buildMEJourneyRanges(chronologyByJourney) {
-  const ranges = {};
-  for (const [jid, entries] of Object.entries(chronologyByJourney)) {
-    if (!entries.length) continue;
-    ranges[jid] = { start: entries[0].me_date, end: entries[entries.length - 1].me_date };
+/**
+ * ME Time narrative: most recently passed story beat at or before meOrdinal.
+ */
+function getNarrativeForOrdinal(jid, meOrdinal, chronologyByOrdinal) {
+  const beats = chronologyByOrdinal[jid];
+  if (!beats || !beats.length) return null;
+  let best = null;
+  for (const { ordinal, entry } of beats) {
+    if (ordinal <= meOrdinal) best = entry;
+    else break;
   }
-  return ranges;
+  return best?.text ?? null;
 }
 
 /* ── ME Time resolver ────────────────────────────────────────────────── */
 
-// Approximate integer day count for linear interpolation between ME dates.
-// Shire Calendar is close enough to Gregorian for interpolation purposes.
-function _meDateToInt(dateStr) {
-  const [y, m, d] = dateStr.split('-').map(Number);
-  return y * 365 + (m - 1) * 30 + d;
+/**
+ * Given the current ME ordinal and the pre-built index, resolve journey states.
+ *
+ * For each journey:
+ *   - Find the two me_time rows bracketing this ordinal.
+ *   - Interpolate cumulative miles linearly in ordinal space.
+ *   - If ordinal is before/after the journey's range, mark unstarted/completed.
+ *
+ * Returns { Mordor: {status, cumMiles}, Return: {...}, Hobbit: {...} }
+ */
+function buildMEJourneyStates(meOrdinal, byOrdinal, meOrdinals, meJourneyOrdinalRanges, routes) {
+  const js = {};
+
+  for (const jid of ['Mordor', 'Return', 'Hobbit']) {
+    const range = meJourneyOrdinalRanges[jid];
+
+    if (!range) {
+      js[jid] = { status: 'unstarted', cumMiles: 0, location: '' };
+      continue;
+    }
+
+    if (meOrdinal < range.start) {
+      const anchors = routes[jid]?.anchors || routes[jid] || [];
+      js[jid] = { status: 'unstarted', cumMiles: 0, location: anchors[0]?.location || '' };
+      continue;
+    }
+
+    if (meOrdinal >= range.end) {
+      // Find the miles at the last ordinal for this journey
+      const lastMiles = _getJourneyMilesAtOrdinal(jid, range.end, byOrdinal, meOrdinals);
+      const anchors   = routes[jid]?.anchors || routes[jid] || [];
+      const location  = getNearestLocation(anchors, lastMiles);
+      js[jid] = { status: 'completed', cumMiles: lastMiles, location };
+      continue;
+    }
+
+    // Active: interpolate between bracketing ordinals
+    const cumMiles = _interpolateMilesForJourney(jid, meOrdinal, byOrdinal, meOrdinals);
+
+    // Detect pause: two consecutive journey ordinals with same miles
+    const status = _detectPause(jid, meOrdinal, byOrdinal, meOrdinals) ? 'paused' : 'active';
+
+    const anchors  = routes[jid]?.anchors || routes[jid] || [];
+    const location = getNearestLocation(anchors, cumMiles);
+
+    js[jid] = { status, cumMiles, location };
+  }
+
+  return js;
 }
 
-/**
- * Given a sorted array of chronology entries for one journey and a ME date,
- * return { status, cumMiles, location?, text? }.
- *
- * Consecutive entries with the same mile value represent a rest stop —
- * no interpolation occurs and status is 'paused'.
- */
-function resolveChronologyForDate(jidEntries, meDate) {
-  if (!jidEntries || !jidEntries.length) {
-    return { status: 'unstarted', cumMiles: 0 };
+function _getJourneyMilesAtOrdinal(jid, ordinal, byOrdinal, meOrdinals) {
+  const entry = byOrdinal.get(ordinal);
+  if (entry && entry[jid] !== undefined) return entry[jid];
+  // Scan backwards for last known ordinal with this journey
+  const idx = meOrdinals.indexOf(ordinal);
+  for (let i = (idx >= 0 ? idx : meOrdinals.length) - 1; i >= 0; i--) {
+    const e = byOrdinal.get(meOrdinals[i]);
+    if (e && e[jid] !== undefined) return e[jid];
+  }
+  return 0;
+}
+
+function _interpolateMilesForJourney(jid, meOrdinal, byOrdinal, meOrdinals) {
+  // Find the journey-specific ordinals that bracket meOrdinal
+  const jidOrdinals = meOrdinals.filter(o => {
+    const e = byOrdinal.get(o);
+    return e && e[jid] !== undefined;
+  });
+
+  if (!jidOrdinals.length) return 0;
+  if (meOrdinal <= jidOrdinals[0]) return byOrdinal.get(jidOrdinals[0])[jid];
+  if (meOrdinal >= jidOrdinals[jidOrdinals.length - 1]) {
+    return byOrdinal.get(jidOrdinals[jidOrdinals.length - 1])[jid];
   }
 
-  const first = jidEntries[0];
-  const last  = jidEntries[jidEntries.length - 1];
-
-  if (meDate < first.me_date) {
-    return { status: 'unstarted', cumMiles: 0, location: first.location };
-  }
-  if (meDate >= last.me_date) {
-    return {
-      status:   'completed',
-      cumMiles: last.mile,
-      location: last.location,
-      text:     meDate === last.me_date ? last.text : null,
-    };
+  // Binary search for bracket
+  let lo = 0, hi = jidOrdinals.length - 1;
+  while (lo < hi - 1) {
+    const mid = (lo + hi) >> 1;
+    if (jidOrdinals[mid] <= meOrdinal) lo = mid; else hi = mid;
   }
 
-  for (let i = 0; i < jidEntries.length - 1; i++) {
-    const a = jidEntries[i], b = jidEntries[i + 1];
-    if (meDate >= a.me_date && meDate < b.me_date) {
-      const stopped = (a.mile === b.mile);
-      let cumMiles;
-      if (stopped) {
-        cumMiles = a.mile;
-      } else {
-        const da = _meDateToInt(a.me_date);
-        const db = _meDateToInt(b.me_date);
-        const t  = da === db ? 0 : (_meDateToInt(meDate) - da) / (db - da);
-        cumMiles = a.mile + t * (b.mile - a.mile);
-      }
-      const location = stopped ? a.location
-                     : (cumMiles - a.mile < b.mile - cumMiles ? a.location : b.location);
-      return {
-        status:   stopped ? 'paused' : 'active',
-        cumMiles,
-        location,
-        text: meDate === a.me_date ? a.text : null,
-      };
-    }
-  }
+  const ordA = jidOrdinals[lo];
+  const ordB = jidOrdinals[hi];
+  const milesA = byOrdinal.get(ordA)[jid];
+  const milesB = byOrdinal.get(ordB)[jid];
 
-  return { status: 'completed', cumMiles: last.mile, location: last.location };
+  if (ordA === ordB) return milesA;
+  const t = (meOrdinal - ordA) / (ordB - ordA);
+  return milesA + t * (milesB - milesA);
+}
+
+function _detectPause(jid, meOrdinal, byOrdinal, meOrdinals) {
+  const jidOrdinals = meOrdinals.filter(o => {
+    const e = byOrdinal.get(o);
+    return e && e[jid] !== undefined;
+  });
+
+  let lo = -1;
+  for (let i = 0; i < jidOrdinals.length - 1; i++) {
+    if (jidOrdinals[i] <= meOrdinal && meOrdinal < jidOrdinals[i + 1]) { lo = i; break; }
+  }
+  if (lo < 0) return false;
+
+  const milesA = byOrdinal.get(jidOrdinals[lo])[jid];
+  const milesB = byOrdinal.get(jidOrdinals[lo + 1])[jid];
+  return milesA === milesB;
 }
 
 /* ── Journey state builders ──────────────────────────────────────────── */
@@ -236,7 +372,6 @@ function computeJourneyState(jid, date, cumulativeByDate, journeyRanges, routes)
   }
 
   const cumMiles = cumulativeByDate[date]?.[jid] ?? 0;
-  // routes[jid] is now { geometry, anchors }; support legacy flat array too
   const anchors  = routes[jid]?.anchors || routes[jid];
   const location = (status !== 'unstarted' && cumMiles > 0)
     ? getNearestLocation(anchors, cumMiles)
@@ -253,49 +388,52 @@ function buildMyTimeJourneyStates(date, cumulativeByDate, journeyRanges, routes)
   return js;
 }
 
-function buildMEJourneyStates(meDate, chronologyByJourney, routes) {
-  const js = {};
-  for (const jid of ['Mordor', 'Return', 'Hobbit']) {
-    const result  = resolveChronologyForDate(chronologyByJourney[jid] || [], meDate);
-    const anchors = routes[jid]?.anchors || routes[jid] || [];
-    const loc     = result.location ||
-                    (result.cumMiles > 0 ? getNearestLocation(anchors, result.cumMiles) : anchors[0]?.location || '');
-    js[jid] = { ...result, location: loc };
-  }
-  return js;
-}
-
 /* ── Info panel ──────────────────────────────────────────────────────── */
 const fmt      = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 const fmtMiles = n => n >= 1 ? `${Math.round(n).toLocaleString()} mi` : `${n.toFixed(1)} mi`;
 
-const _ME_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-function _fmtMEDate(dateStr) {
-  if (!dateStr) return '—';
-  const [y, m, d] = dateStr.split('-').map(Number);
-  return `${_ME_MONTHS[m - 1]} ${d}, T.A. ${y}`;
+/**
+ * Format a ME date string for display. Does NOT parse it as a Gregorian date.
+ * Handles: "YYYY-MM-DD", "1 Lithe", "Midyear's Day", "Overlithe",
+ *          "2 Lithe", "Yule 1", "Yule 2".
+ */
+function _fmtMEDate(meDate) {
+  if (!meDate) return '—';
+  // Special named days — display as-is with year context stripped
+  if (!/^\d{4}-/.test(meDate)) return meDate;
+  const [y, m, d] = meDate.split('-').map(Number);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[m - 1]} ${d}, T.A. ${y}`;
 }
 
-function updateInfoPanel(clockMode, journeyMode, date, journeyStates, chronologyByJourney, segmentsByJourney) {
-  document.getElementById('info-date').textContent =
-    clockMode === 'ME' ? _fmtMEDate(date) : (date ? fmt.format(_parseDate(date)) : '—');
+function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, segmentsByJourney, ordinalToMeDate) {
+  // dateKey is a real date string (MY) or a me_ordinal number (ME)
+  let displayDate;
+  if (clockMode === 'ME') {
+    const meDate = typeof dateKey === 'number'
+      ? (ordinalToMeDate.get(dateKey) || null)
+      : dateKey;
+    displayDate = _fmtMEDate(meDate);
+  } else {
+    displayDate = dateKey ? fmt.format(_parseDate(dateKey)) : '—';
+  }
+  document.getElementById('info-date').textContent = displayDate;
 
-  // Pause detection
   const isPaused = clockMode === 'ME'
     ? Object.values(journeyStates).some(js => js?.status === 'paused')
-    : (date >= FRODO_PAUSE.start && date <= FRODO_PAUSE.end);
+    : (dateKey >= FRODO_PAUSE.start && dateKey <= FRODO_PAUSE.end);
   document.getElementById('pause-badge').hidden = !isPaused;
 
-  // Narrative: always from chronology, keyed by fictional mileage — never by real-world date.
-  // The same text appears regardless of which clock is active.
   const evEl      = document.getElementById('info-event');
   const activeJid = ['Mordor', 'Return', 'Hobbit'].find(
     j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
   ) || 'Mordor';
   const activeState = journeyStates[activeJid];
-  const evText = (activeState && activeState.status !== 'unstarted')
-    ? getNarrativeForMileage(activeJid, activeState.cumMiles, chronologyByJourney)
-    : null;
+  const evText = clockMode === 'ME'
+    ? getNarrativeForOrdinal(activeJid, dateKey, chronologyByOrdinal)
+    : ((activeState && activeState.status !== 'unstarted')
+        ? getNarrativeForMileage(activeJid, activeState.cumMiles, chronologyByJourney)
+        : null);
 
   if (evText) {
     evEl.textContent = evText;
@@ -306,7 +444,7 @@ function updateInfoPanel(clockMode, journeyMode, date, journeyStates, chronology
   }
 
   if (journeyMode === 'ALL') {
-    _updateAllTimePanel(date, journeyStates, segmentsByJourney);
+    _updateAllTimePanel(dateKey, journeyStates, segmentsByJourney);
   } else {
     _updateSinglePanel(clockMode, journeyMode, journeyStates, segmentsByJourney[journeyMode], isPaused);
   }
@@ -345,9 +483,8 @@ function _updateSinglePanel(clockMode, jid, journeyStates, segments, isPaused) {
   document.getElementById('info-miles').textContent =
     (js && js.status !== 'unstarted') ? `${fmtMiles(js.cumMiles)} walked` : '';
 
-  // Conqueror segment label is My Time-specific
   const statusLabel =
-    isPaused                   ? '⏸ Challenge paused'
+    isPaused                     ? '⏸ Challenge paused'
     : js?.status === 'completed' ? '✓ Complete'
     : (js?.status === 'active' && clockMode === 'MY') ? _segmentLabel(jid, js.cumMiles, { [jid]: segments })
     : '';
@@ -391,14 +528,13 @@ function _parseDate(dateStr) {
 
 document.body.classList.add('loading');
 
-// Pan/zoom is pure presentation — independent of journey/timeline state.
 const panZoom = new PanZoomController(
   document.getElementById('map-viewport'),
   document.getElementById('map-layer'),
   document.getElementById('reset-view')
 );
 
-fetchData().then(({ walking, journeys, routes, chronology }) => {
+fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
   // ── My Time ───────────────────────────────────────────────────────
   const cumulativeByDate  = buildCumulativeByDate(walking);
@@ -410,13 +546,23 @@ fetchData().then(({ walking, journeys, routes, chronology }) => {
 
   // ── ME Time ───────────────────────────────────────────────────────
   const chronologyByJourney = buildChronologyByJourney(chronology);
-  const meSliderDates       = buildMESliderDates(chronologyByJourney);
-  const meJourneyRanges     = buildMEJourneyRanges(chronologyByJourney);
+  const {
+    meOrdinals,
+    ordinalToMeDate,
+    byOrdinal,
+    meJourneyOrdinalRanges,
+  } = buildMETimeIndex(meTime);
+
+  const meDateToOrdinal = new Map();
+  for (const row of meTime) {
+    if (row.me_ordinal !== null && row.me_date) meDateToOrdinal.set(row.me_date, row.me_ordinal);
+  }
+  const chronologyByOrdinal = buildChronologyByOrdinal(chronology, meDateToOrdinal);
 
   // ── Map ───────────────────────────────────────────────────────────
   const mapCtrl = new MapController(document.getElementById('overlay'), routes);
 
-  // ── Timeline (starts in My Time) ──────────────────────────────────
+  // ── Timeline ──────────────────────────────────────────────────────
   const timeline = new TimelineController(
     myCalDates, journeyRanges, segmentsByJourney,
     document.getElementById('timeline'),
@@ -426,8 +572,8 @@ fetchData().then(({ walking, journeys, routes, chronology }) => {
   );
 
   // ── State ─────────────────────────────────────────────────────────
-  let currentMode = 'ALL';  // journey focus: ALL | Mordor | Return | Hobbit
-  let clockMode   = 'MY';   // MY | ME
+  let currentMode = 'ALL';
+  let clockMode   = 'MY';
 
   // ── Clock toggle ──────────────────────────────────────────────────
   document.querySelectorAll('.clock-btn').forEach(btn => {
@@ -442,9 +588,10 @@ fetchData().then(({ walking, journeys, routes, chronology }) => {
       });
 
       if (clockMode === 'ME') {
-        timeline.setCalendar(meSliderDates, meJourneyRanges, {});
+        // Pass numeric ordinals as the "dates" array; timeline treats them as opaque indices.
+        timeline.setCalendar(meOrdinals, meJourneyOrdinalRanges, {}, ordinalToMeDate);
       } else {
-        timeline.setCalendar(myCalDates, journeyRanges, segmentsByJourney);
+        timeline.setCalendar(myCalDates, journeyRanges, segmentsByJourney, null);
       }
     });
   });
@@ -498,17 +645,22 @@ fetchData().then(({ walking, journeys, routes, chronology }) => {
     playBtn.style.display = 'none';
   }
 
-  // ── Unified render function ───────────────────────────────────────
-  function onDateChange(_idx, date) {
-    if (!date) return;
+  // ── Unified render ────────────────────────────────────────────────
+  function onDateChange(_idx, dateKey) {
+    if (dateKey === null || dateKey === undefined) return;
 
-    // Both clocks produce the same journeyStates shape: { status, cumMiles, location }
-    const journeyStates = (clockMode === 'ME')
-      ? buildMEJourneyStates(date, chronologyByJourney, routes)
-      : buildMyTimeJourneyStates(date, cumulativeByDate, journeyRanges, routes);
+    let journeyStates;
+    if (clockMode === 'ME') {
+      // dateKey is a numeric ordinal
+      journeyStates = buildMEJourneyStates(
+        dateKey, byOrdinal, meOrdinals, meJourneyOrdinalRanges, routes
+      );
+    } else {
+      journeyStates = buildMyTimeJourneyStates(dateKey, cumulativeByDate, journeyRanges, routes);
+    }
 
     mapCtrl.update({ mode: currentMode, journeyStates });
-    updateInfoPanel(clockMode, currentMode, date, journeyStates, chronologyByJourney, segmentsByJourney);
+    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, segmentsByJourney, ordinalToMeDate);
   }
 
   timeline.onChange(onDateChange);
