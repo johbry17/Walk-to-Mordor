@@ -14,15 +14,13 @@ class TimelineController {
    * @param {HTMLElement}     ticksEl
    * @param {Map|null}        ordinalToMeDate  - if set, values are ME date strings for display
    */
-  constructor(allDates, journeyRanges, segmentsByJourney, sliderEl, startLabel, endLabel, ticksEl, ordinalToMeDate = null) {
-    this._allDates       = allDates;
-    this._ranges         = journeyRanges;
-    this._segments       = segmentsByJourney;
-    this._slider         = sliderEl;
-    this._startLbl       = startLabel;
-    this._endLbl         = endLabel;
-    this._ticksEl        = ticksEl;
-    this._ordinalToMeDate = ordinalToMeDate;  // null in MY mode
+  constructor(allDates, journeyRanges, sliderEl, startLabel, endLabel, ordinalToMeDate = null) {
+    this._allDates        = allDates;
+    this._ranges          = journeyRanges;
+    this._slider          = sliderEl;
+    this._startLbl        = startLabel;
+    this._endLbl          = endLabel;
+    this._ordinalToMeDate = ordinalToMeDate;
 
     this._mode     = 'ALL';
     this._dates    = allDates;
@@ -43,7 +41,6 @@ class TimelineController {
     });
 
     this._updateLabels();
-    this._drawTicks();
   }
 
   setMode(mode) {
@@ -58,24 +55,17 @@ class TimelineController {
     this._index        = 0;
 
     this._updateLabels();
-    this._drawTicks();
     this._emit();
 
     if (wasPlaying) this.play();
   }
 
-  /**
-   * Replace the full date/range/segment dataset.
-   * Called when switching clock modes.
-   * ordinalToMeDate is a Map<ordinal, me_date string> or null for My Time.
-   */
-  setCalendar(allDates, ranges, segmentsByJourney, ordinalToMeDate) {
+  setCalendar(allDates, ranges, ordinalToMeDate) {
     const wasPlaying = this._playing;
     if (wasPlaying) this.pause();
 
     this._allDates        = allDates;
     this._ranges          = ranges;
-    this._segments        = segmentsByJourney;
     this._ordinalToMeDate = ordinalToMeDate || null;
 
     this._dates = this._datesForMode(this._mode);
@@ -85,10 +75,27 @@ class TimelineController {
     this._slider.value = 0;
 
     this._updateLabels();
-    this._drawTicks();
     this._emit();
 
     if (wasPlaying) this.play();
+  }
+
+  /** Adjust playback speed. 1× = base (35 ms/step). */
+  setSpeed(multiplier) {
+    this._msPerDay = Math.max(10, Math.round(35 / multiplier));
+  }
+
+  /**
+   * Return {left, width} percentages for a date-range highlight on the slider.
+   * Returns null if either date is absent from the current _dates array.
+   */
+  getPauseHighlight(startDate, endDate) {
+    const total = this._dates.length - 1;
+    if (total <= 0) return null;
+    const s = this._dates.indexOf(startDate);
+    const e = this._dates.indexOf(endDate);
+    if (s < 0 || e < 0) return null;
+    return { left: (s / total) * 100, width: Math.max(0.5, ((e - s) / total) * 100) };
   }
 
   setIndex(i) {
@@ -156,49 +163,16 @@ class TimelineController {
     this._endLbl.textContent   = this._formatEntry(this._dates[this._dates.length - 1]);
   }
 
-  /**
-   * Format a single timeline entry for the start/end labels.
-   * MY mode: date string → "Mar 2024"
-   * ME mode: ordinal → look up me_date string → display it
-   */
   _formatEntry(entry) {
     if (this._ordinalToMeDate) {
-      // ME mode: entry is a numeric ordinal
       const meDate = this._ordinalToMeDate.get(entry);
       if (!meDate) return String(entry);
-      // Special named days
       if (!/^\d{4}-/.test(meDate)) return meDate;
       const [y, m] = meDate.split('-').map(Number);
       const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       return `${months[m - 1]} T.A. ${y}`;
     }
-    // MY mode: entry is a "YYYY-MM-DD" string
     return _fmtDateShort(entry);
-  }
-
-  _drawTicks() {
-    if (!this._ticksEl) return;
-    this._ticksEl.innerHTML = '';
-
-    // ME mode: no segment ticks (segments are My Time constructs)
-    if (this._ordinalToMeDate) return;
-
-    const segs = this._mode === 'ALL'
-      ? Object.values(this._segments).flat()
-      : (this._segments[this._mode] || []);
-
-    const total = this._dates.length - 1;
-    if (total <= 0) return;
-
-    for (const seg of segs) {
-      const startIdx = this._dates.indexOf(seg.start_date);
-      if (startIdx < 0) continue;
-      const pct  = (startIdx / total) * 100;
-      const tick = document.createElement('div');
-      tick.className  = 'tl-tick';
-      tick.style.left = `${pct}%`;
-      this._ticksEl.appendChild(tick);
-    }
   }
 }
 

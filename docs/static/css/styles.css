@@ -234,7 +234,7 @@ body {
   color: var(--text-muted);
 }
 
-.info-location {
+.info-place {
   font-size: 20px;
   font-weight: 600;
   color: var(--text-bright);
@@ -305,67 +305,46 @@ body {
 #fill-Return { background: var(--aragorn); }
 #fill-Hobbit { background: var(--bilbo); }
 
-/* Pause badge */
+/* Pause badge — centred near the top of the map area */
 .pause-badge {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 10;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
   background: rgba(139, 94, 60, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid var(--pause);
   border-radius: var(--radius);
-  padding: 6px 12px;
+  padding: 5px 12px;
   font-size: 11px;
   color: #E8C49A;
   letter-spacing: 0.05em;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
-/* Reset view button */
-.reset-view {
+/* ── Map controls (zoom + reset) ────────────────────────────── */
+.map-controls {
   position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 10;
-  display: none;
-  background: var(--bg-overlay);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text-muted);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: color var(--transition), border-color var(--transition);
-}
-.reset-view.visible { display: block; }
-.reset-view:hover   { border-color: var(--gold); color: var(--text); }
-.reset-view:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-
-/* ── Zoom controls ──────────────────────────────────────────────────── */
-.zoom-controls {
-  position: absolute;
+  top: 10px;
   right: 10px;
-  bottom: 52px;
   z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.zoom-btn {
-  width: 34px;
-  height: 34px;
+.map-ctrl-btn {
+  width: 32px;
+  height: 32px;
   background: var(--bg-overlay);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text-muted);
-  font-size: 20px;
+  font-size: 17px;
   line-height: 1;
   font-family: var(--font);
   cursor: pointer;
@@ -374,20 +353,73 @@ body {
   justify-content: center;
   transition: color var(--transition), border-color var(--transition);
 }
-.zoom-btn:hover { border-color: var(--gold); color: var(--text); }
-.zoom-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.map-ctrl-btn:hover { border-color: var(--gold); color: var(--text); }
+.map-ctrl-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* Reset button hides until the view is non-default */
+#reset-view { display: none; }
+#reset-view.visible { display: flex; }
 
 /* ── Timeline bar ──────────────────────────────────────────────────── */
 .timeline-bar {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
+  gap: 8px;
+  padding: 8px 16px;
   border-top: 1px solid var(--border);
-  /* background: rgba(10, 8, 5, 0.8); */
   flex-shrink: 0;
   height: 48px;
 }
+
+/* ── Prev / Next nav buttons ───────────────────────────────── */
+.tl-nav-btn {
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1;
+  font-family: var(--font);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color var(--transition), border-color var(--transition);
+}
+.tl-nav-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--text); }
+.tl-nav-btn:disabled { opacity: 0.3; cursor: default; }
+.tl-nav-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ── Speed control ───────────────────────────────────────────── */
+.tl-speed {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.speed-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 10px;
+  padding: 2px 5px;
+  cursor: pointer;
+  font-family: var(--font);
+  letter-spacing: 0.02em;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+.speed-btn:hover { color: var(--text); border-color: var(--border); }
+.speed-btn.active,
+.speed-btn[aria-pressed="true"] {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(212, 168, 83, 0.08);
+}
+.speed-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 .tl-label {
   font-size: 11px;
@@ -445,20 +477,24 @@ body {
   border-radius: 2px;
 }
 
-/* Segment tick marks */
+/* Segment tick marks (empty — no longer drawn) */
 .tl-ticks {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
 }
-.tl-tick {
+
+/* Frodo My Time pause visual */
+.tl-pause-range {
   position: absolute;
   top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 1px;
-  height: 8px;
-  background: rgba(255,255,255,0.15);
+  transform: translateY(-50%);
+  height: 6px;
+  background: rgba(139, 94, 60, 0.35);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 3;
 }
 
 /* ── SVG route styles ───────────────────────────────────────────────── */
@@ -519,7 +555,7 @@ body {
 
 /* ─── Narrow phones (portrait and most landscape) ───────────────────── */
 @media (max-width: 640px) {
-  /* Header: two-row layout — mode buttons take full width, clock+play below */
+  /* Header: two-row layout */
   .site-header {
     flex-wrap: wrap;
     height: auto;
@@ -531,39 +567,37 @@ body {
   .mode-nav     { flex: 0 0 100%; gap: 3px; }
   .mode-btn     { padding: 5px 9px; font-size: 11px; letter-spacing: 0.03em; }
   .clock-toggle { margin-left: 0; }
-  .play-btn     { margin-left: auto; width: 30px; height: 30px; }
+  /* Group prev/play/next/speed together to the right */
+  .tl-nav-btn   { margin-left: 0; }
+  #tl-prev      { margin-left: auto; }
+  .play-btn     { margin-left: 4px; width: 28px; height: 28px; }
+  .tl-speed     { margin-left: 6px; }
 
-  /* Info panel — bottom overlay, leaves right margin for controls */
+  /* Info panel — bottom overlay; map controls no longer on right side */
   .info-panel {
     top: auto;
     bottom: 8px;
     left: 8px;
-    right: 52px;
+    right: 8px;
     max-width: none;
     min-width: 0;
     padding: 10px 12px;
-    gap: 7px;
-    max-height: 200px;
+    gap: 6px;
+    max-height: 40%;
     overflow-y: auto;
   }
-  .info-location { font-size: 17px; }
-  .info-event    { font-size: 12px; }
-  .journey-rows  { display: none; }
+  .info-place  { font-size: 15px; }
+  .journey-rows { display: none; }
 
-  /* Zoom controls — vertically centred on portrait */
-  .zoom-controls {
-    bottom: auto;
-    top: 50%;
-    right: 8px;
-    transform: translateY(-50%);
-  }
+  /* Map viewport shrinks to leave room for info panel */
+  .map-viewport { bottom: 120px; }
 
-  /* Timeline — slider on top row, start/end dates on bottom row */
+  /* Timeline — slider on top row, labels + controls on bottom row */
   .timeline-bar {
     flex-wrap: wrap;
     height: auto;
-    padding: 6px 12px;
-    gap: 0;
+    padding: 6px 10px;
+    gap: 2px;
   }
   .tl-slider-wrap {
     order: -1;
@@ -579,20 +613,20 @@ body {
   .tl-label:first-child { text-align: left; }
   .tl-label:last-child  { text-align: right; }
 
-  /* Larger thumb for comfortable touch */
+  /* Larger thumb for touch */
   .timeline-slider::-webkit-slider-thumb { width: 20px; height: 20px; }
   .timeline-slider::-moz-range-thumb     { width: 20px; height: 20px; }
 }
 
 /* ─── Landscape phones (short viewport — overrides portrait-only styles) ── */
 @media (max-height: 480px) {
-  .site-header  { height: 36px; padding: 0 10px; gap: 10px; flex-wrap: nowrap; }
+  .site-header  { height: 36px; padding: 0 10px; gap: 8px; flex-wrap: nowrap; }
   .title-sub    { display: none; }
   .mode-btn     { padding: 3px 8px; font-size: 10.5px; }
 
   /* Info panel — stays top-left in landscape, compact */
   .info-panel {
-    top: 8px;
+    top: 48px;     /* below map-controls */
     left: 8px;
     right: auto;
     bottom: auto;
@@ -601,20 +635,14 @@ body {
     overflow-y: visible;
     padding: 8px 10px;
     gap: 6px;
-    transform: none;
   }
-  .info-location { font-size: 15px; }
+  .info-place { font-size: 14px; }
 
-  /* Zoom controls — standard bottom-right position */
-  .zoom-controls {
-    bottom: 52px;
-    right: 8px;
-    top: auto;
-    transform: none;
-  }
+  /* Restore map viewport in landscape */
+  .map-viewport { bottom: 0; }
 
   /* Compact timeline */
-  .timeline-bar   { height: 36px; padding: 8px 10px; flex-wrap: nowrap; }
+  .timeline-bar   { height: 36px; padding: 6px 10px; flex-wrap: nowrap; }
   .tl-slider-wrap { order: 0; flex: 1; margin-bottom: 0; }
   .tl-label       { display: block; font-size: 10px; width: 60px; }
   .tl-label:first-child { text-align: left; }

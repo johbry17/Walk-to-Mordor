@@ -28,10 +28,20 @@
       <button class="clock-btn"        data-clock="ME" aria-pressed="false">Middle-earth</button>
     </div>
 
+    <button id="tl-prev" class="tl-nav-btn" aria-label="Previous step" title="Previous (←)" disabled>‹</button>
+
     <button id="play-btn" class="play-btn" aria-label="Play journey">
       <svg class="icon-play"  viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
       <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
     </button>
+
+    <button id="tl-next" class="tl-nav-btn" aria-label="Next step" title="Next (→)">›</button>
+
+    <div class="tl-speed" role="group" aria-label="Playback speed">
+      <button class="speed-btn" data-speed="0.5" aria-pressed="false" aria-label="Half speed">½×</button>
+      <button class="speed-btn active" data-speed="1" aria-pressed="true" aria-label="Normal speed">1×</button>
+      <button class="speed-btn" data-speed="2" aria-pressed="false" aria-label="Double speed">2×</button>
+    </div>
   </header>
 
   <!-- ── Main area (map + info panel) ─────────────────────────────── -->
@@ -41,15 +51,9 @@
     <aside class="info-panel" aria-live="polite" aria-label="Journey information">
       <div class="info-date" id="info-date">—</div>
 
-      <div class="info-location" id="info-location">Loading…</div>
+      <div id="info-body"></div>
 
-      <div class="info-miles" id="info-miles"></div>
-
-      <div class="info-journey" id="info-journey"></div>
-
-      <div class="info-event" id="info-event" hidden></div>
-
-      <!-- Journey status rows (ALL TIME mode) -->
+      <!-- Journey status rows (ALL TIME mode, desktop only) -->
       <div class="journey-rows" id="journey-rows">
         <div class="journey-row" data-journey="Mordor">
           <span class="jr-dot" style="background:#C17F40"></span>
@@ -74,15 +78,14 @@
 
     <!-- Pause badge and reset: outside the transformable layer so they stay fixed -->
     <div class="pause-badge" id="pause-badge" hidden>
-      <span>⏸ Pause for a Month</span><br>Lament for Gandalf
+      <span>⏸ Month-Long Pause</span><br>to Lament for Gandalf
     </div>
 
-    <button class="reset-view" id="reset-view" aria-label="Reset map view" title="Reset view (or double-click map)">&#8857;</button>
-
-    <!-- Zoom controls -->
-    <div class="zoom-controls" role="group" aria-label="Map zoom">
-      <button class="zoom-btn" id="zoom-in"  aria-label="Zoom in"  title="Zoom in (+)">+</button>
-      <button class="zoom-btn" id="zoom-out" aria-label="Zoom out" title="Zoom out (−)">−</button>
+    <!-- Floating map controls: zoom + reset, top-right -->
+    <div class="map-controls" role="group" aria-label="Map controls">
+      <button class="map-ctrl-btn" id="zoom-in"   aria-label="Zoom in"       title="Zoom in">+</button>
+      <button class="map-ctrl-btn" id="zoom-out"  aria-label="Zoom out"      title="Zoom out">−</button>
+      <button class="map-ctrl-btn" id="reset-view" aria-label="Reset map view" title="Reset view (double-click map)">&#8857;</button>
     </div>
 
     <!-- Viewport clips; layer transforms for zoom/pan -->
@@ -114,8 +117,8 @@
              class="timeline-slider"
              min="0" max="100" value="0" step="1"
              aria-label="Timeline position">
-      <!-- Segment marker ticks drawn by timeline.js -->
-      <div class="tl-ticks" id="tl-ticks" aria-hidden="true"></div>
+      <!-- Frodo My Time pause visual -->
+      <div class="tl-pause-range" id="tl-pause-range" aria-hidden="true" hidden></div>
     </div>
 
     <span class="tl-label" id="tl-end" aria-hidden="true">—</span>

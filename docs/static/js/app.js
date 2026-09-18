@@ -94,15 +94,6 @@ function buildJourneyRanges(journeys) {
   return ranges;
 }
 
-function buildSegmentsByJourney(journeys) {
-  const result = {};
-  for (const seg of journeys) {
-    if (!result[seg.journey_id]) result[seg.journey_id] = [];
-    result[seg.journey_id].push(seg);
-  }
-  return result;
-}
-
 /* ── ME Time pre-computation ─────────────────────────────────────────── */
 
 /**
@@ -364,7 +355,7 @@ function computeJourneyState(jid, date, cumulativeByDate, journeyRanges, routes)
 
   let status;
   if      (date < range.start) status = 'unstarted';
-  else if (date > range.end)   status = 'completed';
+  else if (date >= range.end)   status = 'completed';
   else                         status = 'active';
 
   if (jid === 'Mordor' && date >= FRODO_PAUSE.start && date <= FRODO_PAUSE.end) {
@@ -407,7 +398,7 @@ function _fmtMEDate(meDate) {
 }
 
 function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, ordinalToMeDate) {
-  // dateKey is a real date string (MY) or a me_ordinal number (ME)
+  // Date display
   let displayDate;
   if (clockMode === 'ME') {
     const meDate = typeof dateKey === 'number'
@@ -419,77 +410,87 @@ function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, chronol
   }
   document.getElementById('info-date').textContent = displayDate;
 
-  const isPaused = clockMode === 'ME'
-    ? Object.values(journeyStates).some(js => js?.status === 'paused')
-    : (dateKey >= FRODO_PAUSE.start && dateKey <= FRODO_PAUSE.end);
-  document.getElementById('pause-badge').hidden = !isPaused;
+  // Pause badge — only for the specific My Time Frodo walking hiatus
+  const isFrodoPause = clockMode === 'MY'
+    && dateKey >= FRODO_PAUSE.start
+    && dateKey <= FRODO_PAUSE.end;
+  document.getElementById('pause-badge').hidden = !isFrodoPause;
 
-  const evEl      = document.getElementById('info-event');
-  const activeJid = ['Mordor', 'Return', 'Hobbit'].find(
-    j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
-  ) || 'Mordor';
-  const activeState = journeyStates[activeJid];
-  const evText = clockMode === 'ME'
-    ? getNarrativeForOrdinal(activeJid, dateKey, chronologyByOrdinal)
-    : ((activeState && activeState.status !== 'unstarted')
-        ? getNarrativeForMileage(activeJid, activeState.cumMiles, chronologyByJourney)
-        : null);
-
-  if (evText) {
-    evEl.textContent = evText;
-    evEl.hidden      = false;
-    evEl.className   = 'info-event';
-  } else {
-    evEl.hidden = true;
+  // Narrative resolver — only for active or paused journeys, not completed
+  function getNarrative(jid, js) {
+    if (!js || js.status === 'unstarted') return null;
+    return clockMode === 'ME'
+      ? getNarrativeForOrdinal(jid, dateKey, chronologyByOrdinal)
+      : getNarrativeForMileage(jid, js.cumMiles, chronologyByJourney);
   }
 
   if (journeyMode === 'ALL') {
-    _updateAllTimePanel(journeyStates);
+    _updateAllTimePanel(clockMode, journeyStates, getNarrative);
   } else {
-    _updateSinglePanel(clockMode, journeyMode, journeyStates, isPaused);
+    _updateSinglePanel(clockMode, journeyMode, journeyStates, isFrodoPause, getNarrative);
   }
 }
 
-function _updateAllTimePanel(journeyStates) {
-  const activeJid = ['Mordor', 'Return', 'Hobbit'].find(
-    j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
-  ) || 'Mordor';
-  const js  = journeyStates[activeJid];
-  const cfg = JOURNEY_CONFIG[activeJid];
+function _buildInfoBlock(jid, js, cfg, narrative, showWhoFirst, statusLabel) {
+  const location  = js?.location ?? '';
+  const hasMiles  = (js?.cumMiles ?? 0) > 0;
+  const milesText = hasMiles ? fmtMiles(js.cumMiles) : '';
+  const suffix = statusLabel ? ` · <span class="info-status" style="color:${cfg.color}">${statusLabel}</span>` : '';
 
-  if (js && js.status !== 'unstarted') {
-    document.getElementById('info-location').textContent = js.location || '—';
-    document.getElementById('info-miles').textContent    = `${fmtMiles(js.cumMiles)} walked`;
-    document.getElementById('info-journey').innerHTML    = `<strong>${cfg.character}</strong>`;
+  let html = `<div class="info-block" data-jid="${jid}">`;
+  if (showWhoFirst) {
+    html += `<div class="info-who info-who--header"><span style="color:${cfg.color}">${cfg.character}</span> · ${milesText}${suffix}</div>`;
+    if (location) html += `<div class="info-place">${location}</div>`;
   } else {
-    document.getElementById('info-location').textContent = 'The Shire';
-    document.getElementById('info-miles').textContent    = '';
-    document.getElementById('info-journey').innerHTML    = '';
+    if (location) html += `<div class="info-place">${location}</div>`;
+    html += `<div class="info-who info-who--header"><span style="color:${cfg.color}">${cfg.character}</span> · ${milesText}${suffix}</div>`;
   }
+  if (narrative) html += `<div class="info-event">${narrative}</div>`;
+  html += '</div>';
+  return html;
+}
+
+function _updateAllTimePanel(clockMode, journeyStates, getNarrative) {
+  const activeJids = ['Mordor', 'Return', 'Hobbit'].filter(
+    j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
+  );
+
+  const infoBody = document.getElementById('info-body');
+
+  if (activeJids.length === 0) {
+    infoBody.innerHTML = '<p class="info-gap">Between journeys</p>';
+    _renderProgressBars(journeyStates, null);
+    return;
+  }
+
+  // Show one block per active journey (ME Time may have concurrent journeys)
+  const multi = clockMode === 'ME' && activeJids.length > 1;
+  infoBody.innerHTML = activeJids.map(jid => {
+    const js  = journeyStates[jid];
+    const cfg = JOURNEY_CONFIG[jid];
+    return _buildInfoBlock(jid, js, cfg, getNarrative(jid, js), multi, '');
+  }).join('');
 
   _renderProgressBars(journeyStates, null);
 }
 
-function _updateSinglePanel(clockMode, jid, journeyStates, isPaused) {
+function _updateSinglePanel(clockMode, jid, journeyStates, isFrodoPause, getNarrative) {
   const js  = journeyStates[jid];
   const cfg = JOURNEY_CONFIG[jid];
+  const infoBody = document.getElementById('info-body');
 
-  document.getElementById('info-location').textContent =
-    (!js || js.status === 'unstarted')
-      ? `${cfg.character}'s journey hasn't started yet`
-      : js.location || '—';
-
-  document.getElementById('info-miles').textContent =
-    (js && js.status !== 'unstarted') ? `${fmtMiles(js.cumMiles)} walked` : '';
+  if (!js || js.status === 'unstarted') {
+    infoBody.innerHTML = `<p class="info-gap">${cfg.character}'s journey hasn't started yet</p>`;
+    _renderProgressBars(journeyStates, jid);
+    return;
+  }
 
   const statusLabel =
-    isPaused                     ? '⏸ Challenge paused'
-    : js?.status === 'completed' ? '✓ Complete'
+    isFrodoPause             ? '⏸ Challenge paused'
+    : js.status === 'completed' ? '✓ Complete'
     : '';
 
-  document.getElementById('info-journey').innerHTML =
-    `<strong>${cfg.character}</strong>${cfg.title}<br>${statusLabel}`;
-
+  infoBody.innerHTML = _buildInfoBlock(jid, js, cfg, getNarrative(jid, js), false, statusLabel);
   _renderProgressBars(journeyStates, jid);
 }
 
@@ -530,7 +531,7 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
   // ── My Time ───────────────────────────────────────────────────────
   const cumulativeByDate  = buildCumulativeByDate(walking);
   const journeyRanges     = buildJourneyRanges(journeys);
-  const segmentsByJourney = buildSegmentsByJourney(journeys);
+
   const projectStart      = Object.values(journeyRanges).map(r => r.start).sort()[0];
   const projectEnd        = Object.values(journeyRanges).map(r => r.end).sort().pop();
   const myCalDates        = generateCalendarDates(projectStart, projectEnd);
@@ -555,11 +556,10 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
   // ── Timeline ──────────────────────────────────────────────────────
   const timeline = new TimelineController(
-    myCalDates, journeyRanges, segmentsByJourney,
+    myCalDates, journeyRanges,
     document.getElementById('timeline'),
     document.getElementById('tl-start'),
-    document.getElementById('tl-end'),
-    document.getElementById('tl-ticks')
+    document.getElementById('tl-end')
   );
 
   // ── State ─────────────────────────────────────────────────────────
@@ -579,11 +579,12 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
       });
 
       if (clockMode === 'ME') {
-        // Pass numeric ordinals as the "dates" array; timeline treats them as opaque indices.
-        timeline.setCalendar(meOrdinals, meJourneyOrdinalRanges, {}, ordinalToMeDate);
+        timeline.setCalendar(meOrdinals, meJourneyOrdinalRanges, ordinalToMeDate);
       } else {
-        timeline.setCalendar(myCalDates, journeyRanges, segmentsByJourney, null);
+        timeline.setCalendar(myCalDates, journeyRanges, null);
       }
+      _updatePauseRange();
+      _updateNavButtons();
     });
   });
 
@@ -599,6 +600,8 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
         b.tabIndex = b.dataset.mode === mode ? 0 : -1;
       });
       timeline.setMode(mode);
+      _updatePauseRange();
+      _updateNavButtons();
     });
 
     btn.addEventListener('keydown', e => {
@@ -609,7 +612,7 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     });
   });
 
-  // ── Play button ───────────────────────────────────────────────────
+  // ── Play / Prev / Next ────────────────────────────────────────────
   const playBtn = document.getElementById('play-btn');
 
   function syncPlayBtn() {
@@ -624,6 +627,40 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
   const _origPause = timeline.pause.bind(timeline);
   timeline.pause = function () { _origPause(); syncPlayBtn(); };
+
+  document.getElementById('tl-prev').addEventListener('click', () => timeline.setIndex(timeline.index - 1));
+  document.getElementById('tl-next').addEventListener('click', () => timeline.setIndex(timeline.index + 1));
+
+  function _updateNavButtons() {
+    const prevBtn = document.getElementById('tl-prev');
+    const nextBtn = document.getElementById('tl-next');
+    if (prevBtn) prevBtn.disabled = timeline.index === 0;
+    if (nextBtn) nextBtn.disabled = timeline.index === timeline.maxIndex;
+  }
+
+  // ── Speed control ─────────────────────────────────────────────────
+  document.querySelectorAll('.speed-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mult = parseFloat(btn.dataset.speed);
+      timeline.setSpeed(mult);
+      document.querySelectorAll('.speed-btn').forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+    });
+  });
+
+  // ── Pause range highlight on timeline ────────────────────────────
+  function _updatePauseRange() {
+    const el = document.getElementById('tl-pause-range');
+    if (!el) return;
+    if (clockMode !== 'MY') { el.hidden = true; return; }
+    const pos = timeline.getPauseHighlight(FRODO_PAUSE.start, FRODO_PAUSE.end);
+    if (!pos) { el.hidden = true; return; }
+    el.style.left  = `${pos.left}%`;
+    el.style.width = `${pos.width}%`;
+    el.hidden = false;
+  }
 
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT') return;
@@ -642,7 +679,6 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
     let journeyStates;
     if (clockMode === 'ME') {
-      // dateKey is a numeric ordinal
       journeyStates = buildMEJourneyStates(
         dateKey, byOrdinal, meOrdinals, meJourneyOrdinalRanges, routes
       );
@@ -652,11 +688,13 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
     mapCtrl.update({ mode: currentMode, journeyStates });
     updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, ordinalToMeDate);
+    _updateNavButtons();
   }
 
   timeline.onChange(onDateChange);
 
   document.body.classList.remove('loading');
+  _updatePauseRange();
   onDateChange(0, myCalDates[0]);
 
 }).catch(err => {
