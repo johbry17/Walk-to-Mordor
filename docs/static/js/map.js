@@ -137,12 +137,12 @@ class MapController {
 
       const ghost = _svgEl('path', {
         class: 'route-ghost', d, stroke: color,
-        'stroke-width': '4', 'stroke-opacity': '0.15', fill: 'none',
+        'stroke-width': '7', 'stroke-opacity': '0.15', fill: 'none',
       });
 
       const active = _svgEl('path', {
         class: 'route-active', d, stroke: color,
-        'stroke-width': '5', fill: 'none',
+        'stroke-width': '10', fill: 'none',
       });
 
       // Apply dasharray synchronously from pre-computed geometry — no rAF needed.
@@ -153,14 +153,14 @@ class MapController {
       }
 
       const pulse = _svgEl('circle', {
-        class: 'marker-pulse', cx: '0', cy: '0', r: '14', fill: color,
+        class: 'marker-pulse', cx: '0', cy: '0', r: '18', fill: color,
       });
       const ring = _svgEl('circle', {
-        class: 'marker-ring', cx: '0', cy: '0', r: '22',
+        class: 'marker-ring', cx: '0', cy: '0', r: '28',
         stroke: color, fill: 'none', 'stroke-width': '2', opacity: '0.4',
       });
       const core = _svgEl('circle', {
-        class: 'marker-core', cx: '0', cy: '0', r: '12',
+        class: 'marker-core', cx: '0', cy: '0', r: '16',
         fill: '#D4A853', stroke: '#13110D', 'stroke-width': '3',
       });
 
@@ -239,13 +239,13 @@ class MapController {
     ring.style.display  = (!isOther && status === 'active') ? '' : 'none';
 
     if (isOther) {
-      core.setAttribute('r', '8');
+      core.setAttribute('r', '10');
       core.style.opacity = '0.4';
     } else if (status === 'completed') {
-      core.setAttribute('r', '11');
+      core.setAttribute('r', '14');
       core.style.opacity = '0.7';
     } else {
-      core.setAttribute('r', '13');
+      core.setAttribute('r', '16');
       core.style.opacity = '1';
     }
   }
