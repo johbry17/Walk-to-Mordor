@@ -176,6 +176,7 @@ body {
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: none;  /* pointer events own all map gestures */
 }
 
 .map-viewport.dragging {
@@ -344,6 +345,38 @@ body {
 .reset-view:hover   { border-color: var(--gold); color: var(--text); }
 .reset-view:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
+/* ── Zoom controls ──────────────────────────────────────────────────── */
+.zoom-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 52px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zoom-btn {
+  width: 34px;
+  height: 34px;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 20px;
+  line-height: 1;
+  font-family: var(--font);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition), border-color var(--transition);
+}
+.zoom-btn:hover { border-color: var(--gold); color: var(--text); }
+.zoom-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
 /* ── Timeline bar ──────────────────────────────────────────────────── */
 .timeline-bar {
   display: flex;
@@ -478,25 +511,114 @@ body {
 }
 
 /* ── Responsive ─────────────────────────────────────────────────────── */
+
+/* Dynamic viewport height where supported (avoids mobile browser chrome issues) */
+@supports (height: 100dvh) {
+  html, body { height: 100dvh; }
+}
+
+/* ─── Narrow phones (portrait and most landscape) ───────────────────── */
 @media (max-width: 640px) {
-  .title-sub { display: none; }
+  /* Header: two-row layout — mode buttons take full width, clock+play below */
+  .site-header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 5px 10px;
+    gap: 4px;
+    align-items: center;
+  }
+  .header-title { display: none; }
+  .mode-nav     { flex: 0 0 100%; gap: 3px; }
+  .mode-btn     { padding: 5px 9px; font-size: 11px; letter-spacing: 0.03em; }
+  .clock-toggle { margin-left: 0; }
+  .play-btn     { margin-left: auto; width: 30px; height: 30px; }
 
-  .mode-btn { padding: 4px 8px; font-size: 11px; }
+  /* Info panel — bottom overlay, leaves right margin for controls */
+  .info-panel {
+    top: auto;
+    bottom: 8px;
+    left: 8px;
+    right: 52px;
+    max-width: none;
+    min-width: 0;
+    padding: 10px 12px;
+    gap: 7px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .info-location { font-size: 17px; }
+  .info-event    { font-size: 12px; }
+  .journey-rows  { display: none; }
 
+  /* Zoom controls — vertically centred on portrait */
+  .zoom-controls {
+    bottom: auto;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+  }
+
+  /* Timeline — slider on top row, start/end dates on bottom row */
+  .timeline-bar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 6px 12px;
+    gap: 0;
+  }
+  .tl-slider-wrap {
+    order: -1;
+    flex: 1 1 100%;
+    margin-bottom: 2px;
+  }
+  .tl-label {
+    display: block;
+    width: auto;
+    flex: 1;
+    font-size: 10px;
+  }
+  .tl-label:first-child { text-align: left; }
+  .tl-label:last-child  { text-align: right; }
+
+  /* Larger thumb for comfortable touch */
+  .timeline-slider::-webkit-slider-thumb { width: 20px; height: 20px; }
+  .timeline-slider::-moz-range-thumb     { width: 20px; height: 20px; }
+}
+
+/* ─── Landscape phones (short viewport — overrides portrait-only styles) ── */
+@media (max-height: 480px) {
+  .site-header  { height: 36px; padding: 0 10px; gap: 10px; flex-wrap: nowrap; }
+  .title-sub    { display: none; }
+  .mode-btn     { padding: 3px 8px; font-size: 10.5px; }
+
+  /* Info panel — stays top-left in landscape, compact */
   .info-panel {
     top: 8px;
     left: 8px;
-    padding: 10px 12px;
-    max-width: 160px;
-    gap: 7px;
+    right: auto;
+    bottom: auto;
+    max-width: 190px;
+    max-height: none;
+    overflow-y: visible;
+    padding: 8px 10px;
+    gap: 6px;
+    transform: none;
+  }
+  .info-location { font-size: 15px; }
+
+  /* Zoom controls — standard bottom-right position */
+  .zoom-controls {
+    bottom: 52px;
+    right: 8px;
+    top: auto;
+    transform: none;
   }
 
-  .info-location { font-size: 16px; }
-  .journey-rows  { display: none; } /* Progress bars */
-
-  .timeline-bar { padding: 8px 12px; }
-  .tl-label:first-child { display: none; }
-  .tl-label:last-child  { display: none; }
+  /* Compact timeline */
+  .timeline-bar   { height: 36px; padding: 8px 10px; flex-wrap: nowrap; }
+  .tl-slider-wrap { order: 0; flex: 1; margin-bottom: 0; }
+  .tl-label       { display: block; font-size: 10px; width: 60px; }
+  .tl-label:first-child { text-align: left; }
+  .tl-label:last-child  { text-align: right; }
 }
 
 /* ── Loading state ───────────────────────────────────────────────────── */

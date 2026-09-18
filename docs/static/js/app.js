@@ -406,7 +406,7 @@ function _fmtMEDate(meDate) {
   return `${months[m - 1]} ${d}, T.A. ${y}`;
 }
 
-function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, segmentsByJourney, ordinalToMeDate) {
+function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, ordinalToMeDate) {
   // dateKey is a real date string (MY) or a me_ordinal number (ME)
   let displayDate;
   if (clockMode === 'ME') {
@@ -444,13 +444,13 @@ function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, chronol
   }
 
   if (journeyMode === 'ALL') {
-    _updateAllTimePanel(dateKey, journeyStates, segmentsByJourney);
+    _updateAllTimePanel(journeyStates);
   } else {
-    _updateSinglePanel(clockMode, journeyMode, journeyStates, segmentsByJourney[journeyMode], isPaused);
+    _updateSinglePanel(clockMode, journeyMode, journeyStates, isPaused);
   }
 }
 
-function _updateAllTimePanel(date, journeyStates, segmentsByJourney) {
+function _updateAllTimePanel(journeyStates) {
   const activeJid = ['Mordor', 'Return', 'Hobbit'].find(
     j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
   ) || 'Mordor';
@@ -460,8 +460,7 @@ function _updateAllTimePanel(date, journeyStates, segmentsByJourney) {
   if (js && js.status !== 'unstarted') {
     document.getElementById('info-location').textContent = js.location || '—';
     document.getElementById('info-miles').textContent    = `${fmtMiles(js.cumMiles)} walked`;
-    document.getElementById('info-journey').innerHTML    =
-      `<strong>${cfg.character}</strong>${_segmentLabel(activeJid, js.cumMiles, segmentsByJourney)}`;
+    document.getElementById('info-journey').innerHTML    = `<strong>${cfg.character}</strong>`;
   } else {
     document.getElementById('info-location').textContent = 'The Shire';
     document.getElementById('info-miles').textContent    = '';
@@ -471,7 +470,7 @@ function _updateAllTimePanel(date, journeyStates, segmentsByJourney) {
   _renderProgressBars(journeyStates, null);
 }
 
-function _updateSinglePanel(clockMode, jid, journeyStates, segments, isPaused) {
+function _updateSinglePanel(clockMode, jid, journeyStates, isPaused) {
   const js  = journeyStates[jid];
   const cfg = JOURNEY_CONFIG[jid];
 
@@ -486,7 +485,6 @@ function _updateSinglePanel(clockMode, jid, journeyStates, segments, isPaused) {
   const statusLabel =
     isPaused                     ? '⏸ Challenge paused'
     : js?.status === 'completed' ? '✓ Complete'
-    : (js?.status === 'active' && clockMode === 'MY') ? _segmentLabel(jid, js.cumMiles, { [jid]: segments })
     : '';
 
   document.getElementById('info-journey').innerHTML =
@@ -509,16 +507,6 @@ function _renderProgressBars(journeyStates, activeOnly) {
   }
 }
 
-function _segmentLabel(jid, cumMiles, segmentsByJourney) {
-  const segs = segmentsByJourney?.[jid];
-  if (!segs || segs.length === 0) return '';
-  for (const s of segs) {
-    if (cumMiles >= s.cum_miles_start && cumMiles <= s.cum_miles_end) return `<br>${s.segment}`;
-  }
-  if (cumMiles > segs[segs.length - 1].cum_miles_end) return `<br>${segs[segs.length - 1].segment}`;
-  return '';
-}
-
 function _parseDate(dateStr) {
   const [y, m, d] = dateStr.split('-').map(Number);
   return new Date(y, m - 1, d);
@@ -533,6 +521,9 @@ const panZoom = new PanZoomController(
   document.getElementById('map-layer'),
   document.getElementById('reset-view')
 );
+
+document.getElementById('zoom-in').addEventListener('click',  () => panZoom.zoom(1.5));
+document.getElementById('zoom-out').addEventListener('click', () => panZoom.zoom(1 / 1.5));
 
 fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
@@ -660,7 +651,7 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     }
 
     mapCtrl.update({ mode: currentMode, journeyStates });
-    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, segmentsByJourney, ordinalToMeDate);
+    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, chronologyByJourney, chronologyByOrdinal, ordinalToMeDate);
   }
 
   timeline.onChange(onDateChange);
