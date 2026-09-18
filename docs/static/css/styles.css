@@ -546,6 +546,87 @@ body {
   .marker-pulse { animation: none; display: none; }
 }
 
+/* ── Site footer ───────────────────────────────────────────────────── */
+
+.site-footer {
+  flex: 0 0 auto;
+
+  min-height: 32px;
+  padding: 7px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  background: rgba(15, 12, 8, 0.94);
+  border-top: 1px solid var(--border);
+
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.footer-tagline {
+  color: var(--text);
+  font-style: italic;
+}
+
+.footer-owner {
+  white-space: nowrap;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 120ms;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  color: var(--text-bright);
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .site-footer {
+    min-height: 28px;
+    padding: 6px 10px;
+    gap: 10px;
+    font-size: 9px;
+  }
+
+  .footer-tagline {
+    display: none;
+  }
+
+  .footer-links {
+    gap: 9px;
+  }
+  /* .site-footer {
+    flex-direction: column;
+    gap: 2px;
+    padding: 5px 10px;
+    height: auto;
+    min-height: 38px;
+  }
+
+  .footer-tagline {
+    display: block;
+    font-size: 9px;
+  }
+
+  .footer-owner,
+  .footer-links {
+    font-size: 9px;
+  } */
+}
+
 /* ── Responsive ─────────────────────────────────────────────────────── */
 
 /* Dynamic viewport height where supported (avoids mobile browser chrome issues) */

@@ -124,6 +124,52 @@
     <span class="tl-label" id="tl-end" aria-hidden="true">—</span>
   </footer>
 
+  <!-- Site footer -->
+  <footer class="site-footer" role="contentinfo">
+    <span class="footer-tagline">Fluent in Data. Fluent in Human.</span>
+
+    <span class="footer-owner">
+      &copy; <span id="copyright-year">2026</span>
+      Bryan C. Johns
+    </span>
+
+    <nav class="footer-links" aria-label="External links">
+      <a
+        href="https://informedwanderer.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="portfolio-link"
+      >
+        Portfolio
+      </a>
+
+      <a
+        href="https://www.linkedin.com/in/b-johns/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="linkedin-link"
+      >
+        LinkedIn
+      </a>
+
+      <a
+        href="https://github.com/johbry17/walk-to-mordor"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="github-link"
+      >
+        GitHub
+      </a>
+    </nav>
+  </footer>
+
+  <script>
+    const yearElement = document.getElementById('copyright-year');
+    if (yearElement) {
+      yearElement.textContent = new Date().getFullYear();
+    }
+  </script>
+
   <script src="js/timeline.js"></script>
   <script src="js/map.js"></script>
   <script src="js/pan-zoom.js"></script>
