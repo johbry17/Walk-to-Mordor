@@ -504,7 +504,7 @@ function _fmtMEDate(meDate) {
   return `${months[m - 1]} ${d}, T.A. ${y}`;
 }
 
-function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry) {
+function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd) {
   // Date display
   let displayDate;
   if (clockMode === 'ME') {
@@ -524,7 +524,7 @@ function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinal
   document.getElementById('pause-badge').hidden = !isFrodoPause;
 
   if (journeyMode === 'ALL') {
-    _updateAllTimePanel(clockMode, journeyStates, globalChronEntry);
+    _updateAllTimePanel(clockMode, journeyStates, globalChronEntry, isTimelineEnd);
   } else {
     _updateSinglePanel(journeyMode, journeyStates, isFrodoPause);
   }
@@ -555,12 +555,29 @@ function _buildInfoBlock(jid, js, cfg, showWhoFirst, statusLabel) {
   return html;
 }
 
-function _updateAllTimePanel(clockMode, journeyStates, globalChronEntry) {
+function _updateAllTimePanel(clockMode, journeyStates, globalChronEntry, isTimelineEnd) {
   const activeJids = ['Mordor', 'Return', 'Hobbit'].filter(
     j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
   );
 
   const infoBody = document.getElementById('info-body');
+
+  // At the end of the full timeline, show the journeys that constitute
+  // the ending of that clock rather than "Between journeys".
+  if (isTimelineEnd) {
+    const terminalJids = clockMode === 'ME'
+      ? ['Mordor', 'Return']
+      : ['Hobbit'];
+
+    infoBody.innerHTML = terminalJids.map(jid => {
+      const js  = journeyStates[jid];
+      const cfg = JOURNEY_CONFIG[jid];
+      return _buildInfoBlock(jid, js, cfg, true, '✓ Complete');
+    }).join('');
+
+    _renderProgressBars(journeyStates, null);
+    return;
+  }
 
   if (activeJids.length === 0) {
     // During the historical gap (and between My Time journeys), show the most
@@ -863,7 +880,8 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     }
 
     mapCtrl.update({ mode: currentMode, journeyStates });
-    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry);
+    const isTimelineEnd = timeline.index === timeline.maxIndex;
+    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd);
     _updateNavButtons();
   }
 
