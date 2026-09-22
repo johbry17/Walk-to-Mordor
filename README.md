@@ -4,7 +4,7 @@
 
 An interactive data-storytelling project that maps real-world walking data onto three fictional journeys through Middle-earth: Bilbo's adventure in *The Hobbit*, Frodo's arduous trek to Mordor, and Aragorn's path to *The Return of the King*.
 
-🔗 [Live Visualization](https://johbry17.github.io/walk-to-mordor/)
+🔗 [Live Visualization](https://johbry17.github.io/Walk-to-Mordor/)
 
 I completed all three as virtual walking challenges through [The Conqueror](https://www.theconqueror.events/), logging steps with Google Fit from March 2024 through June 2026. The visualization turns that walking history into something you can explore — advancing through real-world dates, or advancing through Tolkien's.
 
