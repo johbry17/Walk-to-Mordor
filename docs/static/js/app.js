@@ -17,7 +17,15 @@ const JOURNEY_CONFIG = {
   Hobbit: { character: 'Bilbo',   title: 'The Hobbit',         color: '#5F8A5A', totalMiles: 1100 },
 };
 
-const FRODO_PAUSE = { start: '2024-07-29', end: '2024-08-23' };
+const FRODO_PAUSE          = { start: '2024-07-29', end: '2024-08-23' };
+const FRODO_ARAGORN_BREAK  = { start: '2025-01-09', end: '2025-01-13' };
+const ARAGORN_BILBO_BREAK  = { start: '2025-08-27', end: '2026-01-19' };
+
+// ME Time rest breaks — ordinal pairs [startOrd, endOrd] from me_time.csv
+const ME_BREAK_ORDINALS = {
+  Hobbit: [[154, 184], [237, 264], [265, 285]],  // Rivendell, Wood-elves, Esgaroth
+  Mordor: [[28417, 28482], [28506, 28535]],       // Rivendell, Lothlórien
+};
 
 /* ── Data loading ────────────────────────────────────────────────────── */
 async function fetchData() {
@@ -522,6 +530,15 @@ function _parseDate(dateStr) {
 
 document.body.classList.add('loading');
 
+// ── Welcome modal — opens on every visit, no persistent state ─────────
+(function () {
+  const dlg = document.getElementById('welcome-dialog');
+  if (dlg?.showModal) {
+    dlg.showModal();
+    dlg.addEventListener('click', () => dlg.close());
+  }
+}());
+
 const panZoom = new PanZoomController(
   document.getElementById('map-viewport'),
   document.getElementById('map-layer'),
@@ -655,16 +672,42 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     });
   });
 
-  // ── Pause range highlight on timeline ────────────────────────────
+  // ── Pause/break range highlights on timeline ─────────────────────
   function _updatePauseRange() {
-    const el = document.getElementById('tl-pause-range');
-    if (!el) return;
-    if (clockMode !== 'MY') { el.hidden = true; return; }
-    const pos = timeline.getPauseHighlight(FRODO_PAUSE.start, FRODO_PAUSE.end);
-    if (!pos) { el.hidden = true; return; }
-    el.style.left  = `${pos.left}%`;
-    el.style.width = `${pos.width}%`;
-    el.hidden = false;
+    const wrap = document.querySelector('.tl-slider-wrap');
+    if (!wrap) return;
+
+    // Remove all existing break indicators, then recreate for current state
+    wrap.querySelectorAll('.tl-pause-range').forEach(el => el.remove());
+
+    function addBreak(startKey, endKey) {
+      const pos = timeline.getPauseHighlight(startKey, endKey);
+      if (!pos) return;
+      const el = document.createElement('div');
+      el.className = 'tl-pause-range';
+      el.setAttribute('aria-hidden', 'true');
+      el.style.left  = `${pos.left}%`;
+      el.style.width = `${pos.width}%`;
+      wrap.appendChild(el);
+    }
+
+    if (clockMode === 'MY') {
+      if (currentMode === 'ALL' || currentMode === 'Mordor') {
+        addBreak(FRODO_PAUSE.start, FRODO_PAUSE.end);
+      }
+      if (currentMode === 'ALL') {
+        addBreak(FRODO_ARAGORN_BREAK.start, FRODO_ARAGORN_BREAK.end);
+        addBreak(ARAGORN_BILBO_BREAK.start,  ARAGORN_BILBO_BREAK.end);
+      }
+    } else {
+      // ME Time: ordinals passed directly to getPauseHighlight
+      const jidsToBreak = currentMode === 'ALL' ? Object.keys(ME_BREAK_ORDINALS) : [currentMode];
+      for (const jid of jidsToBreak) {
+        for (const [startOrd, endOrd] of (ME_BREAK_ORDINALS[jid] || [])) {
+          addBreak(startOrd, endOrd);
+        }
+      }
+    }
   }
 
   document.addEventListener('keydown', e => {

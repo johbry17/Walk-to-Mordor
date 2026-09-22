@@ -117,8 +117,6 @@
              class="timeline-slider"
              min="0" max="100" value="0" step="1"
              aria-label="Timeline position">
-      <!-- Frodo My Time pause visual -->
-      <div class="tl-pause-range" id="tl-pause-range" aria-hidden="true" hidden></div>
     </div>
 
     <span class="tl-label" id="tl-end" aria-hidden="true">—</span>
@@ -169,6 +167,20 @@
       yearElement.textContent = new Date().getFullYear();
     }
   </script>
+
+  <!-- Welcome modal — opens on every visit -->
+  <dialog id="welcome-dialog" class="welcome-dialog">
+    <div class="welcome-content">
+      <h1 class="welcome-title">The Walk to Mordor</h1>
+      <p class="welcome-subtitle">The Return of the King</p>
+      <p class="welcome-subtitle">There and Back Again</p>
+      <p class="welcome-characters">Frodo. Aragorn. Bilbo.</p>
+      <p class="welcome-tagline">One hobbit nerd&#8217;s real journey through fictional time.</p>
+      <p class="welcome-stat">Two Journeys. Three walks. 4,400 miles.</p>
+      <p class="welcome-aside">(That&#8217;s the length of the Silk Road.)</p>
+      <p class="welcome-cta">Tap anywhere to continue</p>
+    </div>
+  </dialog>
 
   <script src="js/timeline.js"></script>
   <script src="js/map.js"></script>
