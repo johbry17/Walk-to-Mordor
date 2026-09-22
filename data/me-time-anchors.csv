@@ -1,7 +1,7 @@
 journey_id,me_year,me_day,me_date,mile,location,confidence,notes
 Hobbit,2941,?,2941-04-25,0,Bag End,high,Gandalf visits Bilbo at Bag End
 Hobbit,2941,?,2941-04-26,0,Bag End,high,Wednesday. The Unexpected Party
-Hobbit,2941,?,2941-04-27,0,Bag End,high,Bilbo leaves Bag End; established in Unfinished Tales
+Hobbit,2941,?,2941-04-27,10,Bag End,high,Bilbo leaves Bag End; established in Unfinished Tales
 Hobbit,2941,?,2941-05-29,387,Trollshaws,estimated,Captured by Trolls
 Hobbit,2941,?,2941-06-04,491,Rivendell,estimated,Arrival in Rivendell
 Hobbit,2941,?,2941-06-05,491,Rivendell,estimated,Rest in Rivendell; same fictional mile
@@ -20,7 +20,7 @@ Hobbit,2941,?,2941-10-19,1050,Lonely Mountain,estimated,Durin's Day
 Hobbit,2941,?,2941-10-30,1050,Lonely Mountain,estimated,Durin's Day
 Hobbit,2941,?,2941-11-01,1050,Erebor,estimated,Smaug sequence
 Hobbit,2941,?,2941-11-23,1100,Erebor,estimated,Battle of Five Armies
-Mordor,3018,?,3018-09-23,0,Bag End,high,Frodo leaves Bag End
+Mordor,3018,?,3018-09-23,18,Bag End,high,Frodo leaves Bag End
 Mordor,3018,?,3018-09-25,65,Buckland / Bucklebury Ferry,high,Frodo reaches Bucklebury Ferry
 Mordor,3018,?,3018-09-29,145,Bree,high,Frodo reaches Bree
 Mordor,3018,?,3018-09-30,147,Prancing Pony,high,Frodo leaves Bree
@@ -59,7 +59,7 @@ Mordor,3019,?,3019-03-18,1730,Orc Encounter,high,Orc company encountered
 Mordor,3019,?,3019-03-19,1740,Escape from Orcs,high,Frodo and Sam escape
 Mordor,3019,?,3019-03-24,1812,Mount Doom,high,Frodo and Sam reach Mount Doom
 Mordor,3019,?,3019-03-25,1815,Crack of Doom,high,Gollum seizes the Ring and falls in the Cracks of Doom; downfall of Barad-dûr and passing of Sauron
-Return,3019,?,3019-02-26,0,Parth Galen,high,Aragorn begins the Return journey
+Return,3019,?,3019-02-26,27,Parth Galen,high,Aragorn begins the Return journey
 Return,3019,?,3019-02-27,69,East Emnet,estimated,Working route alignment
 Return,3019,?,3019-03-01,239,Fangorn Forest,high,Aragorn meets Gandalf the White
 Return,3019,?,3019-03-02,370,Edoras,high,Aragorn reaches Edoras
