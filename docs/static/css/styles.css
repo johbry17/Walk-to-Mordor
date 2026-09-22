@@ -415,7 +415,7 @@ body {
 #fill-Return { background: var(--aragorn); }
 #fill-Hobbit { background: var(--bilbo); }
 
-/* Pause badge — centred near the top of the map area */
+/* Pause badges — centred near the top of the map area */
 .pause-badge {
   position: absolute;
   top: 10px;
@@ -432,6 +432,39 @@ body {
   letter-spacing: 0.05em;
   white-space: nowrap;
   pointer-events: none;
+}
+
+/* Timeline state badges */
+.timeline-badge {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid;
+  border-radius: var(--radius);
+  padding: 5px 12px;
+
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.timeline-badge--between {
+  background: rgba(110, 99, 85, 0.82);
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.timeline-badge--gap {
+  background: rgba(74, 124, 142, 0.82);
+  border-color: var(--aragorn);
+  color: var(--text-bright);
 }
 
 /* ── Map controls (zoom + reset) ────────────────────────────── */

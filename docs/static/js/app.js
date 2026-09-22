@@ -24,8 +24,8 @@ const ARAGORN_BILBO_BREAK  = { start: '2025-08-27', end: '2026-01-19' };
 // ME Time rest/break ranges — ordinal pairs [startOrd, endOrd] from me_time.csv
 const ME_BREAK_ORDINALS = {
   Hobbit: [[154, 184], [237, 264], [265, 285]],  // Rivendell, Wood-elves, Esgaroth
-  null: [[326, 28390]],  // Historical gap before LOTR-era chronology
-  Mordor: [[28417, 28482], [28506, 28535]],       // Rivendell, Lothlórien
+  Gap: [[326, 28390]],                           // Historical gap before LOTR-era chronology
+  Mordor: [[28417, 28482], [28506, 28535]],      // Rivendell, Lothlórien
 };
 
 /* ── Middle-earth Calendar Ordinal Calculator ────────────────────────
@@ -518,12 +518,33 @@ function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinal
   }
   document.getElementById('info-date').textContent = displayDate;
 
-  // Pause badge — only for the specific My Time Frodo walking hiatus
+  // Timeline state badges
   const isFrodoPause = clockMode === 'MY'
     && dateKey >= FRODO_PAUSE.start
     && dateKey <= FRODO_PAUSE.end;
-  document.getElementById('pause-badge').hidden = !isFrodoPause;
 
+  const isBetweenJourneys =
+    clockMode === 'MY'
+    && journeyMode === 'ALL'
+    && !isTimelineEnd
+    && !Object.values(journeyStates).some(
+      js => js?.status === 'active' || js?.status === 'paused'
+    );
+
+  const isMEGap =
+    clockMode === 'ME'
+    && journeyMode === 'ALL'
+    && !isTimelineEnd
+    && globalChronEntry
+    && !Object.values(journeyStates).some(
+      js => js?.status === 'active' || js?.status === 'paused'
+    );
+
+  document.getElementById('pause-badge').hidden   = !isFrodoPause;
+  document.getElementById('between-badge').hidden = !isBetweenJourneys;
+  document.getElementById('gap-badge').hidden     = !isMEGap;
+
+  // Update the info panel based on the current journey mode
   if (journeyMode === 'ALL') {
     _updateAllTimePanel(clockMode, journeyStates, globalChronEntry, isTimelineEnd);
   } else {
