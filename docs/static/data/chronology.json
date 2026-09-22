@@ -2,6 +2,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-04-25",
+    "date_precision": "day",
     "mile": 0,
     "location": "Bag End",
     "text": "Gandalf visits Bilbo at Bag End."
@@ -9,6 +10,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-04-26",
+    "date_precision": "day",
     "mile": 0,
     "location": "Bag End",
     "text": "The Unexpected Party."
@@ -16,6 +18,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-04-27",
+    "date_precision": "day",
     "mile": 0,
     "location": "Bag End",
     "text": "The Unexpected Party. Bilbo sets out from Bag End with Thorin and Company."
@@ -23,6 +26,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-05-29",
+    "date_precision": "day",
     "mile": 387,
     "location": "Trollshaws",
     "text": "Roast Mutton. The Company is almost eaten by three trolls."
@@ -30,6 +34,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-06-04",
+    "date_precision": "day",
     "mile": 491,
     "location": "Rivendell",
     "text": "The Company arrives in Rivendell."
@@ -37,6 +42,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-06-05",
+    "date_precision": "day",
     "mile": 491,
     "location": "Rivendell",
     "text": "A Short Rest. The Company in Rivendell. O! Tra-la-la-lally"
@@ -44,6 +50,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "1 Lithe",
+    "date_precision": "day",
     "mile": 491,
     "location": "Rivendell",
     "text": "Midsummer's Eve. Elrond discovers the moon-letters on Thror's map."
@@ -51,6 +58,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "Midyear's Day",
+    "date_precision": "day",
     "mile": 491,
     "location": "Rivendell",
     "text": "The Company departs Rivendell, a day after Elrond fortuitously discovers the moon-letters on Thror's map."
@@ -58,6 +66,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-07-16",
+    "date_precision": "day",
     "mile": 545,
     "location": "The High Pass",
     "text": "Over Hill and Under Hill. Captured by Goblins during the night."
@@ -65,6 +74,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-07-18",
+    "date_precision": "day",
     "mile": 559,
     "location": "Goblin-Town",
     "text": "Gandalf kills the Great Goblin; the Dwarves escape. Riddles in the Dark. Bilbo finds the One Ring, meets Gollum, and escapes."
@@ -72,6 +82,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-07-19",
+    "date_precision": "day",
     "mile": 600,
     "location": "Eagle's Eyrie",
     "text": "Out of the Frying-Pan, Into the Fire. Surrounded by wolves and rescued by the Eagles."
@@ -79,6 +90,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-07-20",
+    "date_precision": "day",
     "mile": 619,
     "location": "Beorn's Hall",
     "text": "Fly to the Carrock and reach Beorn's in midafternoon. Queer Lodgings."
@@ -86,6 +98,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-07-22",
+    "date_precision": "day",
     "mile": 630,
     "location": "Wilderland",
     "text": "Beorn lends the Company ponies for the journey to Mirkwood."
@@ -93,6 +106,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-07-25",
+    "date_precision": "day",
     "mile": 786,
     "location": "Mirkwood",
     "text": "Gandalf departs with ponies at the forest gate. The Company enters Mirkwood."
@@ -100,6 +114,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-08-16",
+    "date_precision": "day",
     "mile": 883,
     "location": "Mirkwood",
     "text": "They cross the Enchanted River. Bombur falls into a trance."
@@ -107,6 +122,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-08-22",
+    "date_precision": "day",
     "mile": 920,
     "location": "Mirkwood",
     "text": "They leave the path at night."
@@ -114,6 +130,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-08-23",
+    "date_precision": "day",
     "mile": 925,
     "location": "Mirkwood",
     "text": "Flies and Spiders. The Dwarves are captured by spiders and rescued by Bilbo."
@@ -121,6 +138,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-08-24",
+    "date_precision": "day",
     "mile": 934,
     "location": "Elvenking's Halls",
     "text": "Captured by Wood-elves."
@@ -128,6 +146,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-09-21",
+    "date_precision": "day",
     "mile": 934,
     "location": "Elvenking's Halls",
     "text": "Barrels Out of Bond. After a month's captivity by the Wood-Elves, the Company escapes in barrels down the Forest River."
@@ -135,6 +154,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-09-22",
+    "date_precision": "day",
     "mile": 951,
     "location": "Esgaroth",
     "text": "The Company arrives in Lake-Town at dusk."
@@ -142,6 +162,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-09-23",
+    "date_precision": "day",
     "mile": 951,
     "location": "Esgaroth",
     "text": "A Warm Welcome."
@@ -149,6 +170,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-10-09",
+    "date_precision": "day",
     "mile": 951,
     "location": "Esgaroth",
     "text": "The Company departs Lake-town by boat."
@@ -156,6 +178,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-10-12",
+    "date_precision": "day",
     "mile": 1000,
     "location": "Lonely Mountain",
     "text": "They leave the river and ride to the Lonely Mountain."
@@ -163,6 +186,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-10-14",
+    "date_precision": "day",
     "mile": 1025,
     "location": "Lonely Mountain",
     "text": "Move camp to the western valley."
@@ -170,6 +194,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-10-19",
+    "date_precision": "day",
     "mile": 1035,
     "location": "Lonely Mountain",
     "text": "Bilbo discovers the hidden path. On the Doorstep. Camp moves to the hidden bay."
@@ -177,6 +202,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-10-30",
+    "date_precision": "day",
     "mile": 1040,
     "location": "Lonely Mountain",
     "text": "Durin's Day. The Secret Door opens at dusk. Bilbo visits Smaug. Inside Information."
@@ -184,6 +210,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-01",
+    "date_precision": "day",
     "mile": 1050,
     "location": "Erebor",
     "text": "Bilbo returns to Smaug's lair. Fire and Water. Smaug attacks Lake-town and is slain by Bard."
@@ -191,6 +218,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-02",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
     "text": "Goblins, Gandalf, and Beorn learn of Smaug's death."
@@ -198,6 +226,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-03",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
     "text": "Elvenking's host leaves Mirkwood."
@@ -205,6 +234,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-04",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
     "text": "Elves turn towards Lake-town."
@@ -212,6 +242,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-06",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
     "text": "The Gathering of the Clouds. Elves reach Lake-town. Dain summoned."
@@ -219,6 +250,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-15",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
     "text": "Elves and Lake-men reach Dale at dusk."
@@ -226,6 +258,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-16",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
     "text": "Lonely Mountain is beseiged."
@@ -233,6 +266,7 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-22",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
     "text": "A Thief in the Night. Bilbo gives the Arkenstone to Bard and the Elvenking."
@@ -240,300 +274,351 @@
   {
     "journey_id": "Hobbit",
     "me_date": "2941-11-23",
+    "date_precision": "day",
     "mile": 1100,
     "location": "Erebor",
     "text": "The Battle of Five Armies."
   },
   {
-    "journey_id": "Hobbit",
+    "journey_id": null,
     "me_date": "2941-11-27",
+    "date_precision": "day",
     "mile": null,
     "location": "Erebor",
-    "text": "There and Back Again. Gandalf and Bilbo leave Lonely Mountain."
+    "text": "There and Back Again. Gandalf, Bilbo, and Beorn leave Lonely Mountain."
   },
   {
-    "journey_id": "Hobbit",
+    "journey_id": null,
+    "me_date": "2941-12-30",
+    "date_precision": "day",
+    "mile": null,
+    "location": "Beorn's Hall",
+    "text": "Gandalf and Bilbo arrive at Beorn's and stay until spring."
+  },
+  {
+    "journey_id": null,
     "me_date": "2942",
+    "date_precision": "year",
     "mile": null,
     "location": "The Shire",
     "text": "Bilbo returns to the Shire with the Ring. Sauron returns in secret to Mordor."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2944",
+    "date_precision": "year",
     "mile": null,
     "location": "Dale",
     "text": "Bard rebuilds Dale and becomes King. Gollum leaves the Mountains and begins his search for the thief of the Ring."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2948",
+    "date_precision": "year",
     "mile": null,
     "location": "Rohan",
     "text": "Théoden son of Thengel, King of Rohan, is born."
   },
   {
-    "journey_id": "Hobbit",
+    "journey_id": null,
     "me_date": "2949",
+    "date_precision": "year",
     "mile": null,
     "location": "The Shire",
     "text": "Gandalf and Balin visit Bilbo in the Shire."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2950",
+    "date_precision": "year",
     "mile": null,
     "location": "Dol Amroth",
     "text": "Finduilas, daughter of Adrahil of Dol Amroth, is born."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2951",
+    "date_precision": "year",
     "mile": null,
     "location": "Mordor",
     "text": "Sauron declares himself openly and gathers power in Mordor. He begins rebuilding Barad-dûr. Gollum turns toward Mordor. Sauron sends three Nazgûl to reoccupy Dol Guldur."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2953",
+    "date_precision": "year",
     "mile": null,
     "location": "Imladris",
     "text": "Elrond reveals Aragorn's true name and ancestry and gives him the shards of Narsil. Arwen returns to Imladris and meets Aragorn. Aragorn goes out into the Wild."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2954",
+    "date_precision": "year",
     "mile": null,
     "location": "Isengard",
     "text": "Last meeting of the White Council. Saruman feigns that the One Ring has passed down Anduin to the Sea, withdraws to Isengard, and fortifies it."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2956",
+    "date_precision": "year",
     "mile": null,
     "location": "Mount Doom",
     "text": "Mount Doom bursts into flame again. The last inhabitants of Ithilien flee over Anduin."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2957",
+    "date_precision": "year",
     "mile": null,
     "location": "",
     "text": "Aragorn meets Gandalf and their friendship begins."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2957",
+    "date_precision": "year",
     "mile": null,
     "location": "",
     "text": "Aragorn undertakes his great journeys and errantries. As Thorongil he serves in disguise both Thengel of Rohan and Ecthelion II of Gondor."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2968",
+    "date_precision": "year",
     "mile": null,
     "location": "The Shire",
     "text": "Frodo is born."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2976",
+    "date_precision": "year",
     "mile": null,
     "location": "Minas Tirith",
     "text": "Denethor weds Finduilas of Dol Amroth."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2977",
+    "date_precision": "year",
     "mile": null,
     "location": "Dale",
     "text": "Bain son of Bard becomes King of Dale."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2978",
+    "date_precision": "year",
     "mile": null,
     "location": "Minas Tirith",
     "text": "Boromir son of Denethor II is born."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2980",
+    "date_precision": "year",
     "mile": null,
     "location": "Lórien",
     "text": "Aragorn meets Arwen again in Lórien. They plight their troth upon Cerin Amroth. About this time Gollum reaches Mordor and becomes acquainted with Shelob. Théoden becomes King of Rohan. Samwise is born."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2983",
+    "date_precision": "year",
     "mile": null,
     "location": "Minas Tirith",
     "text": "Faramir son of Denethor is born."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2984",
+    "date_precision": "year",
     "mile": null,
     "location": "Minas Tirith",
     "text": "Death of Ecthelion II. Denethor II becomes Steward of Gondor. Finduilas dies young."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2988",
+    "date_precision": "year",
     "mile": null,
     "location": "Moria",
     "text": "Balin leaves Erebor and enters Moria."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2989",
+    "date_precision": "year",
     "mile": null,
     "location": "Rohan",
     "text": "Éomer son of Éomund is born in Rohan."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2991",
+    "date_precision": "year",
     "mile": null,
     "location": "Moria",
     "text": "Balin perishes and the dwarf-colony is destroyed."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2994",
+    "date_precision": "year",
     "mile": null,
     "location": "Rohan",
     "text": "Éowyn, sister of Éomer, is born."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "2995",
+    "date_precision": "year",
     "mile": null,
     "location": "Orthanc",
     "text": "The shadow of Mordor lengthens. Saruman uses the palantír of Orthanc and becomes ensnared by Sauron."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3001",
+    "date_precision": "year",
     "mile": null,
     "location": "Rivendell",
     "text": "The Long-Expected Party. Gandalf suspects Bilbo's ring of being the One Ring and seeks for news of Gollum. The guard on the Shire is doubled."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3002",
+    "date_precision": "year",
     "mile": null,
     "location": "The Shire",
     "text": "Bilbo becomes a guest of Elrond and settles in Rivendell."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3004",
+    "date_precision": "year",
     "mile": null,
     "location": "The Shire",
     "text": "Gandalf visits Frodo in the Shire at intervals during the next four years."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3007",
+    "date_precision": "year",
     "mile": null,
     "location": "Dale",
     "text": "Brand son of Bain becomes King in Dale. Death of Gilraen."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3008",
+    "date_precision": "year",
     "mile": null,
     "location": "The Shire",
     "text": "In the autumn Gandalf pays his last visit to Frodo."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3009",
+    "date_precision": "year",
     "mile": null,
     "location": "",
     "text": "Gandalf and Aragorn renew their hunt for Gollum at intervals during the next eight years, searching through the vales of Anduin, Mirkwood, and Rhovanion to the confines of Mordor. At some point, Gollum ventures into Mordor and is captured by Sauron."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3017",
+    "date_precision": "year",
     "mile": null,
     "location": "Mirkwood",
     "text": "Gollum is released from Mordor. He is taken by Aragorn in the Dead Marshes and brought to Thranduil in Mirkwood. Gandalf visits Minas Tirith and reads the scroll of Isildur."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-04-12",
+    "date_precision": "day",
     "mile": null,
     "location": "Hobbiton",
-    "text": "Gandalf reaches Hobbiton."
+    "text": "Gandalf reaches Hobbiton. The Shadow of the Past."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-06-20",
+    "date_precision": "day",
     "mile": null,
     "location": "Osgiliath",
     "text": "Sauron attacks Osgiliath. About the same time Thranduil is attacked and Gollum escapes."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-06-21",
+    "date_precision": "day",
     "mile": null,
     "location": "",
     "text": "Mid-year's Day. Gandalf meets Radagast."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-07-04",
+    "date_precision": "day",
     "mile": null,
     "location": "Minas Tirith",
     "text": "Boromir sets out from Minas Tirith."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-07-10",
+    "date_precision": "day",
     "mile": null,
     "location": "Orthanc",
     "text": "Gandalf is imprisoned in Orthanc."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-08-01",
+    "date_precision": "day",
     "mile": null,
     "location": "Moria",
     "text": "All trace of Gollum is lost. He is thought to have taken refuge in Moria."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-09-18",
+    "date_precision": "day",
     "mile": null,
     "location": "Orthanc",
     "text": "Gandalf escapes from Orthanc in the early hours. The Black Riders cross the Fords of Isen."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-09-19",
+    "date_precision": "day",
     "mile": null,
     "location": "Edoras",
     "text": "Gandalf comes to Edoras as a beggar and is refused admittance."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-09-20",
+    "date_precision": "day",
     "mile": null,
     "location": "Edoras",
     "text": "Gandalf gains entrance to Edoras. Théoden commands him to leave."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-09-21",
+    "date_precision": "day",
     "mile": null,
     "location": "Rohan",
     "text": "Gandalf meets Shadowfax, who follows him across the fields."
   },
   {
-    "journey_id": "Gap",
+    "journey_id": null,
     "me_date": "3018-09-22",
+    "date_precision": "day",
     "mile": null,
     "location": "Sarn Ford",
     "text": "The Black Riders reach Sarn Ford at evening. Gandalf overtakes Shadowfax."
@@ -541,6 +626,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-23",
+    "date_precision": "day",
     "mile": 0,
     "location": "Bag End",
     "text": "Four Black Riders enter the Shire at dawn. A Rider comes to Hobbiton at nightfall as Frodo leaves Bag End."
@@ -548,6 +634,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-24",
+    "date_precision": "day",
     "mile": 40,
     "location": "Woody End",
     "text": "High Elves deter a Black Rider and give the hobbits food and shelter."
@@ -555,6 +642,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-25",
+    "date_precision": "day",
     "mile": 65,
     "location": "Bucklebury Ferry",
     "text": "A Shortcut to Mushrooms. The hobbits cross the Bucklebury Ferry into Buckland."
@@ -562,6 +650,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-26",
+    "date_precision": "day",
     "mile": 90,
     "location": "Old Forest",
     "text": "Frodo enters the Old Forest and comes to Bombadil."
@@ -569,6 +658,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-27",
+    "date_precision": "day",
     "mile": null,
     "location": "Old Forest",
     "text": "Frodo spends a second night with Bombadil."
@@ -576,6 +666,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-28",
+    "date_precision": "day",
     "mile": 120,
     "location": "Barrow-downs",
     "text": "The Hobbits are captured by a Barrow-wight."
@@ -583,6 +674,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-29",
+    "date_precision": "day",
     "mile": 145,
     "location": "Bree",
     "text": "Frodo reaches Bree at night. The hobbits meet Strider at the Prancing Pony."
@@ -590,6 +682,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-09-30",
+    "date_precision": "day",
     "mile": null,
     "location": "Bree",
     "text": "Inn at Bree raided in the early hours. Frodo leaves in the morning."
@@ -597,6 +690,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-01",
+    "date_precision": "day",
     "mile": null,
     "location": "Midgewater Marshes",
     "text": "Out in the pathless wilderness"
@@ -604,6 +698,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-03",
+    "date_precision": "day",
     "mile": 195,
     "location": "Midgewater Marshes",
     "text": "See flashes in the distance; Gandalf attacked by Nazgûl on Weathertop."
@@ -611,6 +706,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-04",
+    "date_precision": "day",
     "mile": null,
     "location": "Weather Hills",
     "text": "The land becomes drier and more barren."
@@ -618,6 +714,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-06",
+    "date_precision": "day",
     "mile": 245,
     "location": "Weathertop",
     "text": "Black Riders attack at Weathertop. Frodo stabbed by the Witch-king."
@@ -625,6 +722,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-07",
+    "date_precision": "day",
     "mile": null,
     "location": "South of the Road",
     "text": "Frodo on pony."
@@ -632,6 +730,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-11",
+    "date_precision": "day",
     "mile": null,
     "location": "The Last Bridge",
     "text": "Glorfindel drives the Riders off the Bridge of Mitheithel."
@@ -639,6 +738,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-13",
+    "date_precision": "day",
     "mile": 345,
     "location": "The Last Bridge",
     "text": "Frodo crosses the Bridge, leaves the Road again."
@@ -646,6 +746,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-14",
+    "date_precision": "day",
     "mile": null,
     "location": "Trollshaws",
     "text": "Frodo worsens."
@@ -653,6 +754,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-18",
+    "date_precision": "day",
     "mile": 390,
     "location": "Stone Trolls",
     "text": "Find Bilbo's Trolls. Glorfindel finds Frodo at dusk."
@@ -660,6 +762,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-19",
+    "date_precision": "day",
     "mile": null,
     "location": "Trollshaws",
     "text": "Flight to the Ford"
@@ -667,6 +770,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-20",
+    "date_precision": "day",
     "mile": 465,
     "location": "Ford of Bruinen",
     "text": "Frodo defies the Nazgûl at the Ford of Bruinen and escapes. The Ringwraiths are swept away."
@@ -674,6 +778,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-24",
+    "date_precision": "day",
     "mile": 487,
     "location": "Rivendell",
     "text": "Frodo recovers and wakes. Many Meetings."
@@ -681,6 +786,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-10-25",
+    "date_precision": "day",
     "mile": 487,
     "location": "Rivendell",
     "text": "The Council of Elrond. Autumn wanes and December passes in Rivendell. The Fellowship of the Ring is formed."
@@ -688,6 +794,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-12-25",
+    "date_precision": "day",
     "mile": 487,
     "location": "Rivendell",
     "text": "The Fellowship of the Ring departs Rivendell at dusk, two months after the Council of Elrond."
@@ -695,6 +802,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3018-12-26",
+    "date_precision": "day",
     "mile": 520,
     "location": "South of Rivendell",
     "text": "The Ring Goes South."
@@ -702,6 +810,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-08",
+    "date_precision": "day",
     "mile": 717,
     "location": "Hollin",
     "text": "The Company cross into Hollin. Elves lived here in happier days, when Eregion was its name."
@@ -709,6 +818,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-11",
+    "date_precision": "day",
     "mile": 777,
     "location": "Caradhras",
     "text": "Snow on Caradhras."
@@ -716,6 +826,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-12",
+    "date_precision": "day",
     "mile": 810,
     "location": "Hollin",
     "text": "Wolves attack at night."
@@ -723,6 +834,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-13",
+    "date_precision": "day",
     "mile": 825,
     "location": "Doors of Durin",
     "text": "The Company reaches the West-Gate of Moria at nightfall. Gollum begins to trail the Ring-Bearer."
@@ -730,6 +842,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-14",
+    "date_precision": "day",
     "mile": 851,
     "location": "Moria",
     "text": "A Journey in the Dark. Night in Hall Twenty-one."
@@ -737,6 +850,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-15",
+    "date_precision": "day",
     "mile": 862,
     "location": "Bridge of Khazad-dûm",
     "text": "The Bridge of Khazad-dûm, and fall of Gandalf."
@@ -744,6 +858,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-16",
+    "date_precision": "day",
     "mile": 900,
     "location": "Lothlórien",
     "text": "Elves escort the Fellowship into Lothlórien."
@@ -751,6 +866,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-17",
+    "date_precision": "day",
     "mile": 952,
     "location": "Lothlórien",
     "text": "The Fellowship comes to Caras Galadhon at evening."
@@ -758,6 +874,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-18",
+    "date_precision": "day",
     "mile": null,
     "location": "Lothlórien",
     "text": "The Fellowship heals of hurt and weariness of body, and grieves for Gandalf."
@@ -765,6 +882,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-23",
+    "date_precision": "day",
     "mile": null,
     "location": "Mountains of Moria",
     "text": "Gandalf pursues the Balrog to the peak of Zirak-zigil."
@@ -772,6 +890,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-25",
+    "date_precision": "day",
     "mile": null,
     "location": "Mountains of Moria",
     "text": "Gandalf casts down the Balrog and passes away."
@@ -779,6 +898,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-01-26",
+    "date_precision": "day",
     "mile": null,
     "location": "Lothlórien",
     "text": "The Fellowship recovers in Lothlórien."
@@ -786,6 +906,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-14",
+    "date_precision": "day",
     "mile": 952,
     "location": "Lothlórien",
     "text": "The Mirror of Galadriel. Gandalf returns to life, and lies in a trance."
@@ -793,6 +914,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-16",
+    "date_precision": "day",
     "mile": 962,
     "location": "Silverlode Hythe",
     "text": "Farewell to Lórien. Gollum in hiding on the west bank observes the departure."
@@ -800,6 +922,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-17",
+    "date_precision": "day",
     "mile": 987,
     "location": "Anduin",
     "text": "The Fellowship floats down the Great River. Boats: far quicker than walking."
@@ -807,6 +930,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-23",
+    "date_precision": "day",
     "mile": 1320,
     "location": "Sarn Gebir",
     "text": "The boats are attacked at night near Sarn Gebir."
@@ -814,6 +938,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-25",
+    "date_precision": "day",
     "mile": 1346,
     "location": "Argonath",
     "text": "The Fellowship passes the Argonath and camp at Parth Galen."
@@ -821,6 +946,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-26",
+    "date_precision": "day",
     "mile": 1367,
     "location": "Parth Galen",
     "text": "Breaking of the Fellowship. Frodo and Samwise enter the eastern Emyn Muil."
@@ -828,6 +954,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-02-26",
+    "date_precision": "day",
     "mile": 0,
     "location": "Parth Galen",
     "text": "Breaking of the Fellowship. Death of Boromir. Merry and Pippin captured. Aragorn sets out in pursuit of the Orcs at evening."
@@ -835,6 +962,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-27",
+    "date_precision": "day",
     "mile": 1382,
     "location": "Emyn Muil",
     "text": "The barren slopes and stones of the Emyn Muil."
@@ -842,6 +970,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-02-27",
+    "date_precision": "day",
     "mile": 69,
     "location": "East Emnet",
     "text": "The Three Hunters race across the plains of Rohan."
@@ -849,6 +978,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-02-29",
+    "date_precision": "day",
     "mile": 1441,
     "location": "Emyn Muil",
     "text": "The Taming of Sméagol. Frodo descends from the Emyn Muil."
@@ -856,6 +986,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-02-30",
+    "date_precision": "day",
     "mile": 175,
     "location": "Rohan",
     "text": "Aragorn, Legolas, and Gimli meet the Riders of Rohan. Eomer tells them of the death of the Orcs and lends them horses."
@@ -863,6 +994,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-01",
+    "date_precision": "day",
     "mile": 1465,
     "location": "Dead Marshes",
     "text": "Frodo begins the passage of the Dead Marshes at dawn."
@@ -870,6 +1002,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-01",
+    "date_precision": "day",
     "mile": 239,
     "location": "Rohan",
     "text": "Aragorn meets Gandalf the White in Fangorn. They set out for Edoras."
@@ -877,6 +1010,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-02",
+    "date_precision": "day",
     "mile": 1491,
     "location": "Dead Marshes",
     "text": "Frodo reaches the end of the Marshes."
@@ -884,6 +1018,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-02",
+    "date_precision": "day",
     "mile": 370,
     "location": "Edoras",
     "text": "Gandalf heals Théoden. The king rides to war."
@@ -891,6 +1026,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-03",
+    "date_precision": "day",
     "mile": 444,
     "location": "Helm's Deep",
     "text": "The Battle of the Hornburg."
@@ -898,6 +1034,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-04",
+    "date_precision": "day",
     "mile": 1520,
     "location": "The Black Gate",
     "text": "Frodo reaches the slag-mounds on the edge of the Desolation of the Morannon."
@@ -905,6 +1042,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-04",
+    "date_precision": "day",
     "mile": 460,
     "location": "Gap of Rohan",
     "text": "Théoden and Gandalf set out from Helm's Deep for Isengard."
@@ -912,6 +1050,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-05",
+    "date_precision": "day",
     "mile": 1528,
     "location": "The Black Gate",
     "text": "Frodo hides in sight of the Black Gate and leaves at dusk."
@@ -919,6 +1058,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-05",
+    "date_precision": "day",
     "mile": 561,
     "location": "Isengard",
     "text": "Parley with Saruman in Orthanc."
@@ -926,6 +1066,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-06",
+    "date_precision": "day",
     "mile": 1550,
     "location": "North Ithilien",
     "text": "Of Herbs and Stewed Rabbit."
@@ -933,6 +1074,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-06",
+    "date_precision": "day",
     "mile": 600,
     "location": "Rohan",
     "text": "Winged Nazgûl passes over the camp; Gandalf sets out for Minas Tirith with Pippin. Théoden rides to Dunharrow. Aragorn sets out later."
@@ -940,6 +1082,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-07",
+    "date_precision": "day",
     "mile": 1567,
     "location": "Henneth Annûn",
     "text": "Frodo taken by Faramir to the Window on the West."
@@ -947,6 +1090,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-07",
+    "date_precision": "day",
     "mile": 752,
     "location": "Dunharrow",
     "text": "Aragorn comes to Dunharrow at nightfall."
@@ -954,6 +1098,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-08",
+    "date_precision": "day",
     "mile": 1587,
     "location": "Ithilien",
     "text": "Frodo leaves Henneth Annûn."
@@ -961,6 +1106,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-08",
+    "date_precision": "day",
     "mile": 772,
     "location": "Paths of the Dead",
     "text": "Aragorn takes the Paths of the Dead at daybreak. He summons the Dead Men of Dunharrow to fulfill their oath."
@@ -968,6 +1114,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-09",
+    "date_precision": "day",
     "mile": 1595,
     "location": "Ithilien",
     "text": "At dusk, Frodo reaches the Morgul-road."
@@ -975,6 +1122,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-09",
+    "date_precision": "day",
     "mile": 950,
     "location": "Gondor",
     "text": "Gandalf and Pippin arrive at Minas Tirith. Darkness begins to flow out of Mordor."
@@ -982,6 +1130,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-10",
+    "date_precision": "day",
     "mile": 1615,
     "location": "The Cross-Roads",
     "text": "The Dawnless Day. Frodo passes the Cross-Roads and sees the Morgul-host set forth."
@@ -989,6 +1138,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-10",
+    "date_precision": "day",
     "mile": 980,
     "location": "Gondor",
     "text": "The Dawnless Day. The Muster of Rohan. Faramir rescued by Gandalf outside the gates of the City."
@@ -996,6 +1146,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-11",
+    "date_precision": "day",
     "mile": 1625,
     "location": "Stairs of Cirith Ungol",
     "text": "Gollum visits Shelob, but seeing Frodo asleep nearly repents."
@@ -1003,6 +1154,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-11",
+    "date_precision": "day",
     "mile": 1045,
     "location": "Gondor",
     "text": "Aragorn drives the enemy towards Pelargir. Denethor sends Faramir to defend Osgiliath."
@@ -1010,6 +1162,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-12",
+    "date_precision": "day",
     "mile": 1640,
     "location": "Shelob's Lair",
     "text": "Frodo is stung by Shelob. Sam takes the Ring and presses on alone."
@@ -1017,6 +1170,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-12",
+    "date_precision": "day",
     "mile": null,
     "location": "Gondor",
     "text": "Faramir retreats to the Causeway Forts."
@@ -1024,6 +1178,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-13",
+    "date_precision": "day",
     "mile": 1650,
     "location": "Tower of Cirith Ungol",
     "text": "Frodo captured by the Orcs. The Choices of Master Samwise."
@@ -1031,6 +1186,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-13",
+    "date_precision": "day",
     "mile": 1182,
     "location": "Gondor",
     "text": "The Pelennor is overrun. Faramir is wounded. Aragorn reaches Pelargir and captures the Umbar fleet."
@@ -1038,6 +1194,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-14",
+    "date_precision": "day",
     "mile": 1653,
     "location": "Tower of Cirith Ungol",
     "text": "Sam finds Frodo in the Tower."
@@ -1045,6 +1202,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-14",
+    "date_precision": "day",
     "mile": 1250,
     "location": "Gondor",
     "text": "Minas Tirith is besieged."
@@ -1052,6 +1210,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-15",
+    "date_precision": "day",
     "mile": 1660,
     "location": "Tower of Cirith Ungol",
     "text": "Frodo and Sam escape and begin their journey north along the Morgai."
@@ -1059,6 +1218,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-15",
+    "date_precision": "day",
     "mile": 1350,
     "location": "Minas Tirith",
     "text": "At dawn, the Witch-King breaks the Gates of the City. The horns of Rohan sound. Battle of the Pelennor Fields. Théoden slain. Aragorn arrives with the fleet and the city is saved."
@@ -1066,6 +1226,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-16",
+    "date_precision": "day",
     "mile": 1675,
     "location": "Mordor",
     "text": "Frodo looks out from the Morgai over Mordor to Mount Doom."
@@ -1073,6 +1234,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-16",
+    "date_precision": "day",
     "mile": null,
     "location": "Minas Tirith",
     "text": "The Last Debate of the commanders. Decision to march on Mordor."
@@ -1080,6 +1242,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-17",
+    "date_precision": "day",
     "mile": 1690,
     "location": "Mordor",
     "text": "The Land of Shadow."
@@ -1087,6 +1250,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-17",
+    "date_precision": "day",
     "mile": null,
     "location": "Minas Tirith",
     "text": "Host musters."
@@ -1094,6 +1258,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-18",
+    "date_precision": "day",
     "mile": 1730,
     "location": "Mordor",
     "text": "Captured by Orcs. Escape the following day."
@@ -1101,6 +1266,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-18",
+    "date_precision": "day",
     "mile": null,
     "location": "Minas Tirith",
     "text": "The Host of the West marches from Minas Tirith."
@@ -1108,6 +1274,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-19",
+    "date_precision": "day",
     "mile": 1740,
     "location": "Mordor",
     "text": "The Land of Shadow."
@@ -1115,6 +1282,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-19",
+    "date_precision": "day",
     "mile": 1370,
     "location": "Ithilien",
     "text": "The Host of the West marches from Minas Tirith."
@@ -1122,6 +1290,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-22",
+    "date_precision": "day",
     "mile": 1795,
     "location": "Mordor",
     "text": "The dreadful nightfall. Frodo and Sam leave the road and turn south towards Mount Doom."
@@ -1129,6 +1298,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-23",
+    "date_precision": "day",
     "mile": null,
     "location": "Mordor",
     "text": "Frodo and Sam cast away their gear."
@@ -1136,6 +1306,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-23",
+    "date_precision": "day",
     "mile": 1445,
     "location": "Ithilien",
     "text": "Aragorn dismisses the faint-hearted."
@@ -1143,6 +1314,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-24",
+    "date_precision": "day",
     "mile": 1812,
     "location": "Sammath Naur",
     "text": "Frodo and Samwise make their last journey to the feet of Mount Doom."
@@ -1150,6 +1322,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-24",
+    "date_precision": "day",
     "mile": 1455,
     "location": "The Black Gate",
     "text": "The Host camps in the Desolation of the Morannon."
@@ -1157,6 +1330,7 @@
   {
     "journey_id": "Mordor",
     "me_date": "3019-03-25",
+    "date_precision": "day",
     "mile": 1815,
     "location": "Cracks of Doom",
     "text": "Gollum seizes the Ring and falls into the Cracks of Doom. Sauron is ended."
@@ -1164,6 +1338,7 @@
   {
     "journey_id": "Return",
     "me_date": "3019-03-25",
+    "date_precision": "day",
     "mile": 1482,
     "location": "The Black Gate",
     "text": "The Host of the West reaches the Black Gate. The Ring is destroyed and Sauron passes away."

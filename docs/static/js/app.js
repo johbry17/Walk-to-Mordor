@@ -27,6 +27,47 @@ const ME_BREAK_ORDINALS = {
   Mordor: [[28417, 28482], [28506, 28535]],       // Rivendell, Lothlórien
 };
 
+/* ── Middle-earth Calendar Ordinal Calculator ────────────────────────
+ *
+ * Matches the Python implementation in notebooks/me-time-generator.ipynb.
+ * Used to assign absolute ordinals to chronology.json dates that are not
+ * present in me_time.csv (gap events, post-journey events, year-only dates).
+ *
+ * BASE year T.A. 2941 = ordinal 0 (Yule 2).
+ * Months 1-12 have 30 days each; intercalary days exist between months 6 & 7.
+ * Leap years (year % 4 === 0) have one extra intercalary day (Overlithe).
+ */
+const _ME_ORD_BASE = 2941;
+const _meAbsStartCache = new Map();
+
+function _meAbsStart(year) {
+  if (_meAbsStartCache.has(year)) return _meAbsStartCache.get(year);
+  let acc = 0;
+  for (let y = _ME_ORD_BASE; y < year; y++) acc += (y % 4 === 0 ? 366 : 365);
+  _meAbsStartCache.set(year, acc);
+  return acc;
+}
+
+/**
+ * Compute the absolute Shire Calendar ordinal for a me_date string.
+ * Handles 'YYYY-MM-DD' and year-only 'YYYY'.
+ * Returns null for special named days (those are resolved via meDateToOrdinal
+ * which is populated from me_time.csv).
+ */
+function _meAbsOrdFromDate(meDate) {
+  if (!meDate) return null;
+  const mDay = /^(\d{4})-(\d{2})-(\d{2})$/.exec(meDate);
+  if (mDay) {
+    const yr = +mDay[1], mo = +mDay[2], dy = +mDay[3];
+    const extra = (yr % 4 === 0) ? 4 : 3;
+    const yord  = (mo - 1) * 30 + dy + (mo <= 6 ? 0 : extra);
+    return _meAbsStart(yr) + yord;
+  }
+  const mYr = /^(\d{4})$/.exec(meDate);
+  if (mYr) return _meAbsStart(+mYr[1]);  // year-only → Yule 2 (yord=0)
+  return null;  // special named days handled via meDateToOrdinal
+}
+
 /* ── Data loading ────────────────────────────────────────────────────── */
 async function fetchData() {
   const [walkingTxt, meTimeTxt, journeysJson, routesJson, chronologyJson] = await Promise.all([
@@ -183,8 +224,10 @@ function buildChronologyByJourney(chronology) {
 function buildChronologyByOrdinal(chronology, meDateToOrdinal) {
   const temp = { Mordor: new Map(), Return: new Map(), Hobbit: new Map() };
   for (const entry of chronology) {
+    // null journey_id = gap event; skip from per-journey index
+    if (!entry.journey_id || !temp[entry.journey_id]) continue;
     const ord = meDateToOrdinal.get(entry.me_date);
-    if (ord === undefined || !temp[entry.journey_id]) continue;
+    if (ord === undefined) continue;
     const existing = temp[entry.journey_id].get(ord);
     if (!existing || entry.mile >= existing.mile) {
       temp[entry.journey_id].set(ord, entry);
@@ -197,6 +240,54 @@ function buildChronologyByOrdinal(chronology, meDateToOrdinal) {
       .map(([ordinal, entry]) => ({ ordinal, entry }));
   }
   return result;
+}
+
+/**
+ * Build a global flat chronology index over ALL entries (all journey_ids
+ * including null gap events).
+ *
+ * Multiple entries at the same ordinal are merged: texts are concatenated
+ * and the first non-empty location is used.
+ *
+ * Used to drive the info panel during the inter-journey historical gap.
+ */
+function buildGlobalChronIndex(chronology, meDateToOrdinal) {
+  const byOrd = new Map();
+  for (const entry of chronology) {
+    const ord = meDateToOrdinal.get(entry.me_date);
+    if (ord === undefined) continue;
+    if (!byOrd.has(ord)) {
+      byOrd.set(ord, { me_date: entry.me_date, location: entry.location || '', text: entry.text || '' });
+    } else {
+      const merged = byOrd.get(ord);
+      if (!merged.location && entry.location) merged.location = entry.location;
+      if (entry.text) merged.text = merged.text ? merged.text + ' ' + entry.text : entry.text;
+    }
+  }
+  return [...byOrd.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([ordinal, entry]) => ({ ordinal, entry }));
+}
+
+/** Return the most recently passed global chronology entry at or before meOrdinal. */
+function getGlobalChronEntry(meOrdinal, globalChronByOrdinal) {
+  let best = null;
+  for (const { ordinal, entry } of globalChronByOrdinal) {
+    if (ordinal <= meOrdinal) best = entry;
+    else break;
+  }
+  return best;
+}
+
+/**
+ * Merge movement ordinals (from me_time.csv) with gap chronology ordinals
+ * (from chronology.json) into a single sorted, deduplicated array for the
+ * ME All Time timeline domain.
+ */
+function buildHybridMeOrdinals(meOrdinals, globalChronByOrdinal) {
+  const set = new Set(meOrdinals);
+  for (const { ordinal } of globalChronByOrdinal) set.add(ordinal);
+  return [...set].sort((a, b) => a - b);
 }
 
 /* ── Chronology lookup ─────────────────────────────────────────────── */
@@ -404,14 +495,16 @@ const fmtMiles = n => n >= 1 ? `${Math.round(n).toLocaleString()} mi` : `${n.toF
  */
 function _fmtMEDate(meDate) {
   if (!meDate) return '—';
-  // Special named days — display as-is with year context stripped
+  // Year-only precision (e.g. "2944") → "T.A. 2944"
+  if (/^\d{4}$/.test(meDate)) return `T.A. ${meDate}`;
+  // Special named days ("1 Lithe", "Midyear's Day", etc.) — display as-is
   if (!/^\d{4}-/.test(meDate)) return meDate;
   const [y, m, d] = meDate.split('-').map(Number);
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `${months[m - 1]} ${d}, T.A. ${y}`;
 }
 
-function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinalToMeDate) {
+function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry) {
   // Date display
   let displayDate;
   if (clockMode === 'ME') {
@@ -430,9 +523,8 @@ function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinal
     && dateKey <= FRODO_PAUSE.end;
   document.getElementById('pause-badge').hidden = !isFrodoPause;
 
-
   if (journeyMode === 'ALL') {
-    _updateAllTimePanel(clockMode, journeyStates);
+    _updateAllTimePanel(clockMode, journeyStates, globalChronEntry);
   } else {
     _updateSinglePanel(journeyMode, journeyStates, isFrodoPause);
   }
@@ -463,7 +555,7 @@ function _buildInfoBlock(jid, js, cfg, showWhoFirst, statusLabel) {
   return html;
 }
 
-function _updateAllTimePanel(clockMode, journeyStates) {
+function _updateAllTimePanel(clockMode, journeyStates, globalChronEntry) {
   const activeJids = ['Mordor', 'Return', 'Hobbit'].filter(
     j => journeyStates[j]?.status === 'active' || journeyStates[j]?.status === 'paused'
   );
@@ -471,7 +563,18 @@ function _updateAllTimePanel(clockMode, journeyStates) {
   const infoBody = document.getElementById('info-body');
 
   if (activeJids.length === 0) {
-    infoBody.innerHTML = '<p class="info-gap">Between journeys</p>';
+    // During the historical gap (and between My Time journeys), show the most
+    // recently passed chronology event rather than a generic message.
+    if (clockMode === 'ME' && globalChronEntry) {
+      const loc  = globalChronEntry.location || '';
+      const text = globalChronEntry.text     || '';
+      let html = '';
+      if (loc)  html += `<div class="info-place">${loc}</div>`;
+      if (text) html += `<div class="info-event">${text}</div>`;
+      infoBody.innerHTML = html || '<p class="info-gap">Between journeys</p>';
+    } else {
+      infoBody.innerHTML = '<p class="info-gap">Between journeys</p>';
+    }
     _renderProgressBars(journeyStates, null);
     return;
   }
@@ -567,10 +670,32 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     meJourneyOrdinalRanges,
   } = buildMETimeIndex(meTime);
 
+  // Seed meDateToOrdinal from me_time.csv movement rows
   const meDateToOrdinal = new Map();
   for (const row of meTime) {
     if (row.me_ordinal !== null && row.me_date) meDateToOrdinal.set(row.me_date, row.me_ordinal);
   }
+
+  // Extend both maps with computed ordinals for chronology dates not in me_time.csv.
+  // This covers gap events, post-journey narrative, and year-only dates.
+  for (const entry of chronology) {
+    if (!meDateToOrdinal.has(entry.me_date)) {
+      const ord = _meAbsOrdFromDate(entry.me_date);
+      if (ord !== null) {
+        meDateToOrdinal.set(entry.me_date, ord);
+        // ordinalToMeDate is a Map returned by buildMETimeIndex; mutating is safe
+        if (!ordinalToMeDate.has(ord)) ordinalToMeDate.set(ord, entry.me_date);
+      }
+    }
+  }
+
+  // Global flat index over all chronology entries — drives gap narrative display
+  const globalChronByOrdinal = buildGlobalChronIndex(chronology, meDateToOrdinal);
+
+  // Hybrid ordinal domain for ME Time All mode:
+  // movement ordinals (daily) ∪ gap chronology ordinals (sparse)
+  const hybridMeOrdinals = buildHybridMeOrdinals(meOrdinals, globalChronByOrdinal);
+
   const chronologyByOrdinal = buildChronologyByOrdinal(chronology, meDateToOrdinal);
 
   // ── Map ───────────────────────────────────────────────────────────
@@ -601,7 +726,8 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
       });
 
       if (clockMode === 'ME') {
-        timeline.setCalendar(meOrdinals, meJourneyOrdinalRanges, ordinalToMeDate);
+        // hybridMeOrdinals: movement days (daily) + gap chronology events (sparse)
+        timeline.setCalendar(hybridMeOrdinals, meJourneyOrdinalRanges, ordinalToMeDate);
       } else {
         timeline.setCalendar(myCalDates, journeyRanges, null);
       }
@@ -726,16 +852,18 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     if (dateKey === null || dateKey === undefined) return;
 
     let journeyStates;
+    let globalChronEntry = null;
     if (clockMode === 'ME') {
       journeyStates = buildMEJourneyStates(
         dateKey, byOrdinal, meOrdinals, meJourneyOrdinalRanges, chronologyByOrdinal
       );
+      globalChronEntry = getGlobalChronEntry(dateKey, globalChronByOrdinal);
     } else {
       journeyStates = buildMyTimeJourneyStates(dateKey, cumulativeByDate, journeyRanges, chronologyByJourney);
     }
 
     mapCtrl.update({ mode: currentMode, journeyStates });
-    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate);
+    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry);
     _updateNavButtons();
   }
 

@@ -167,7 +167,8 @@ class TimelineController {
     if (this._ordinalToMeDate) {
       const meDate = this._ordinalToMeDate.get(entry);
       if (!meDate) return String(entry);
-      if (!/^\d{4}-/.test(meDate)) return meDate;
+      if (/^\d{4}$/.test(meDate)) return `T.A. ${meDate}`;  // year-only precision
+      if (!/^\d{4}-/.test(meDate)) return meDate;            // special named days
       const [y, m] = meDate.split('-').map(Number);
       const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       return `${months[m - 1]} T.A. ${y}`;
