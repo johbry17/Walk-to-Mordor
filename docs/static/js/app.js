@@ -21,9 +21,10 @@ const FRODO_PAUSE          = { start: '2024-07-29', end: '2024-08-23' };
 const FRODO_ARAGORN_BREAK  = { start: '2025-01-09', end: '2025-01-13' };
 const ARAGORN_BILBO_BREAK  = { start: '2025-08-27', end: '2026-01-19' };
 
-// ME Time rest breaks — ordinal pairs [startOrd, endOrd] from me_time.csv
+// ME Time rest/break ranges — ordinal pairs [startOrd, endOrd] from me_time.csv
 const ME_BREAK_ORDINALS = {
   Hobbit: [[154, 184], [237, 264], [265, 285]],  // Rivendell, Wood-elves, Esgaroth
+  null: [[326, 28390]],  // Historical gap before LOTR-era chronology
   Mordor: [[28417, 28482], [28506, 28535]],       // Rivendell, Lothlórien
 };
 
