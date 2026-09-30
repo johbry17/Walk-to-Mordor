@@ -746,6 +746,105 @@
       </figure>
     </section>
 
+    <!-- ── What the Two Clocks Reveal ─────────────────────────── -->
+    <section class="about-section">
+      <h2>What the Two Clocks Reveal</h2>
+      <p>
+        Comparing the two calendars against the same fictional mileage produced a few
+        findings worth naming. These come from exploratory analysis of the walking data
+        and the reconstructed Middle-earth chronology — a fuller treatment is in
+        <code>notebooks/eda_two_clocks.ipynb</code>.
+      </p>
+
+      <h3>Same mileage, radically different elapsed time</h3>
+      <p>
+        The clearest result is how differently the two clocks scale. Aragorn's Return
+        journey covers 1,482 fictional miles across just 30 Middle-earth days. My
+        real-world walking of the same route spanned 225 calendar days — a ratio of
+        <strong>7.5×</strong>. Frodo's ratio is a more modest 1.55×. Bilbo's inverts the
+        pattern entirely: his fictional timeline runs 212 Middle-earth days while my
+        real-world walking finished the same mileage in only 142 calendar days (ratio
+        0.67×). The same fictional distance reads as a very different temporal span
+        depending on which clock you read.
+      </p>
+
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-card-value" style="color:var(--frodo)">1.55×</div>
+          <div class="stat-card-label">Frodo — Real / ME time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value" style="color:var(--aragorn)">7.5×</div>
+          <div class="stat-card-label">Aragorn — Real / ME time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value" style="color:var(--bilbo)">0.67×</div>
+          <div class="stat-card-label">Bilbo — Real / ME time</div>
+        </div>
+      </div>
+
+      <h3>Fictional mileage spends a lot of time standing still</h3>
+      <p>
+        Of Frodo's 185 Middle-earth days, fictional mileage is stationary for 95 of
+        them — <strong>51%</strong> of the journey. The two largest plateaus are Rivendell
+        (65 ME days at mile&nbsp;487) and Lothlórien (28 ME days at mile&nbsp;952).
+        During those same stretches, my real-world walking continued without pause; the
+        two clocks were simply tracking different things. This is one of the sharpest
+        demonstrations that the Middle-earth timeline and the walking calendar are
+        genuinely independent systems — not just relabeled versions of the same data.
+      </p>
+      <p>
+        Bilbo's fictional timeline has a more fragmented structure: three separate
+        stationary periods (Rivendell rest, Wood-elves captivity, Lake-town rest)
+        account for 72 of his 212 Middle-earth days (34%).
+      </p>
+
+      <h3>Fictional travel mode shifts the Middle-earth clock dramatically</h3>
+      <p>
+        The reconstructed Middle-earth chronology assigns different travel rates to
+        different narrative segments — walking, horseback, boat — based on the story
+        context. These are model-derived rates, not measured observations. Some
+        representative values from the segment analysis:
+      </p>
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-card-value" style="color:var(--aragorn)">77.4</div>
+          <div class="stat-card-label">Edoras → Dunharrow<br>fictional mi / ME day (horseback)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value" style="color:var(--frodo)">37.7</div>
+          <div class="stat-card-label">Boats on the Anduin<br>fictional mi / ME day</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value" style="color:var(--bilbo)">41.8</div>
+          <div class="stat-card-label">Beorn → Mirkwood<br>fictional mi / ME day (ponies)</div>
+        </div>
+      </div>
+      <p>
+        My actual walking rate does not change to reflect these modes. The characters'
+        fictional travel method affects the Middle-earth clock; my walking remains a
+        separate, measured activity.
+      </p>
+
+      <figure>
+        <img src="images/fictional_travel_rate_by_segment.png" alt="Bar chart showing fictional travel rate in miles per Middle-earth day for each narrative segment, ranked from highest (Aragorn horseback) to lowest (Bilbo through Mirkwood)">
+        <figcaption>Fictional travel rate by segment (fictional miles per Middle-earth day), derived from the reconstructed Middle-earth chronology. Walking segments cluster between roughly 5 and 19 mi/day; horseback and boat segments reach 38–77 mi/day. Travel mode is a narrative annotation, not a measured fact.</figcaption>
+      </figure>
+
+      <h3>My daily walking stayed within a consistent range across all three journeys</h3>
+      <p>
+        Median daily walking: Frodo <strong>7.1 mi</strong>, Aragorn <strong>6.5 mi</strong>,
+        Bilbo <strong>7.9 mi</strong>. The three distributions are similar in shape — roughly
+        unimodal, centred between 6 and 9 miles. The journeys span more than two calendar
+        years and very different fictional contexts, yet the underlying walking data shows
+        no large shift between them.
+      </p>
+
+      <div class="callout note">
+        <p>These findings come from the project's exploratory analysis of <code>walking.csv</code> and <code>me_time.csv</code>. Fictional travel rates are reconstructed from <code>chronology.json</code> and represent modeled Middle-earth movement, not measured walking speeds.</p>
+      </div>
+    </section>
+
     <!-- ── Shire Calendar ──────────────────────────────────────── -->
     <section class="about-section">
       <h2>Recreating Middle-earth Time</h2>
