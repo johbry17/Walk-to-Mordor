@@ -160,9 +160,9 @@ body {
   padding: 4px 12px;
   border-radius: var(--radius);
   font: inherit;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   cursor: pointer;
   transition: color var(--transition), border-color var(--transition), background var(--transition);
 }
@@ -200,7 +200,7 @@ body {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
@@ -224,7 +224,7 @@ body {
 .clock-toggle {
   display: flex;
   gap: 2px;
-  margin-left: auto;
+  margin-right: auto;
   flex-shrink: 0;
 }
 
@@ -235,8 +235,9 @@ body {
   padding: 3px 10px;
   border-radius: var(--radius);
   font: inherit;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
   transition: color var(--transition), border-color var(--transition), background var(--transition);
 }
@@ -787,10 +788,10 @@ body {
     gap: 4px;
     align-items: center;
   }
-  .header-title { display: none; }
-  .mode-nav     { flex: 0 0 100%; gap: 3px; }
-  .mode-btn     { padding: 5px 9px; font-size: 11px; letter-spacing: 0.03em; }
-  .header-about { margin-left: auto; padding: 4px 8px; font-size: 10px; }
+  /* .header-title { display: none; } */
+  .mode-nav     { flex: 0 0; gap: 3px; }
+  .mode-btn     { padding: 5px 9px; font-size: 10px; letter-spacing: 0.03em; }
+  .header-about { padding: 4px 8px; font-size: 10px; }
   .clock-toggle { margin-left: 0; }
   /* Group prev/play/next/speed together to the right */
   .tl-nav-btn   { margin-left: 0; }
