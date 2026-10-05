@@ -892,8 +892,8 @@ body {
   html, body { height: 100dvh; }
 }
 
-/* ─── Narrow phones (portrait and most landscape) ───────────────────── */
-@media (max-width: 640px) {
+/* ─── Compact header / info layout ───────────────────── */
+@media (max-width: 1024px) {
   /* Header: two-row layout */
   .site-header {
     flex-wrap: wrap;
@@ -916,6 +916,12 @@ body {
   .play-btn     { margin-left: 4px; width: 28px; height: 28px; }
   .tl-speed     { margin-left: 6px; }
 
+  /* Info panel moves from top-left to bottom-left */
+  .info-panel { top: auto; bottom: 16px; }
+}
+
+/* ─── Narrow phones (portrait and most landscape) ───────────────────── */
+@media (max-width: 640px) {
   /* Info panel — bottom overlay; map controls no longer on right side */
   .info-panel {
     top: auto;
