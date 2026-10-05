@@ -227,11 +227,34 @@
       <p class="welcome-subtitle">There and Back Again</p>
       <p class="welcome-characters">Frodo. Aragorn. Bilbo.</p>
       <p class="welcome-tagline">One hobbit nerd&#8217;s real journey through fictional time.</p>
-      <p class="welcome-stat">Three journeys. One walker. Two clocks.<br>Press play to begin, or choose a character to follow.</p>
-      <!-- <p class="welcome-aside">(That&#8217;s the length of the Silk Road.)</p> -->
+      <p class="welcome-stat">Three journeys. One walker. Two clocks.</p>
+      <!-- <p class="welcome-aside">(4,400 miles in total. That&#8217;s the length of the Silk Road.)</p> -->
       <p class="welcome-cta">Tap anywhere to continue</p>
     </div>
   </dialog>
+
+  <!-- Clock / controls explainer — shown after welcome modal -->
+  <div
+    id="clock-popover"
+    class="clock-popover"
+    role="dialog"
+    aria-label="Timeline instructions"
+    hidden
+  >
+
+    <div class="clock-popover-title">Two timelines, one journey</div>
+
+    <p>
+      <strong>My Time</strong> follows my actual walks, 2024–2026.<br>
+      <strong>Middle-earth Time</strong> follows Tolkien's chronology.
+    </p>
+
+    <p class="clock-popover-controls">
+      <!-- <strong>Ready to explore?</strong> -->
+      Play with <strong>▶</strong>, step days with <strong>‹ ›</strong>, and change speed with <strong>½×</strong> · <strong>1×</strong> · <strong>2×</strong>.
+      Choose <strong>Overview</strong> for the whole story, or a <strong>character</strong> to follow one journey.
+    </p>
+  </div>
 
   <script src="js/timeline.js"></script>
   <script src="js/map.js"></script>

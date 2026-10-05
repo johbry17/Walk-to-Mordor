@@ -672,13 +672,67 @@ function _parseDate(dateStr) {
 
 document.body.classList.add('loading');
 
-// ── Welcome modal — opens on every visit, no persistent state ─────────
+// ── Welcome modal + clock popover — opens on every visit, no persistent state  ──────────────────────────
 (function () {
   const dlg = document.getElementById('welcome-dialog');
-  if (dlg?.showModal) {
-    dlg.showModal();
-    dlg.addEventListener('click', () => dlg.close());
+  const popover = document.getElementById('clock-popover');
+  const clockToggle = document.querySelector('.clock-toggle');
+
+  function showClockPopover() {
+    if (!popover || !clockToggle) return;
+
+    const rect = clockToggle.getBoundingClientRect();
+
+    popover.hidden = false;
+
+    /*
+     * Position below the clock toggle on desktop.
+     * CSS overrides this positioning on mobile.
+     */
+    popover.style.top = `${rect.bottom + 10}px`;
+    popover.style.left = `${Math.max(
+      12,
+      rect.right - popover.offsetWidth
+    )}px`;
+
+    requestAnimationFrame(() => {
+      popover.classList.add('visible');
+    });
   }
+
+  function hideClockPopover() {
+    if (!popover || popover.hidden) return;
+
+    popover.classList.remove('visible');
+
+    setTimeout(() => {
+      popover.hidden = true;
+    }, 180);
+  }
+
+  if (dlg?.showModal) {
+
+    dlg.showModal();
+
+    /*
+     * Clicking anywhere on the welcome screen closes it.
+     */
+    dlg.addEventListener('click', () => {
+      dlg.close();
+    });
+
+    /*
+     * Once the modal is actually closed, introduce the
+     * two-timeline popover explanation.
+     */
+    dlg.addEventListener('close', () => {
+      setTimeout(showClockPopover, 150);
+    }, { once: true });
+  }
+
+  // Clicking/tapping anywhere on the page dismisses the popover.
+  document.addEventListener('click', hideClockPopover);
+
 }());
 
 const panZoom = new PanZoomController(
