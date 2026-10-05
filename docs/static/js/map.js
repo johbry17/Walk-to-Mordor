@@ -153,14 +153,14 @@ class MapController {
       }
 
       const pulse = _svgEl('circle', {
-        class: 'marker-pulse', cx: '0', cy: '0', r: '18', fill: color,
+        class: 'marker-pulse', cx: '0', cy: '0', r: '26', fill: color,
       });
       const ring = _svgEl('circle', {
-        class: 'marker-ring', cx: '0', cy: '0', r: '28',
+        class: 'marker-ring', cx: '0', cy: '0', r: '36',
         stroke: color, fill: 'none', 'stroke-width': '2', opacity: '0.4',
       });
       const core = _svgEl('circle', {
-        class: 'marker-core', cx: '0', cy: '0', r: '16',
+        class: 'marker-core', cx: '0', cy: '0', r: '24',
         fill: '#D4A853', stroke: '#13110D', 'stroke-width': '3',
       });
 

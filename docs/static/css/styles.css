@@ -829,7 +829,7 @@ body {
 }
 
 .marker-core {
-  fill: var(--gold);
+  /* fill: var(--gold); */
   stroke: #1a1612;
   stroke-width: 3;
 }
