@@ -59,33 +59,33 @@
       <!-- <span class="title-sub">Hobbit walkin' Middle-Earth</span> -->
     </div>
 
-    <a href="about.html" class="header-about">About</a>
+    <a href="about.html" class="header-about" title="About this project">About</a>
 
     <div class="clock-toggle" role="group" aria-label="Time mode">
-      <button class="clock-btn active" data-clock="MY" aria-pressed="true">My Time</button>
-      <button class="clock-btn"        data-clock="ME" aria-pressed="false">Middle-earth</button>
+      <button class="clock-btn active" data-clock="MY" aria-pressed="true" title="Follow my daily walking mileage, 2024-2026">My Time</button>
+      <button class="clock-btn"        data-clock="ME" aria-pressed="false" title="Follow Tolkien's calendar of events, T.A. 2941-3019">Middle-earth</button>
     </div>
 
     <div class="mobile-header-break" aria-hidden="true"></div>
 
     <nav class="mode-nav" role="tablist" aria-label="Journey mode">
-      <button class="mode-btn active" data-mode="ALL"     role="tab" aria-selected="true"  tabindex="0">Overview</button>
-      <button class="mode-btn"        data-mode="Mordor"  role="tab" aria-selected="false" tabindex="-1">Frodo</button>
-      <button class="mode-btn"        data-mode="Return"  role="tab" aria-selected="false" tabindex="-1">Aragorn</button>
-      <button class="mode-btn"        data-mode="Hobbit"  role="tab" aria-selected="false" tabindex="-1">Bilbo</button>
+      <button class="mode-btn active" data-mode="ALL"     role="tab" aria-selected="true"  tabindex="0" title="Show the whole story">Overview</button>
+      <button class="mode-btn"        data-mode="Mordor"  role="tab" aria-selected="false" tabindex="-1" title="Follow Frodo's journey">Frodo</button>
+      <button class="mode-btn"        data-mode="Return"  role="tab" aria-selected="false" tabindex="-1" title="Follow Aragorn's journey">Aragorn</button>
+      <button class="mode-btn"        data-mode="Hobbit"  role="tab" aria-selected="false" tabindex="-1" title="Follow Bilbo's journey">Bilbo</button>
     </nav>
 
-    <button id="tl-prev" class="tl-nav-btn" aria-label="Previous step" title="Previous (←)" disabled>‹</button>
-    <button id="play-btn" class="play-btn" aria-label="Play journey">
+    <button id="tl-prev" class="tl-nav-btn" aria-label="Previous step" title="Previous date (←)" disabled>‹</button>
+    <button id="play-btn" class="play-btn" aria-label="Play journey" title="Play journey">
       <svg class="icon-play"  viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
       <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
     </button>
-    <button id="tl-next" class="tl-nav-btn" aria-label="Next step" title="Next (→)">›</button>
+    <button id="tl-next" class="tl-nav-btn" aria-label="Next step" title="Next date (→)">›</button>
 
     <div class="tl-speed" role="group" aria-label="Playback speed">
-      <button class="speed-btn" data-speed="0.5" aria-pressed="false" aria-label="Half speed">½×</button>
-      <button class="speed-btn active" data-speed="1" aria-pressed="true" aria-label="Normal speed">1×</button>
-      <button class="speed-btn" data-speed="2" aria-pressed="false" aria-label="Double speed">2×</button>
+      <button class="speed-btn" data-speed="0.5" aria-pressed="false" aria-label="Half speed" title="Play at half speed">½×</button>
+      <button class="speed-btn active" data-speed="1" aria-pressed="true" aria-label="Normal speed" title="Play at normal speed">1×</button>
+      <button class="speed-btn" data-speed="2" aria-pressed="false" aria-label="Double speed" title="Play at double speed">2×</button>
     </div>
   </header>
 

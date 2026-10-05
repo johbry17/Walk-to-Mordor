@@ -862,6 +862,7 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     playBtn.querySelector('.icon-play').style.display  = playing ? 'none' : '';
     playBtn.querySelector('.icon-pause').style.display = playing ? ''     : 'none';
     playBtn.setAttribute('aria-label', playing ? 'Pause journey' : 'Play journey');
+    playBtn.setAttribute('title', playing ? 'Pause journey' : 'Play journey');
   }
 
   playBtn.addEventListener('click', () => { timeline.toggle(); syncPlayBtn(); });
