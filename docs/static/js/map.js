@@ -235,8 +235,9 @@ class MapController {
       el.style.display = '';
     }
 
-    pulse.style.display = (!isOther && status === 'active') ? '' : 'none';
-    ring.style.display  = (!isOther && status === 'active') ? '' : 'none';
+    const isMoving = status === 'active' || status === 'paused';
+    pulse.style.display = (!isOther && isMoving) ? '' : 'none';
+    ring.style.display  = (!isOther && isMoving) ? '' : 'none';
 
     if (isOther) {
       core.setAttribute('r', '10');
@@ -247,6 +248,43 @@ class MapController {
     } else {
       core.setAttribute('r', '16');
       core.style.opacity = '1';
+    }
+  }
+
+  /**
+   * Trigger the location cue animation for the marker of the given journey ID.
+   */
+  cue(jid) {
+    const els = this._els[jid];
+
+  console.log('CUE ATTEMPT:', {
+    jid,
+    elsExists: !!els,
+    display: els?.core?.style.display,
+    ring: !!els?.ring
+  });
+    if (!els || els.core.style.display === 'none') return;
+
+    const ring = els.ring;
+
+    // Restart the animation if the user selects the same thing again.
+    ring.classList.remove('location-cue');
+    void ring.offsetWidth; // Force reflow to restart the CSS animation
+    ring.classList.add('location-cue');
+
+    clearTimeout(ring._cueTimer);
+    ring._cueTimer = setTimeout(() => {
+      ring.classList.remove('location-cue');
+    }, 1300);
+  }
+
+  // For multiple journeys (ALL), invoke the location cue for each visible marker
+  cueVisible(journeyStates) {
+    for (const jid of ['Mordor', 'Return', 'Hobbit']) {
+      const js = journeyStates[jid];
+      if (js && js.status !== 'unstarted') {
+        this.cue(jid);
+      }
     }
   }
 }

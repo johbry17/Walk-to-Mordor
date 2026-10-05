@@ -781,6 +781,53 @@ body {
   opacity: 0.4;
 }
 
+/* Marker location cue */
+@keyframes marker-location-cue {
+  0% {
+    transform: scale(0.65);
+    opacity: 0;
+    stroke-width: 2;
+  }
+
+  20% {
+    transform: scale(1.7);
+    opacity: 0.85;
+    stroke-width: 7;
+  }
+
+  40% {
+    transform: scale(1);
+    opacity: 0.35;
+    stroke-width: 2;
+  }
+
+  60% {
+    transform: scale(1.5);
+    opacity: 0.7;
+    stroke-width: 5;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+    stroke-width: 2;
+  }
+}
+
+.marker-ring.location-cue {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: marker-location-cue 1200ms ease-out;
+}
+
+/* Reduced motion: brief static emphasis, no animation */
+@media (prefers-reduced-motion: reduce) {
+  .marker-ring.location-cue {
+    animation: none;
+    opacity: 0.9;
+  }
+}
+
 .marker-core {
   fill: var(--gold);
   stroke: #1a1612;

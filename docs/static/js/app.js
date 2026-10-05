@@ -707,6 +707,11 @@ document.body.classList.add('loading');
 
     setTimeout(() => {
       popover.hidden = true;
+      // Trigger the initial marker location cue
+      if (window._cueInitialMarker) {
+        window._cueInitialMarker();
+        window._cueInitialMarker = null;
+      }
     }, 180);
   }
 
@@ -805,6 +810,7 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
   // ── State ─────────────────────────────────────────────────────────
   let currentMode = 'ALL';
   let clockMode   = 'MY';
+  let currentJourneyStates = null;
 
   // ── Clock toggle ──────────────────────────────────────────────────
   document.querySelectorAll('.clock-btn').forEach(btn => {
@@ -826,6 +832,8 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
       }
       _updatePauseRange();
       _updateNavButtons();
+      // Trigger the location cue for the map markers based on the current mode.
+      requestAnimationFrame(cueCurrentLocation);
     });
   });
 
@@ -843,14 +851,16 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
       timeline.setMode(mode);
       _updatePauseRange();
       _updateNavButtons();
+      // Trigger the location cue for the map markers based on the current mode.
+      requestAnimationFrame(cueCurrentLocation);
     });
 
-    btn.addEventListener('keydown', e => {
-      const btns = [...document.querySelectorAll('.mode-btn')];
-      const idx  = btns.indexOf(e.currentTarget);
-      if (e.key === 'ArrowRight') { btns[(idx + 1) % btns.length].focus(); e.preventDefault(); }
-      if (e.key === 'ArrowLeft')  { btns[(idx - 1 + btns.length) % btns.length].focus(); e.preventDefault(); }
-    });
+    // btn.addEventListener('keydown', e => {
+    //   const btns = [...document.querySelectorAll('.mode-btn')];
+    //   const idx  = btns.indexOf(e.currentTarget);
+    //   if (e.key === 'ArrowRight') { btns[(idx + 1) % btns.length].focus(); e.preventDefault(); }
+    //   if (e.key === 'ArrowLeft')  { btns[(idx - 1 + btns.length) % btns.length].focus(); e.preventDefault(); }
+    // });
   });
 
   // ── Play / Prev / Next ────────────────────────────────────────────
@@ -891,6 +901,17 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
       });
     });
   });
+
+  // ── Location cue for the current location marker ───────────────────
+  function cueCurrentLocation() {
+    if (!currentJourneyStates) return;
+
+    if (currentMode === 'ALL') {
+      mapCtrl.cueVisible(currentJourneyStates);
+    } else {
+      mapCtrl.cue(currentMode);
+    }
+  }
 
   // ── Pause/break range highlights on timeline ─────────────────────
   function _updatePauseRange() {
@@ -956,6 +977,7 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
       journeyStates = buildMyTimeJourneyStates(dateKey, cumulativeByDate, journeyRanges, chronologyByJourney);
     }
 
+    currentJourneyStates = journeyStates;
     mapCtrl.update({ mode: currentMode, journeyStates });
     const isTimelineEnd = timeline.index === timeline.maxIndex;
     updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd);
@@ -968,6 +990,8 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
   _updatePauseRange();
   onDateChange(0, myCalDates[0]);
 
+  // Initial marker cue, after intro/popover dismissal
+  window._cueInitialMarker = cueCurrentLocation;
 }).catch(err => {
   document.body.classList.remove('loading');
   document.getElementById('info-location').textContent = 'Failed to load data';
