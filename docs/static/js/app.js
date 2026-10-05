@@ -962,6 +962,21 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     playBtn.style.display = 'none';
   }
 
+  // Show the journey completion modal when the timeline reaches the end
+  function showCompletionModal() {
+
+    const dlg = document.getElementById('completion-dialog');
+    if (!dlg) return;
+
+    dlg.showModal();
+  }
+
+  const completionDialog = document.getElementById('completion-dialog');
+
+  completionDialog?.addEventListener('click', () => {
+    completionDialog.close();
+  });
+
   // ── Unified render ────────────────────────────────────────────────
   function onDateChange(_idx, dateKey) {
     if (dateKey === null || dateKey === undefined) return;
@@ -979,7 +994,12 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
     currentJourneyStates = journeyStates;
     mapCtrl.update({ mode: currentMode, journeyStates });
+
     const isTimelineEnd = timeline.index === timeline.maxIndex;
+    if (clockMode === 'MY' && currentMode === 'ALL' && isTimelineEnd) {
+      showCompletionModal();
+    }
+
     updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd);
     _updateNavButtons();
   }

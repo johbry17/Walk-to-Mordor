@@ -116,7 +116,6 @@ body {
 }
 
 /* ── Clock / controls popover ─────────────────────────────────────── */
-
 .clock-popover {
   position: fixed;
   z-index: 2000;
@@ -182,7 +181,6 @@ body {
 }
 
 /* Little pointer toward the clock toggle */
-
 .clock-popover::before {
   content: "";
 
@@ -202,7 +200,6 @@ body {
 }
 
 /* Mobile: anchor it to the bottom rather than squeezing the header */
-
 @media (max-width: 640px) {
 
   .clock-popover {
@@ -223,6 +220,86 @@ body {
 
   .clock-popover::before {
     display: none;
+  }
+}
+
+
+/* ── Journey completion modal ─────────────────────────────────────── */
+.completion-dialog {
+  width: min(520px, calc(100vw - 40px));
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgba(193, 127, 64, 0.45);
+  border-radius: 4px;
+  background: rgba(20, 25, 24, 0.97);
+  color: #eee8dc;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+}
+
+/* .completion-dialog::backdrop {
+  background: rgba(8, 12, 11, 0.58);
+  backdrop-filter: blur(3px);
+} */
+
+.completion-content {
+  padding: 42px 38px 34px;
+  text-align: center;
+}
+
+.completion-kicker {
+  margin-bottom: 22px;
+  color: #c17f40;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.completion-miles {
+  margin-bottom: 24px;
+  font-size: clamp(1.7rem, 5vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.completion-journeys {
+  color: #d8d2c7;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.completion-rule {
+  width: 48px;
+  height: 1px;
+  margin: 28px auto;
+  background: rgba(193, 127, 64, 0.55);
+}
+
+.completion-comparison {
+  color: #aaa79f;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.completion-comparison strong {
+  color: #eee8dc;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.completion-prompt {
+  margin-top: 30px;
+  color: #88857e;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 600px) {
+  .completion-content {
+    padding: 34px 26px 28px;
+  }
+
+  .completion-dialog {
+    width: calc(100vw - 28px);
   }
 }
 
