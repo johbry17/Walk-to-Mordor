@@ -95,12 +95,6 @@ body {
   margin: 1rem 0 0.2rem;
 }
 
-.welcome-aside {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin: 0 0 0.4rem;
-}
-
 .welcome-cta {
   font-size: 10px;
   color: var(--text-muted);
@@ -284,6 +278,12 @@ body {
   color: #eee8dc;
   font-size: 1.05rem;
   font-weight: 500;
+}
+
+.completion-aside {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 .completion-prompt {

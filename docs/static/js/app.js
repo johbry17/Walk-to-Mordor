@@ -962,11 +962,20 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     playBtn.style.display = 'none';
   }
 
-  // Show the journey completion modal when the timeline reaches the end
+  // ── Journey completion modal window ───────────────────────────────
   function showCompletionModal() {
 
     const dlg = document.getElementById('completion-dialog');
     if (!dlg) return;
+
+    const finalMiles = walking.at(-1)?.all_time_cumulative_miles;
+    const milesEl = document.getElementById('completion-miles-value');
+
+    if (finalMiles != null && milesEl) {
+      milesEl.textContent = Number(finalMiles).toLocaleString(undefined, {
+        maximumFractionDigits: 0
+      });
+    }
 
     dlg.showModal();
   }
