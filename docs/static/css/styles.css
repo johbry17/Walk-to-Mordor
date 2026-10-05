@@ -922,6 +922,9 @@ body {
 
 /* ─── Narrow phones (portrait and most landscape) ───────────────────── */
 @media (max-width: 640px) {
+  /* Compact mode buttons for narrow phones */
+  .mode-btn { padding: 4px 6px; }
+  .tl-speed { margin-left: 4px; }
   /* Info panel — bottom overlay; map controls no longer on right side */
   .info-panel {
     top: auto;
