@@ -9,14 +9,14 @@ Mapping real-world movement and fictional chronology with illustrative geography
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [The Three Journeys](#the-three-journeys)
+  - [The Three Journeys](#the-three-journeys)
+  - [Two Clocks](#two-clocks)
+  - [Data Architecture](#data-architecture)
 - [Features](#features)
-- [Two Clocks](#two-clocks)
-- [Data Architecture](#data-architecture)
 - [Tools & Technologies](#tools--technologies)
 - [Technical Challenges](#technical-challenges)
-- [Usage](#usage)
 - [Gallery](#gallery)
+- [Usage](#usage)
 - [Repository Structure](#repository-structure)
 - [Limitations](#limitations)
 - [References](#references)
@@ -30,7 +30,7 @@ An interactive data-storytelling project that maps two years of personal walking
 
 I completed all three as virtual walking challenges through [The Conqueror](https://www.theconqueror.events/), logging steps with Google Fit from March 2024 through June 2026. The visualization turns that walking history into something you can explore — advancing through real-world dates, or advancing through Tolkien's.
 
-## The Three Journeys
+### The Three Journeys
 
 | Journey | Character | Walking Period | Target | Miles Walked | Days Active\* |
 |---|---|---|---|---|---|
@@ -46,19 +46,7 @@ The visualization lets users explore the journeys through two independent timeli
 
 The central engineering challenge was making both timelines resolve to the same geographic representation while keeping the underlying data and modeling systems independent.
 
-## Features
-
-The visualization supports:
-
-- **Two timeline modes** — explore the journeys through real-world walking dates or Tolkien's chronology.
-- **Journey filtering** — view all three journeys together or isolate Bilbo, Frodo, or Aragorn.
-- **Timeline navigation** — scrub through either timeline or move through previous and next steps.
-- **Playback** — automatically advance through the journey with adjustable playback speed.
-- **Interactive map** — zoom and pan across the Middle-earth map while the route progressively reveals itself.
-- **Narrative events** — encounter locations, milestones, and Tolkien-based events as the journeys progress.
-- **Responsive layout** — the visualization adapts to smaller screens and mobile devices.
-
-## Two Clocks
+### Two Clocks
 
 The central design problem was representing two independent timelines — mine and Tolkien's — that produce the same map output.
 
@@ -70,7 +58,7 @@ This mode represents what actually happened: my recorded walking data determines
 
 Both clocks resolve to the same output — a `{ journey_id, cumulative_miles }` pair — which `map.js` converts to an SVG position. The renderer is clock-agnostic.
 
-## Data Architecture
+### Data Architecture
 
 Four separate systems feed the visualization. They are deliberately kept distinct:
 
@@ -90,6 +78,18 @@ routes.json            → SVG geometry (dense point arrays) + mileage calibrati
 ```
 
 The three kinds of distance are not interchangeable. Real mileage ≠ fictional mileage. Fictional mileage ≠ visual path length. Narrative events are keyed independently to both clock systems.
+
+## Features
+
+The visualization supports:
+
+- **Two timeline modes** — explore the journeys through real-world walking dates or Tolkien's chronology.
+- **Journey filtering** — view all three journeys together or isolate Bilbo, Frodo, or Aragorn.
+- **Timeline navigation** — scrub through either timeline or move through previous and next steps.
+- **Playback** — automatically advance through the journey with adjustable playback speed.
+- **Interactive map** — zoom and pan across the Middle-earth map while the route progressively reveals itself.
+- **Narrative events** — encounter locations, milestones, and Tolkien-based events as the journeys progress.
+- **Responsive layout** — the visualization adapts to smaller screens and mobile devices.
 
 ## Tools & Technologies
 
@@ -148,6 +148,34 @@ The visual route is an interpretive geographic rendering. **Mileage does not equ
 
 The dense route geometry does not exist in any published form, so I built a custom tool to create it: `archive/tools/route-builder.html`. The single-file interactive application, inspired by [geojson.io](https://geojson.io/), supports zooming and panning, route tracing, mileage-anchor assignment, anchor validation, multi-journey session continuity, and unsaved-change warnings. All three routes were traced over multiple sessions and exported as `routes.json`.
 
+## Gallery
+
+![Default view — Overview, Frodo leaving Bag End](resources/images/map_start.png)
+*Default view: Overview, My Time. Frodo has just left Bag End on March 27, 2024.*
+
+![Frodo solo, My Time — Bridge of Khazad-dûm](resources/images/map_moria.png)
+*Frodo's journey in My Time: passing the Bridge of Khazad-dûm. The badge marks a challenge rest period mapped to the lament for Gandalf.*
+
+![Overview, Middle-earth Time — Frodo and Aragorn near Mordor](resources/images/map_mordor.png)
+*Overview view in Middle-earth Time: T.A. 3019. Frodo and Aragorn simultaneously active; the info panel shows concurrent narrative events.*
+
+![Aragorn solo, My Time — Paths of the Dead](resources/images/map_rohan.png)
+*Aragorn filtered solo: June 2025, Paths of the Dead. The revealed route shows the complete path walked so far.*
+
+![Bilbo, Middle-earth Time — Elvenking's Halls](resources/images/map_hobbit.png)
+*Bilbo in Middle-earth Time: T.A. 2941, escaping the Wood-elves. The timeline shows Middle-earth Calendar dates.*
+
+![Mobile layout](resources/images/map_mobile.png)
+*Responsive mobile layout: the map fills the viewport with the info panel positioned below.*
+
+### Exploratory Analysis
+
+![Journey comparison](resources/images/walk_comparison.png)
+*Three challenges compared: total miles, average daily pace, and active days.*
+
+![Cumulative walking distance](resources/images/cumulative_walking.png)
+*5,196 miles across the full project window. Grey segments represent gap days between challenges.*
+
 ## Usage
 
 ### Running Locally
@@ -179,34 +207,6 @@ The route builder also requires being served from the project root:
 ```bash
 # http://localhost:8000/archive/tools/route-builder.html
 ```
-
-## Gallery
-
-![Default view — Overview, Frodo leaving Bag End](resources/images/map_start.png)
-*Default view: Overview, My Time. Frodo has just left Bag End on March 27, 2024.*
-
-![Frodo solo, My Time — Bridge of Khazad-dûm](resources/images/map_moria.png)
-*Frodo's journey in My Time: passing the Bridge of Khazad-dûm. The badge marks a challenge rest period mapped to the lament for Gandalf.*
-
-![Overview, Middle-earth Time — Frodo and Aragorn near Mordor](resources/images/map_mordor.png)
-*Overview view in Middle-earth Time: T.A. 3019. Frodo and Aragorn simultaneously active; the info panel shows concurrent narrative events.*
-
-![Aragorn solo, My Time — Paths of the Dead](resources/images/map_rohan.png)
-*Aragorn filtered solo: June 2025, Paths of the Dead. The revealed route shows the complete path walked so far.*
-
-![Bilbo, Middle-earth Time — Elvenking's Halls](resources/images/map_hobbit.png)
-*Bilbo in Middle-earth Time: T.A. 2941, escaping the Wood-elves. The timeline shows Middle-earth Calendar dates.*
-
-![Mobile layout](resources/images/map_mobile.png)
-*Responsive mobile layout: the map fills the viewport with the info panel positioned below.*
-
-### Exploratory Analysis
-
-![Journey comparison](resources/images/walk_comparison.png)
-*Three challenges compared: total miles, average daily pace, and active days.*
-
-![Cumulative walking distance](resources/images/cumulative_walking.png)
-*5,196 miles across the full project window. Grey segments represent gap days between challenges.*
 
 ## Repository Structure
 
