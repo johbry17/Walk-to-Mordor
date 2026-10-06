@@ -339,7 +339,7 @@ body {
   flex-shrink: 0;
   padding: 4px 8px;
 
-  color: var(--text);
+  color: var(--text-muted);
   text-decoration: none;
 
   font-size: 11px;
@@ -1047,6 +1047,7 @@ body {
 
 /* ─── Narrow phones (portrait and most landscape) ───────────────────── */
 @media (max-width: 640px) {
+  .header-about { padding: 4px 6px;}
   /* Compact mode buttons for narrow phones */
   .mode-btn { padding: 4px 6px; }
   .tl-speed { margin-left: 4px; }
