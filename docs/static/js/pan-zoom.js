@@ -12,6 +12,16 @@ class PanZoomController {
     this._layer    = layer;
     this._resetBtn = resetBtn;
 
+    const width = window.innerWidth;
+
+    if (width <= 640) {
+      this._defaultScale = 1.5;
+    } else if (width <= 1024) {
+      this._defaultScale = 1.35;
+    } else {
+      this._defaultScale = 1;
+    }
+
     this._scale = 1;
     this._tx    = 0;
     this._ty    = 0;
@@ -24,6 +34,7 @@ class PanZoomController {
     this.MIN_SCALE = 0.4;
     this.MAX_SCALE = 8;
 
+    this._setDefaultView();
     this._bindEvents();
     this._applyTransform();
   }
@@ -161,9 +172,7 @@ class PanZoomController {
   // ── Reset ─────────────────────────────────────────────────────────
 
   reset() {
-    this._scale = 1;
-    this._tx    = 0;
-    this._ty    = 0;
+    this._setDefaultView();
     this._applyTransform();
   }
 
@@ -174,11 +183,22 @@ class PanZoomController {
       `translate(${this._tx}px, ${this._ty}px) scale(${this._scale})`;
 
     if (this._resetBtn) {
-      const isDefault = Math.abs(this._scale - 1) < 0.01
-                     && Math.abs(this._tx) < 1
-                     && Math.abs(this._ty) < 1;
+      const isDefault = Math.abs(this._scale - this._defaultScale) < 0.01
+                     && Math.abs(this._tx - this._defaultTx) < 1
+                     && Math.abs(this._ty - this._defaultTy) < 1;
       this._resetBtn.classList.toggle('visible', !isDefault);
     }
+  }
+
+  _setDefaultView() {
+    this._scale = this._defaultScale;
+
+      const rect = this._viewport.getBoundingClientRect();
+      this._tx = rect.width  * (1 - this._scale) / 2;
+      this._ty = rect.height * (1 - this._scale) / 2;
+
+      this._defaultTx = this._tx;
+      this._defaultTy = this._ty;
   }
 }
 
