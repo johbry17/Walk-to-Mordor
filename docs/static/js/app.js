@@ -655,6 +655,7 @@ function _renderProgressBars(journeyStates, activeOnly) {
     const row = document.querySelector(`.journey-row[data-journey="${jid}"]`);
     if (!row) continue;
     const show = (activeOnly === null || activeOnly === jid);
+    row.hidden = !show; // Hide inactive journeys
     const cum  = show ? (journeyStates[jid]?.cumMiles ?? 0) : 0;
     const pct  = show ? Math.min((cum / JOURNEY_CONFIG[jid].totalMiles) * 100, 100) : 0;
     document.getElementById(`fill-${jid}`).style.width = `${pct}%`;

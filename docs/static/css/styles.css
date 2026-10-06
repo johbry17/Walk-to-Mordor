@@ -596,6 +596,9 @@ body {
   transition: opacity var(--transition);
 }
 .journey-row.has-progress { opacity: 1; }
+.journey-row[hidden] {
+  display: none;
+}
 
 .jr-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .jr-name { color: var(--text-muted); white-space: nowrap; }
