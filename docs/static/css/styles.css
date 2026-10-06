@@ -1068,10 +1068,10 @@ body {
     overflow-y: auto;
   }
   .info-place  { font-size: 15px; }
-  .journey-rows { display: none; }
+  .journey-rows { display: flex; }
 
   /* Map viewport shrinks to leave room for info panel */
-  .map-viewport { bottom: 120px; }
+  .map-viewport { bottom: 165px; }
 
   /* Timeline — slider on top row, labels + controls on bottom row */
   .timeline-bar {
