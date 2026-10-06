@@ -1047,7 +1047,7 @@ body {
 
 /* ─── Narrow phones (portrait and most landscape) ───────────────────── */
 @media (max-width: 640px) {
-  .header-about { padding: 4px 4px;}
+  .clock-btn { padding: 3px 6px; }
   /* Compact mode buttons for narrow phones */
   .mode-btn { padding: 4px 6px; }
   .tl-speed { margin-left: 4px; }
