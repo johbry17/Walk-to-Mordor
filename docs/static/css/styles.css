@@ -193,31 +193,6 @@ body {
   transform: rotate(45deg);
 }
 
-/* Mobile: anchor it to the bottom rather than squeezing the header */
-@media (max-width: 640px) {
-
-  .clock-popover {
-    left: 12px !important;
-    right: 12px;
-
-    bottom: 64px;
-    top: auto !important;
-
-    width: auto;
-
-    transform: translateY(4px);
-  }
-
-  .clock-popover.visible {
-    transform: translateY(0);
-  }
-
-  .clock-popover::before {
-    display: none;
-  }
-}
-
-
 /* ── Journey completion modal ─────────────────────────────────────── */
 .completion-dialog {
   width: min(520px, calc(100vw - 40px));

@@ -683,18 +683,23 @@ document.body.classList.add('loading');
     if (!popover || !clockToggle) return;
 
     const rect = clockToggle.getBoundingClientRect();
+    const header = document.querySelector('.site-header');
 
     popover.hidden = false;
 
-    /*
-     * Position below the clock toggle on desktop.
-     * CSS overrides this positioning on mobile.
-     */
-    popover.style.top = `${rect.bottom + 10}px`;
-    popover.style.left = `${Math.max(
-      12,
-      rect.right - popover.offsetWidth
-    )}px`;
+    if (window.matchMedia('(max-width: 1024px)').matches) {
+      // Mobile: position below the entire header.
+      const headerRect = header.getBoundingClientRect();
+      popover.style.top = `${headerRect.bottom + 8}px`;
+      popover.style.right = '12px';
+    } else {
+      // Desktop: position below the clock toggle.
+      popover.style.top = `${rect.bottom + 10}px`;
+      popover.style.left = `${Math.max(
+        12,
+        rect.right - popover.offsetWidth
+      )}px`;
+    }
 
     requestAnimationFrame(() => {
       popover.classList.add('visible');
