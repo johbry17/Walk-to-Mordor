@@ -571,90 +571,6 @@
           numerical time axis while preserving their separate narrative
           timelines.
         </p>
-
-        <!-- <h3>The problem with Gregorian dates</h3>
-        <p>
-          Prior programmers have solved the problem of working with the quirks
-          of the Gregorian calendar. For instance, Python's
-          <code>datetime</code> module works well for Gregorian calendar
-          arithmetic, easily adding days and computing intervals while scoffing
-          at leap years and variable month lengths. I stand on the shoulders of
-          giants anytime I do calendar calculations.
-        </p>
-        <p>
-          Unfortunately, such calculators are utterly useless when it comes to
-          the Shire Calendar.
-        </p>
-
-        <h3>The Shire Calendar</h3>
-        <p>
-          The calendar has twelve months of 30 days each (360 days), plus five
-          intercalary days that sit outside any month:
-        </p>
-
-        <table class="shire-calendar">
-          <thead>
-            <tr>
-              <th>Day(s)</th>
-              <th>Position</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="special">
-              <td>2 Yule</td>
-              <td>Ordinal 1</td>
-              <td>First day of the year</td>
-            </tr>
-            <tr>
-              <td>Months 1–6</td>
-              <td>Ordinals 2–181</td>
-              <td>30 days each</td>
-            </tr>
-            <tr class="special">
-              <td>1 Lithe</td>
-              <td>Ordinal 182</td>
-              <td>Midsummer period</td>
-            </tr>
-            <tr class="special">
-              <td>Midyear's Day</td>
-              <td>Ordinal 183</td>
-              <td>Mid-year celebration</td>
-            </tr>
-            <tr class="special">
-              <td>Overlithe</td>
-              <td>Ordinal 184</td>
-              <td>Leap years only (year divisible by 4)</td>
-            </tr>
-            <tr class="special">
-              <td>2 Lithe</td>
-              <td>184 / 185</td>
-              <td>Shifts by 1 in leap years</td>
-            </tr>
-            <tr>
-              <td>Months 7–12</td>
-              <td>185–364 / 186–365</td>
-              <td>30 days each; shifts in leap years</td>
-            </tr>
-            <tr class="special">
-              <td>1 Yule</td>
-              <td>Ordinal 365 / 366</td>
-              <td>Last day of the year</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h3>The ordinal system</h3>
-        <p>
-          To make Middle-earth dates computationally useful, each day gets an
-          absolute integer ordinal anchored to T.A. 2941 2 Yule (the Shire New
-          Year equivalent). Named special days like "Midyear's Day" appear in
-          the source data and convert to ordinals during preprocessing. The
-          slider navigates the full ordinal range; journey data is looked up
-          separately at each ordinal position, so Frodo and Aragorn can share
-          the same ordinal space and both be active in T.A. 3019 without
-          conflating their data.
-        </p> -->
       </section>
 
       <!-- ── Reconstructing Movement ─────────────────────────────── -->
@@ -681,13 +597,8 @@
           <span class="note"
             >← human-curated; dated locations + mileage + confidence</span
           ><br />
-          &nbsp;&nbsp;<span class="arrow"
-            >↓ me-time-generator.ipynb </span
-          >
-          <span class="note"
-            >(linear interpolation between
-            anchors)</span
-          ><br />
+          &nbsp;&nbsp;<span class="arrow">↓ me-time-generator.ipynb </span>
+          <span class="note">(linear interpolation between anchors)</span><br />
           <span class="generated">me_time.csv</span>
           <span class="note"
             >← continuous daily Middle-earth timeline (generated)</span

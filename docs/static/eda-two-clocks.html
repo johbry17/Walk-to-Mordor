@@ -7840,7 +7840,66 @@ Duplicate me_ordinals: 60 rows across 30 ordinals
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="3.-Analytical-Framework">3. Analytical Framework<a class="anchor-link" href="#3.-Analytical-Framework">¶</a></h2><h3 id="Two-temporal-systems">Two temporal systems<a class="anchor-link" href="#Two-temporal-systems">¶</a></h3><table>
+<h2 id="3.-Analytical-Framework">3. Analytical Framework<a class="anchor-link" href="#3.-Analytical-Framework">¶</a></h2><h3 id="The-problem-with-Gregorian-dates">The problem with Gregorian dates<a class="anchor-link" href="#The-problem-with-Gregorian-dates">¶</a></h3><p>The real-world walking data uses ordinary Gregorian dates, so Python's <code>datetime</code> module handles its calendar arithmetic directly. Middle-earth requires a different approach.</p>
+<p>The Shire Calendar does not map cleanly onto the Gregorian calendar: it has twelve 30-day months, intercalary days outside the months, and a leap-day rule of its own. Standard date arithmetic therefore cannot be applied directly to Tolkien's dates.</p>
+<h3 id="The-Shire-Calendar">The Shire Calendar<a class="anchor-link" href="#The-Shire-Calendar">¶</a></h3><p>The Shire Calendar contains twelve months of 30 days each, plus several intercalary days that fall outside the regular month structure:</p>
+<table class="shire-calendar">
+<thead>
+<tr>
+<th>Day(s)</th>
+<th>Position</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="special">
+<td>2 Yule</td>
+<td>Ordinal 1</td>
+<td>First day of the year</td>
+</tr>
+<tr>
+<td>Months 1–6</td>
+<td>Ordinals 2–181</td>
+<td>30 days each</td>
+</tr>
+<tr class="special">
+<td>1 Lithe</td>
+<td>Ordinal 182</td>
+<td>Midsummer period</td>
+</tr>
+<tr class="special">
+<td>Midyear's Day</td>
+<td>Ordinal 183</td>
+<td>Mid-year celebration</td>
+</tr>
+<tr class="special">
+<td>Overlithe</td>
+<td>Ordinal 184</td>
+<td>Leap years only (year divisible by 4)</td>
+</tr>
+<tr class="special">
+<td>2 Lithe</td>
+<td>184 / 185</td>
+<td>Shifts by 1 in leap years</td>
+</tr>
+<tr>
+<td>Months 7–12</td>
+<td>185–364 / 186–365</td>
+<td>30 days each; shifts in leap years</td>
+</tr>
+<tr class="special">
+<td>1 Yule</td>
+<td>Ordinal 365 / 366</td>
+<td>Last day of the year</td>
+</tr>
+</tbody>
+</table>
+<p>For this analysis, these named days are treated as ordinary positions in the calendar rather than as exceptions to duration arithmetic.</p>
+<h3 id="From-Calendar-Dates-to-Ordinals">From Calendar Dates to Ordinals<a class="anchor-link" href="#From-Calendar-Dates-to-Ordinals">¶</a></h3><p>The solution is to give every Middle-earth date an absolute integer ordinal: the number of days elapsed from a fixed starting point, T.A. 2941 2 Yule.</p>
+<p>This converts Tolkien's calendar into a continuous numerical scale while preserving the original dates for display. Named days such as <em>Midyear's Day</em> and <em>Yule</em> are resolved to their corresponding ordinal during preprocessing.</p>
+<p>The ordinal system is important for two reasons. First, it makes elapsed-time calculations straightforward: the difference between two ordinals gives the number of calendar days between them. Second, it provides a common temporal axis for the fictional journeys. Frodo and Aragorn can therefore occupy the same ordinal space during T.A. 3019, where their journeys overlap chronologically, without combining their mileage data.</p>
+<p>The interactive visualization uses this same ordinal axis: the slider moves through Middle-earth chronology, while journey-specific data is retrieved separately at each position.</p>
+<h3 id="Two-temporal-systems">Two temporal systems<a class="anchor-link" href="#Two-temporal-systems">¶</a></h3><table>
 <thead>
 <tr>
 <th>Dimension</th>
