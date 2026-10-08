@@ -502,7 +502,9 @@ font-size: 0.9em;
 padding: 0.1em 0.3em;
 border-radius: 3px;
 background: rgba(255, 255, 255, 0.05);
+color: var(--gold);
 }
+
 /* ── Technical deep-dive links ───────────────────────────────────── */
 .eda-link {
 display: flex;
