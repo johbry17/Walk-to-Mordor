@@ -512,6 +512,9 @@
         .about-body {
           padding: 0 16px 60px;
         }
+        .about-header {
+          gap: 2px;
+        }
         .about-hero {
           padding: 40px 0 36px;
         }
@@ -539,6 +542,7 @@
           font-size: 20px;
         }
       }
+      
       /* ── Code styling ─────────────────────────────────────────────── */
       .about-body code {
         font-family:
@@ -548,6 +552,135 @@
         padding: 0.1em 0.3em;
         border-radius: 3px;
         background: rgba(255, 255, 255, 0.05);
+      }
+      /* ── Technical deep-dive links ───────────────────────────────────── */
+      .eda-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin: 24px 0;
+        padding: 16px 18px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        transition:
+          border-color var(--transition),
+          background var(--transition);
+      }
+      .eda-link:hover {
+        border-color: rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.035);
+      }
+      .eda-link-content {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+      }
+      .eda-link-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      .eda-link-content strong {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-bright);
+      }
+      .eda-link-desc {
+        font-size: 11px;
+        line-height: 1.5;
+        color: var(--text-muted);
+      }
+      .eda-link-action {
+        flex-shrink: 0;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--gold);
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      .eda-link-action:hover {
+        text-decoration: none;
+        color: var(--text-bright);
+      }
+      @media (max-width: 640px) {
+        .eda-link {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+
+      /* ── Technical deep dives ─────────────────────────────────────────── */
+      .deep-dive-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 20px 0 24px;
+      }
+      .deep-dive-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 190px;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        text-decoration: none;
+        transition:
+          border-color var(--transition),
+          background var(--transition),
+          transform var(--transition);
+      }
+      .deep-dive-card:hover {
+        text-decoration: none;
+        border-color: rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.035);
+        transform: translateY(-1px);
+      }
+      .deep-dive-number {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        margin-bottom: 14px;
+      }
+      .deep-dive-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-bright);
+        margin-bottom: 8px;
+      }
+      .deep-dive-desc {
+        font-size: 12px;
+        line-height: 1.6;
+        color: var(--text-muted);
+      }
+      .deep-dive-arrow {
+        margin-top: auto;
+        padding-top: 18px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      .deep-dive-card:hover .deep-dive-arrow {
+        color: var(--text-bright);
+      }
+      @media (max-width: 640px) {
+        .deep-dive-grid {
+          grid-template-columns: 1fr;
+        }
+        .deep-dive-card {
+          min-height: 0;
+        }
       }
     </style>
   </head>
@@ -824,7 +957,7 @@
       <section class="about-section">
         <h2>What the Two Clocks Reveal</h2>
 
-        <h3>Two clocks, one journey</h3>
+        <h3>Two clocks, one walker, three journeys</h3>
         <p>
           The two timelines don't simply display the same information on
           different dates. They produce different shapes of movement. My Time
@@ -843,6 +976,17 @@
             in the story.
           </figcaption>
         </figure>
+
+        <div class="eda-link">
+          <div class="eda-link-content">
+            <span class="eda-link-label">Technical deep dive</span>
+            <strong>Explore the two-clock analysis</strong>
+            <span class="eda-link-desc">
+              See the calculations, comparisons, and supporting analysis behind these findings.
+            </span>
+          </div>
+          <a href="eda-two-clocks.html" class="eda-link-action">View EDA&nbsp;→</a>
+        </div>
 
         <h3>Same mileage, radically different elapsed time</h3>
         <p>
@@ -1023,6 +1167,17 @@
             no seasonal collapse.
           </figcaption>
         </figure>
+
+        <div class="eda-link">
+          <div class="eda-link-content">
+            <span class="eda-link-label">Technical deep dive</span>
+            <strong>Explore the walking data</strong>
+            <span class="eda-link-desc">
+              See the exploratory analysis of daily mileage, streaks, gaps, and walking patterns.
+            </span>
+          </div>
+          <a href="eda-walking-data.html" class="eda-link-action">View EDA&nbsp;→</a>
+        </div>
       </section>
 
       <!-- ── Shire Calendar ──────────────────────────────────────── -->
@@ -1405,6 +1560,41 @@
           the open: neither timeline claims to be the authoritative record of
           the other.
         </p>
+      </section>
+
+      <!-- ── Technical Deep Dives ─────────────────────────────── -->
+      <section class="technical-deep-dive">
+        <h3>Technical Deep Dives</h3>
+
+        <p>
+          The About page focuses on the story and the findings. These notebooks show
+          the analysis underneath them, including the exploratory work, calculations,
+          and comparisons used to build the visualization.
+        </p>
+
+        <div class="deep-dive-grid">
+
+          <a href="eda-walking-data.html" class="deep-dive-card">
+            <span class="deep-dive-number">01</span>
+            <span class="deep-dive-title">Walking Data</span>
+            <span class="deep-dive-desc">
+              Exploratory analysis of 806 days of walking: daily mileage, streaks,
+              gaps, trends, and patterns across the three challenges.
+            </span>
+            <span class="deep-dive-arrow">View analysis&nbsp;→</span>
+          </a>
+
+          <a href="eda-two-clocks.html" class="deep-dive-card">
+            <span class="deep-dive-number">02</span>
+            <span class="deep-dive-title">Two Clocks</span>
+            <span class="deep-dive-desc">
+              A closer look at how the same journeys behave when measured against
+              real-world walking time and reconstructed Middle-earth time.
+            </span>
+            <span class="deep-dive-arrow">View analysis&nbsp;→</span>
+          </a>
+
+        </div>
       </section>
 
       <!-- ── Completion Certificates ─────────────────────────────── -->
