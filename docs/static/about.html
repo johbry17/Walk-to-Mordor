@@ -51,7 +51,7 @@
   </head>
   <body>
     <!-- ── Sticky header ─────────────────────────────────────────── -->
-    <header class="about-header">
+    <header id="top" class="about-header">
       <a class="about-header-title" href="index.html">The Walk to Mordor</a>
       <span class="about-header-sep">/</span>
       <span class="about-header-page">About</span>
@@ -92,9 +92,24 @@
         </div>
       </section>
 
-      <!-- ── What This Is ────────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>What This Is</h2>
+      <!-- ── On this page ──────────────────────────────────────── -->
+      <nav aria-label="On this page" class="page-toc">
+        <p>On this page</p>
+        <ul>
+          <li><a href="#the-project">The Project</a></li>
+          <li><a href="#two-clocks">Two Clocks</a></li>
+          <li><a href="#the-data">The Data</a></li>
+          <li><a href="#building-the-visualization">Building the Visualization</a></li>
+          <li><a href="#what-this-project-taught-me">What This Project Taught Me</a></li>
+          <li><a href="#sources-attribution">Sources &amp; Attribution</a></li>
+        </ul>
+      </nav>
+
+      <!-- ── The Project ────────────────────────────────────────── -->
+      <section class="about-section" id="the-project">
+        <h2>The Project</h2>
+
+        <h3>What This Is</h3>
         <p>
           The Walk to Mordor is an interactive data-storytelling project built
           from 806 days of my real-world walking. I mapped that walking history
@@ -119,11 +134,8 @@
           reconstructs
           <strong>the characters' movement through Middle-earth</strong>.
         </p> -->
-      </section>
 
-      <!-- ── Why I Built It ──────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>Why I Built It</h2>
+        <h3>Why I Built It</h3>
         <p>
           I'd been completing the Conqueror challenges partly because the
           framing appealed to me: your daily steps, accumulated, become
@@ -147,11 +159,8 @@
           put all of that alongside Tolkien's story?
         </p>
         <p>I'm a data nerd. Of course I was gonna build something.</p>
-      </section>
 
-      <!-- ── The Three Journeys ──────────────────────────────────── -->
-      <section class="about-section">
-        <h2>The Three Journeys</h2>
+        <h3>The Three Journeys</h3>
         <p>
           The three challenges were completed in the following order, with gaps
           between them. Each journey maps to one of Tolkien's narrative arcs,
@@ -215,11 +224,13 @@
           takes place in T.A. 2941, almost 80 years earlier, and runs
           independently.
         </p>
+
       </section>
 
-      <!-- ── Two Clocks ──────────────────────────────────────────── -->
-      <section class="about-section">
+      <!-- ── Two Clocks ─────────────────────────────────────────── -->
+      <section class="about-section" id="two-clocks">
         <h2>Two Clocks</h2>
+        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
         <p>
           The central design question was simple:
           <strong
@@ -305,6 +316,8 @@
             mode reveals both routes simultaneously.
           </figcaption>
         </figure>
+
+        <h3>Contrasting the Clocks</h3>
         <p>
           <strong>The story events work differently under each clock.</strong>
           In My Time, an event appears when my accumulated walking reaches its
@@ -317,13 +330,7 @@
           In Middle-earth Time, they reflect where we are in the story — what
           Tolkien placed at that date, independent of pace.
         </p> -->
-      </section>
 
-      <!-- ── What the Two Clocks Reveal ─────────────────────────── -->
-      <section class="about-section">
-        <h2>What the Two Clocks Reveal</h2>
-
-        <h3>Two clocks, one walker, three journeys</h3>
         <p>
           The two timelines don't simply display the same information on
           different dates. They produce different shapes of movement. My Time
@@ -454,11 +461,15 @@
           years and very different fictional circumstances, yet the real-world
           walking habit remained remarkably stable.
         </p>
+
       </section>
 
-      <!-- ── Walking Data ────────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>The Walking Data</h2>
+      <!-- ── The Data ───────────────────────────────────────────── -->
+      <section class="about-section" id="the-data">
+        <h2>The Data</h2>
+        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
+
+        <h3>The Walking Data</h3>
         <p>
           The raw data is a Google Fit export of daily step counts and distance
           measurements. The ETL process audits and cleans the export, assigns
@@ -550,13 +561,8 @@
             >View EDA&nbsp;→</a
           >
         </div>
-      </section>
 
-      <!-- ── Shire Calendar ──────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>Recreating Middle-earth Time</h2>
-
-        <h3>The Shire Calendar</h3>
+        <h3>Recreating Middle-earth Time</h3>
         <p>
           Gregorian dates weren't enough for this project. Tolkien's chronology
           uses the Shire Calendar, with twelve 30-day months plus several
@@ -571,11 +577,8 @@
           numerical time axis while preserving their separate narrative
           timelines.
         </p>
-      </section>
 
-      <!-- ── Reconstructing Movement ─────────────────────────────── -->
-      <section class="about-section">
-        <h2>Reconstructing Middle-earth Movement</h2>
+        <h3>Reconstructing Middle-earth Movement</h3>
         <p>
           The Conqueror provides a fixed total mileage for each journey and a
           set of named segment milestones. Tolkien's text and appendices provide
@@ -624,13 +627,15 @@
             the text with precision it doesn't have.
           </p>
         </div>
+
       </section>
 
-      <!-- ── Map and Routes ──────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>Map and Routes</h2>
+      <!-- ── Building the Visualization ────────────────────────── -->
+      <section class="about-section" id="building-the-visualization">
+        <h2>Building the Visualization</h2>
+        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
 
-        <h3>The base map</h3>
+        <h3>Map and Routes</h3>
         <p>
           The underlying Middle-earth map is from
           <a
@@ -652,7 +657,6 @@
           overlay coordinates map directly to map coordinates at any zoom level.
         </p>
 
-        <h3>Two layers of route data</h3>
         <p>Each journey's route has two distinct structures:</p>
         <p>
           <strong>Geometry</strong> — a dense array of
@@ -759,11 +763,8 @@
           >. The tool let me trace each journey over the base map, place mileage
           anchors, and export the geometry used by the final visualization.
         </p>
-      </section>
 
-      <!-- ── Data Engineering ────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>Data Engineering</h2>
+        <h3>Data Engineering</h3>
         <p>
           The raw data is a Google Fit export of daily step counts and
           distances. A Jupyter notebook audits the export against the underlying
@@ -773,11 +774,8 @@
           personal health data beyond daily aggregate distances is published;
           the original export stays gitignored.
         </p>
-      </section>
 
-      <!-- ── Narrative Layer ─────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>Narrative Layer</h2>
+        <h3>Narrative Layer</h3>
         <p>
           A separate data file records dated story events independent of the
           movement model — date, cumulative mileage anchor, place name, and a
@@ -793,11 +791,8 @@
           what Tolkien placed at that date, independent of pace. The same file
           serves both clocks correctly without modification.
         </p>
-      </section>
 
-      <!-- ── Interaction Design ──────────────────────────────────── -->
-      <section class="about-section">
-        <h2>The Interface</h2>
+        <h3>The Interface</h3>
         <p>
           The visualization is built in vanilla HTML, CSS, and JavaScript — no
           frameworks and no build step. The interface is designed for
@@ -819,11 +814,13 @@
             two-row layout with touch-sized controls.
           </figcaption>
         </figure>
+
       </section>
 
-      <!-- ── What the Project Demonstrates ─────────────────────── -->
-      <section class="about-section">
-        <h2>What the Project Demonstrates</h2>
+      <!-- ── What This Project Taught Me ──────────────────────── -->
+      <section class="about-section" id="what-this-project-taught-me">
+        <h2>What This Project Taught Me</h2>
+        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
         <p>
           The project required several distinct kinds of problem-solving to hold
           together simultaneously. A custom calendar system had to be built from
@@ -876,11 +873,8 @@
             <span class="deep-dive-arrow">View analysis&nbsp;→</span>
           </a>
         </div>
-      </section>
 
-      <!-- ── Completion Certificates ─────────────────────────────── -->
-      <section class="about-section">
-        <h2>Completion Certificates</h2>
+        <h3>Completion Certificates</h3>
         <p>
           The Conqueror issues a digital completion certificate for each
           challenge segment finished. Across all three journeys there are eleven
@@ -924,11 +918,13 @@
           />
           <figcaption>Completion Medals</figcaption>
         </figure>
+
       </section>
 
       <!-- ── Sources and Attribution ─────────────────────────────── -->
-      <section class="about-section">
+      <section class="about-section" id="sources-attribution">
         <h2>Sources &amp; Attribution</h2>
+        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
 
         <div class="attr-list">
           <div class="attr-item">
