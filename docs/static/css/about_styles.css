@@ -266,10 +266,10 @@ overflow-x: auto;
 }
 
 .data-flow .file {
-color: var(--gold);
+color: var(--frodo);
 }
 .data-flow .arrow {
-color: var(--border);
+color: var(--aragorn);
 }
 .data-flow .note {
 color: var(--text-muted);
