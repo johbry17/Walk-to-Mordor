@@ -539,6 +539,16 @@
           font-size: 20px;
         }
       }
+      /* ── Code styling ─────────────────────────────────────────────── */
+      .about-body code {
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", monospace;
+        font-size: 0.9em;
+        padding: 0.1em 0.3em;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.05);
+      }
     </style>
   </head>
   <body>
@@ -556,49 +566,61 @@
         <div class="about-hero-label">About This Project</div>
         <h1 class="about-hero-title">The Walk to Mordor</h1>
         <p class="about-hero-tagline">
-          Three journeys. One walker. Two clocks.
+          Three journeys. One walker. Two clocks.<br />
+          <!-- ~ or ~<br /> -->
+          One hobbit nerd's real journey through fictional time.
         </p>
         <p class="about-hero-intro">
-          Between March 2024 and June 2026, I completed three virtual walking
-          challenges through
+          Between March 2024 and June 2026, through
           <a
             href="https://www.theconqueror.events/"
             target="_blank"
             rel="noopener"
             >The Conqueror</a
-          >: Frodo's road to Mordor, Aragorn's return across Middle-earth, and
-          Bilbo's journey to the Lonely Mountain. All three were tracked with
-          Google Fit. This project is what I built to make sense of that data —
-          and to see what it looked like when mapped against Tolkien's own
-          chronology.
+          >
+          I completed three virtual walking challenges based on Tolkien's
+          journeys: Frodo's slog to Mordor, Aragorn's return to the throne of
+          Gondor, and Bilbo's journey to the Lonely Mountain. Google Fit tracked
+          my mileage. This project maps those miles onto Middle-earth and lets
+          you experience the journeys through two different timelines:
+          <strong>when I actually walked</strong>, and
+          <strong>when the characters did</strong>.
         </p>
+        <br />
+        <div class="callout note">
+          <strong>The Conqueror:</strong> You give them money. They gamify your
+          daily walks into a fictional journey and eventually mail you a shiny
+          medal. I got eleven.
+        </div>
       </section>
 
       <!-- ── What This Is ────────────────────────────────────────── -->
       <section class="about-section">
         <h2>What This Is</h2>
         <p>
-          The Walk to Mordor is an interactive data-storytelling project. It
-          takes 806 days of real personal walking data and maps it onto three
-          fictional journeys through Middle-earth, letting you navigate that
-          history through two different lenses: the actual calendar dates on
-          which I walked, and the Shire Calendar dates of Tolkien's own
-          chronology.
+          The Walk to Mordor is an interactive data-storytelling project built
+          from 806 days of my real-world walking. I mapped that walking history
+          onto three fictional journeys through Middle-earth and built two ways
+          to experience it.
         </p>
         <p>
-          The result is a single visualization with two independent timelines.
-          In
-          <strong>My Time</strong>, you're watching my actual walking history
-          unfold — when I walked more, the character moves faster. In
-          <strong>Middle-earth Time</strong>, you're watching the story unfold
-          as Tolkien told it — the characters move according to the dates and
-          locations he described, and my real walking provides the total mileage
-          that gets distributed across that framework.
+          <strong>My Time</strong> follows my actual walking calendar: when I
+          walked more, the character moves farther.
+          <strong>Middle-earth Time</strong> follows Tolkien's chronology
+          instead, reconstructing where the characters would have been on each
+          day of their journeys.
         </p>
         <p>
-          These aren't two views of the same data. They're two different
-          questions about the same person's movement.
+          The same map, routes, and story events serve both views. What changes
+          is the clock.
         </p>
+        <!-- <p>
+          These aren't two views of the same data. They're two different ways of
+          experiencing movement through the same journeys: one follows
+          <strong>my actual movement through time</strong>, while the other
+          reconstructs
+          <strong>the characters' movement through Middle-earth</strong>.
+        </p> -->
       </section>
 
       <!-- ── Why I Built It ──────────────────────────────────────── -->
@@ -607,36 +629,36 @@
         <p>
           I'd been completing the Conqueror challenges partly because the
           framing appealed to me: your daily steps, accumulated, become
-          something. Frodo reaches Weathertop. You get a certificate. It's a
-          small thing, but there's something satisfying about tying movement to
-          narrative.
+          something. Frodo reaches Weathertop. You get a shiny medal. It's a
+          small thing, but there's something satisfying about tying ordinary
+          movement to narrative.
         </p>
         <p>
-          The question I kept returning to was: what does the full picture look
-          like? Not just the challenge progress bars, but the actual shape of
-          two years of walking — when I walked more, when I walked less, how the
-          three challenges compared, whether my pace changed. And underneath
-          that: what does it look like if you overlay my walking against the
-          story itself? Not just "how far along the route am I," but "where in
-          Tolkien's calendar does this fall, and what was happening that day?"
+          <em>The Lord of the Rings</em> also appeals to me as a metaphor for
+          doing difficult things without knowing how they'll turn out. You don't
+          have to know you'll succeed to take the next step. Sometimes you just
+          have to keep going and leave room for luck, circumstance, and happy
+          accidents to take you somewhere you couldn't have planned.
         </p>
         <p>
-          This project also became an exercise in a particular kind of data
-          problem: how do you connect a real-world dataset with a fictional one?
-          The answer required custom calendar logic, a movement model built from
-          textual evidence, hand-traced visual geography, and some deliberate
-          decisions about what to represent and how. The technical challenge
-          turned out to be as interesting as the personal one.
+          I already walked a lot. The challenges just gave me an extra reason to
+          walk, and I genuinely enjoyed seeing where I was along the route.
+          Eventually, I had two years of walking data. Naturally, I wanted to
+          see what was actually in it. How much did I walk? When did my pace
+          change? How did the three journeys compare? And what would happen if I
+          put all of that alongside Tolkien's story?
         </p>
+        <p>I'm a data nerd. Of course I was gonna build something.</p>
       </section>
 
       <!-- ── The Three Journeys ──────────────────────────────────── -->
       <section class="about-section">
         <h2>The Three Journeys</h2>
         <p>
-          The three challenges were completed in order, with gaps between them.
-          Each journey maps to one of Tolkien's narrative arcs, with its own
-          start date, target mileage, and Shire Calendar chronology.
+          The three challenges were completed in the following order, with gaps
+          between them. Each journey maps to one of Tolkien's narrative arcs,
+          with its own start date, target mileage, and Shire Calendar
+          chronology.
         </p>
 
         <table class="journey-table">
@@ -646,7 +668,7 @@
               <th>Journey</th>
               <th>Walking Period</th>
               <th>Target</th>
-              <th>Miles Walked</th>
+              <th>Avg. Daily Miles</th>
               <th>Days Active</th>
             </tr>
           </thead>
@@ -656,7 +678,7 @@
               <td>The Walk to Mordor</td>
               <td class="num">Mar 2024 – Jan 2025</td>
               <td class="num">1,815 mi</td>
-              <td class="num">1,823 mi</td>
+              <td class="num">7.1 mi/day</td>
               <td class="num">261</td>
             </tr>
             <tr>
@@ -664,7 +686,7 @@
               <td>Return of the King</td>
               <td class="num">Jan 2025 – Aug 2025</td>
               <td class="num">1,482 mi</td>
-              <td class="num">1,494 mi</td>
+              <td class="num">6.5 mi/day</td>
               <td class="num">225</td>
             </tr>
             <tr>
@@ -672,36 +694,252 @@
               <td>The Hobbit</td>
               <td class="num">Jan 2026 – Jun 2026</td>
               <td class="num">1,100 mi</td>
-              <td class="num">1,148 mi</td>
+              <td class="num">7.9 mi/day</td>
               <td class="num">142</td>
             </tr>
           </tbody>
         </table>
 
         <p>
-          All three exceeded their Conqueror target distances. Across the full
-          project window, including gap periods between challenges:
-          <strong>5,196 miles walked over 806 days</strong>.
+          Across the full project window, including gap periods between
+          challenges:
+          <strong>5,196 miles walked over 806 days</strong>, ~800 miles over the
+          combined target distance.
         </p>
-
-        <div class="callout note">
-          <p>
-            The <em>target</em> miles come from The Conqueror's route — a fixed
-            distance set by the challenge. The <em>miles walked</em> are what I
-            actually logged. These aren't the same number as the fictional
-            journey distance modeled in Middle-earth Time, which is distributed
-            according to Tolkien's chronology rather than my walking calendar.
-          </p>
-        </div>
 
         <p>
           Frodo and Aragorn's fictional journeys overlap: Aragorn's route begins
           at Parth Galen on the same day Frodo breaks from the Fellowship (T.A.
-          3019, February 26). In the Middle-earth Time view, both characters are
-          active simultaneously through the final weeks of the War of the Ring —
-          right up to the destruction of the Ring on March 25, 3019. Bilbo's
-          journey takes place in T.A. 2941, almost 80 years earlier, and runs
+          3019, February 26). In Middle-earth Time, both characters are active
+          simultaneously through the final weeks of the War of the Ring, right
+          up to the destruction of the Ring on March 25, 3019. Bilbo's journey
+          takes place in T.A. 2941, almost 80 years earlier, and runs
           independently.
+        </p>
+      </section>
+
+      <!-- ── Two Clocks ──────────────────────────────────────────── -->
+      <section class="about-section">
+        <h2>Two Clocks</h2>
+        <p>
+          The central design question was simple:
+          <strong
+            >What happens when the same journey is measured by two different
+            clocks?</strong
+          >
+        </p>
+        <p><strong>My Time</strong> asks when I actually walked those miles.</p>
+        <p>
+          <strong>Middle-earth Time</strong> asks where the characters were in
+          Tolkien's story on each day of their journey.
+        </p>
+        <p>
+          Both clocks use the same map and routes. They simply answer different
+          questions. And the map and routes do not know (or care) which clock is
+          using them.
+        </p>
+        <!-- <p>
+          The answer was to treat them as genuinely independent systems that
+          happen to share the same map and route geometry. The map renderer
+          receives a journey and cumulative-mileage position from either system
+          without knowing (or caring) which clock generated it.
+        </p> -->
+
+        <h3>My Time</h3>
+        <p>
+          The slider moves through real-world calendar dates: March 27, 2024 to
+          June 10, 2026. Each day's actual walking distance determines how far
+          the character advances on the fictional route. If I walked 12 miles
+          that day, the marker moves 12 miles. If I walked 2 miles, it moves 2.
+        </p>
+        <p>
+          This clock answers:
+          <em
+            >When did I actually walk, and what does that pace look like
+            projected onto the map?</em
+          >
+          It shows the real shape of the walking history — the challenge pause,
+          the inter-journey gaps, the faster and slower stretches.
+        </p>
+
+        <figure>
+          <img
+            src="images/map_start.png"
+            alt="Default visualization view: All Time mode, Frodo departing Bag End on March 27, 2024"
+          />
+          <figcaption>
+            My Time, Day 1: March 27, 2024. Frodo has just left Bag End. The
+            info panel shows the date, cumulative miles, narrative location, and
+            the most recently reached story event.
+          </figcaption>
+        </figure>
+
+        <h3>Middle-earth Time</h3>
+        <p>
+          The slider moves through Shire-calendar-derived dates: T.A. 2941
+          (Bilbo) and T.A. 3018–3019 (Frodo and Aragorn). Character position is
+          reconstructed from Tolkien's dated events and locations, calibrated to
+          the fixed route mileage supplied by The Conqueror. The route's total
+          fictional mileage stays fixed; what changes is when that mileage is
+          accumulated across Tolkien's dates rather than mine.
+        </p>
+        <p>
+          This clock answers:
+          <em
+            >Where does this movement fall within the story's own
+            chronology?</em
+          >
+          It lets you navigate through narrative beats — arriving at Rivendell,
+          crossing the Bridge of Khazad-dûm, reaching Parth Galen — according to
+          the story's Shire Calendar dates.
+        </p>
+
+        <figure>
+          <img
+            src="images/map_mordor.png"
+            alt="Middle-earth Time showing Frodo and Aragorn simultaneously active near Mordor in T.A. 3019"
+          />
+          <figcaption>
+            Middle-earth Time, late T.A. 3019: Frodo escaping the Tower of
+            Cirith Ungol, Aragorn at the Battle of the Pelennor Fields. The info
+            panel shows narrative events for the active journey; the Overview
+            mode reveals both routes simultaneously.
+          </figcaption>
+        </figure>
+        <p>
+          <strong>The story events work differently under each clock.</strong>
+          In My Time, an event appears when my accumulated walking reaches its
+          mileage point. In Middle-earth Time, events appear according to their
+          place in Tolkien's chronology.
+        </p>
+        <!-- <p>
+          This means that in My Time, the narrative events reflect how far I've
+          traveled — how much of the journey I've earned with my actual walking.
+          In Middle-earth Time, they reflect where we are in the story — what
+          Tolkien placed at that date, independent of pace.
+        </p> -->
+      </section>
+
+      <!-- ── What the Two Clocks Reveal ─────────────────────────── -->
+      <section class="about-section">
+        <h2>What the Two Clocks Reveal</h2>
+
+        <h3>Two clocks, one journey</h3>
+        <p>
+          The two timelines don't simply display the same information on
+          different dates. They produce different shapes of movement. My Time
+          reflects the rhythm of my actual walking; Middle-earth Time reflects
+          the rhythm of the story.
+        </p>
+        <figure>
+          <img
+            src="images/two_clocks.png"
+            alt="Three line charts comparing cumulative walking distance over time in My Time and Middle-earth Time for Frodo, Aragorn, and Bilbo; My Time rises steadily while Middle-earth Time includes extended flat periods."
+          />
+          <figcaption>
+            The same walking history produces different shapes under the two
+            clocks: My Time shows the steady accumulation of real-world walking,
+            while Middle-earth Time preserves the pauses and bursts of movement
+            in the story.
+          </figcaption>
+        </figure>
+
+        <h3>Same mileage, radically different elapsed time</h3>
+        <p>
+          The same fictional distance reads as a very different temporal span
+          depending on which clock you read. Aragorn's Return journey covers
+          1,482 fictional miles across just 30 Middle-earth days. My real-world
+          walking of the same route spanned 225 calendar days, a ratio of
+          <strong>7.5×</strong>. In my defense, Aragorn rode a horse for most of
+          the way. Frodo's ratio is a more modest 1.55× (and he used a boat).
+          Bilbo inverts the pattern entirely: his fictional timeline runs 212
+          Middle-earth days while my real-world walking finished the same
+          mileage in only 142 calendar days (ratio 0.67×).
+        </p>
+
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-card-value" style="color: var(--frodo)">1.55×</div>
+            <div class="stat-card-label">Frodo — Real / ME time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-value" style="color: var(--aragorn)">
+              7.5×
+            </div>
+            <div class="stat-card-label">Aragorn — Real / ME time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-value" style="color: var(--bilbo)">0.67×</div>
+            <div class="stat-card-label">Bilbo — Real / ME time</div>
+          </div>
+        </div>
+
+        <h3>Fictional mileage spends a lot of time standing still</h3>
+        <p>
+          Of Frodo's 185 Middle-earth days, fictional mileage is stationary for
+          95 of them — <strong>51%</strong> of the journey. The two largest
+          plateaus are Rivendell (65 ME days at mile&nbsp;487) and Lothlórien
+          (28 ME days at mile&nbsp;952). During those same stretches, my
+          real-world walking continued without pause; the two clocks were simply
+          tracking different things. This is one of the sharpest demonstrations
+          that the Middle-earth timeline and the walking calendar are genuinely
+          independent systems.
+        </p>
+        <p>
+          Bilbo's fictional timeline has a more fragmented structure: three
+          separate stationary periods (Rivendell rest, Wood-elves captivity,
+          Lake-town rest) account for 72 of his 212 Middle-earth days (34%).
+        </p>
+
+        <h3>
+          Fictional travel mode shifts the Middle-earth clock dramatically
+        </h3>
+        <p>
+          The reconstructed chronology produces different apparent travel rates
+          depending on the mode of travel described in the story: walking,
+          horseback, or boat. These are <strong>model-derived rates</strong>,
+          not measurements from Tolkien's text. The result is a wide range:
+          walking segments cluster around ordinary walking speeds, while
+          horseback and boat travel can compress a large fictional distance into
+          a few Middle-earth days. My actual walking rate does not change to
+          reflect these modes, and anyone can clearly see the characters'
+          fictional travel method increasing daily mileage in the Middle-earth
+          clock.
+        </p>
+        <p>
+          In other words, the model lets Aragorn's horse do something my Fitbit
+          obviously cannot: cover 77 fictional miles in a day.
+        </p>
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-card-value" style="color: var(--aragorn)">
+              77.4
+            </div>
+            <div class="stat-card-label">
+              Edoras → Dunharrow<br />fictional mi / ME day (horseback)
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-value" style="color: var(--frodo)">37.7</div>
+            <div class="stat-card-label">
+              Boats on the Anduin<br />fictional mi / ME day
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-value" style="color: var(--bilbo)">41.8</div>
+            <div class="stat-card-label">
+              Beorn → Mirkwood<br />fictional mi / ME day (ponies)
+            </div>
+          </div>
+        </div>
+
+        <h3>My daily walking stayed surprisingly consistent</h3>
+        <p>
+          Across the three challenges, median daily walking remained in a narrow
+          range: Frodo <strong>7.1 mi</strong>, Aragorn <strong>6.5 mi</strong>,
+          and Bilbo <strong>7.9 mi</strong>. The journeys span more than two
+          years and very different fictional circumstances, yet the real-world
+          walking habit remained remarkably stable.
         </p>
       </section>
 
@@ -709,12 +947,11 @@
       <section class="about-section">
         <h2>The Walking Data</h2>
         <p>
-          The raw data is a Google Fit export: daily step counts and distance
-          measurements from March 2024 through June 2026. The ETL notebook
-          (<code>notebooks/etl.ipynb</code>) processes the export into two
-          public-safe output files — an aggregate daily record and a journey
-          segment table — without publishing any personally identifying health
-          information. The original export stays in a gitignored directory.
+          The raw data is a Google Fit export of daily step counts and distance
+          measurements. The ETL process audits and cleans the export, assigns
+          each day to a journey segment or gap, and produces public-safe
+          aggregate data without publishing personally identifying health
+          information.
         </p>
 
         <div class="stat-row">
@@ -754,11 +991,10 @@
         <p>
           The rolling average tells the more honest story: there's no dramatic
           multi-week collapse at any point across two years. Variation exists,
-          but it tends to be short-lived. The long grey stretches — between
-          Frodo and Aragorn (Jan 2025) and between Aragorn and Bilbo (Aug 2025 –
-          Jan 2026) — confirm that the walking habit didn't depend on an active
-          challenge. The second gap spans 147 days at roughly 4 miles/day,
-          slower than challenge pace but continuous.
+          but it tends to be short-lived. The grey stretches, gaps when I wasn't
+          logging miles for a challenge, confirm that the walking habit didn't
+          depend on an active challenge. The last gap spans 147 days at roughly
+          4 miles/day, slower than challenge pace but continuous.
         </p>
 
         <figure>
@@ -772,42 +1008,6 @@
             pace of the three challenges. No section is truly flat.
           </figcaption>
         </figure>
-
-        <div class="figure-row">
-          <figure>
-            <img
-              src="images/walk_comparison.png"
-              alt="Journey comparison: total miles, average pace, and active days for each character"
-            />
-            <figcaption>
-              Journey comparison. Bilbo's 142 days produced the highest average
-              pace; Aragorn's 225 days showed the tightest day-to-day
-              consistency.
-            </figcaption>
-          </figure>
-          <figure>
-            <img
-              src="images/walking_streak.png"
-              alt="Walking streak timeline showing green bars for days above 2-mile threshold"
-            />
-            <figcaption>
-              Streak timeline. Green marks a day at or above the 2-mile
-              threshold. The nearly unbroken band across 2026 reflects the
-              125-day streak spanning most of the Bilbo challenge.
-            </figcaption>
-          </figure>
-        </div>
-
-        <p>
-          Each challenge has a distinct character in the data. Frodo's 261-day
-          journey shows the widest spread — a median of 7.12 mi/day but a peak
-          of 17.37 mi and 9.2% of days below 2 miles, natural variation across
-          nine months of varied conditions. Aragorn's 225 days are the most
-          consistent: narrower interquartile range, median 6.49 mi/day, and
-          fewer outliers in either direction. Bilbo's 142 days have the highest
-          median (7.93 mi) and mean (8.09 mi/day), with only a single day below
-          2 miles across the entire challenge — a compressed, intense effort.
-        </p>
 
         <figure>
           <img
@@ -825,239 +1025,38 @@
         </figure>
       </section>
 
-      <!-- ── Two Clocks ──────────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>Two Clocks</h2>
-        <p>
-          The central design question was: how do you let someone experience the
-          same walking history through two different lenses without making one
-          feel like a relabeled version of the other?
-        </p>
-        <p>
-          The answer was to treat them as genuinely independent systems that
-          happen to share the same map and route geometry. Both produce a
-          <code>{ journey_id, cumulative_miles }</code>
-          pair, and the map renderer consumes that pair without knowing — or
-          caring — which clock generated it.
-        </p>
-
-        <h3>My Time</h3>
-        <p>
-          The slider moves through real-world calendar dates: March 27, 2024 to
-          June 10, 2026. Each day's actual walking distance determines how far
-          the character advances on the fictional route. If I walked 12 miles
-          that day, the marker moves 12 miles. If I walked 2 miles, it moves 2.
-        </p>
-        <p>
-          This clock answers:
-          <em
-            >When did I actually walk, and what does that pace look like
-            projected onto the map?</em
-          >
-          It shows the real shape of the walking history — the challenge pause,
-          the inter-journey gaps, the faster and slower stretches.
-        </p>
-
-        <figure>
-          <img
-            src="images/map_start.png"
-            alt="Default visualization view: All Time mode, Frodo departing Bag End on March 27, 2024"
-          />
-          <figcaption>
-            My Time, Day 1: March 27, 2024. Frodo has just left Bag End. The
-            info panel shows the date, cumulative miles, narrative location, and
-            the most recently reached story event.
-          </figcaption>
-        </figure>
-
-        <h3>Middle-earth Time</h3>
-        <p>
-          The slider moves through Shire Calendar dates: T.A. 2941 (Bilbo) and
-          T.A. 3018–3019 (Frodo and Aragorn). Character position is interpolated
-          across a reconstructed Middle-earth chronology, independent of the
-          actual walking calendar. The total mileage for each journey stays
-          fixed at the Conqueror's route distance; what changes is how that
-          mileage is distributed across Tolkien's dates rather than mine.
-        </p>
-        <p>
-          This clock answers:
-          <em
-            >Where does this movement fall within the story's own
-            chronology?</em
-          >
-          It lets you navigate through narrative beats — arriving at Rivendell,
-          crossing the Bridge of Khazad-dûm, reaching Parth Galen — rather than
-          through calendar months.
-        </p>
-        <p>
-          One consequence of this mode: Frodo and Aragorn share overlapping
-          chronologies in T.A. 3019. Both journeys are active simultaneously
-          from February 26 onward, and both reach their endpoints on March 25 —
-          the day the Ring is destroyed and the Host of the West prevails at the
-          Black Gate. The visualization shows both characters on the map at
-          once.
-        </p>
-
-        <figure>
-          <img
-            src="images/map_mordor.png"
-            alt="Middle-earth Time showing Frodo and Aragorn simultaneously active near Mordor in T.A. 3019"
-          />
-          <figcaption>
-            Middle-earth Time, late T.A. 3019: Frodo approaching Mount Doom,
-            Aragorn at the Black Gate. The info panel shows narrative events for
-            the active journey; the All Time view reveals both routes
-            simultaneously.
-          </figcaption>
-        </figure>
-      </section>
-
-      <!-- ── What the Two Clocks Reveal ─────────────────────────── -->
-      <section class="about-section">
-        <h2>What the Two Clocks Reveal</h2>
-        <p>
-          Comparing the two calendars against the same fictional mileage
-          produced a few findings worth naming. These come from exploratory
-          analysis of the walking data and the reconstructed Middle-earth
-          chronology — a fuller treatment is in
-          <code>notebooks/eda_two_clocks.ipynb</code>.
-        </p>
-
-        <h3>Same mileage, radically different elapsed time</h3>
-        <p>
-          The clearest result is how differently the two clocks scale. Aragorn's
-          Return journey covers 1,482 fictional miles across just 30
-          Middle-earth days. My real-world walking of the same route spanned 225
-          calendar days — a ratio of
-          <strong>7.5×</strong>. Frodo's ratio is a more modest 1.55×. Bilbo's
-          inverts the pattern entirely: his fictional timeline runs 212
-          Middle-earth days while my real-world walking finished the same
-          mileage in only 142 calendar days (ratio 0.67×). The same fictional
-          distance reads as a very different temporal span depending on which
-          clock you read.
-        </p>
-
-        <div class="stat-row">
-          <div class="stat-card">
-            <div class="stat-card-value" style="color: var(--frodo)">1.55×</div>
-            <div class="stat-card-label">Frodo — Real / ME time</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-value" style="color: var(--aragorn)">
-              7.5×
-            </div>
-            <div class="stat-card-label">Aragorn — Real / ME time</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-value" style="color: var(--bilbo)">0.67×</div>
-            <div class="stat-card-label">Bilbo — Real / ME time</div>
-          </div>
-        </div>
-
-        <h3>Fictional mileage spends a lot of time standing still</h3>
-        <p>
-          Of Frodo's 185 Middle-earth days, fictional mileage is stationary for
-          95 of them — <strong>51%</strong> of the journey. The two largest
-          plateaus are Rivendell (65 ME days at mile&nbsp;487) and Lothlórien
-          (28 ME days at mile&nbsp;952). During those same stretches, my
-          real-world walking continued without pause; the two clocks were simply
-          tracking different things. This is one of the sharpest demonstrations
-          that the Middle-earth timeline and the walking calendar are genuinely
-          independent systems — not just relabeled versions of the same data.
-        </p>
-        <p>
-          Bilbo's fictional timeline has a more fragmented structure: three
-          separate stationary periods (Rivendell rest, Wood-elves captivity,
-          Lake-town rest) account for 72 of his 212 Middle-earth days (34%).
-        </p>
-
-        <h3>
-          Fictional travel mode shifts the Middle-earth clock dramatically
-        </h3>
-        <p>
-          The reconstructed Middle-earth chronology assigns different travel
-          rates to different narrative segments — walking, horseback, boat —
-          based on the story context. These are model-derived rates, not
-          measured observations. Some representative values from the segment
-          analysis:
-        </p>
-        <div class="stat-row">
-          <div class="stat-card">
-            <div class="stat-card-value" style="color: var(--aragorn)">
-              77.4
-            </div>
-            <div class="stat-card-label">
-              Edoras → Dunharrow<br />fictional mi / ME day (horseback)
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-value" style="color: var(--frodo)">37.7</div>
-            <div class="stat-card-label">
-              Boats on the Anduin<br />fictional mi / ME day
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-value" style="color: var(--bilbo)">41.8</div>
-            <div class="stat-card-label">
-              Beorn → Mirkwood<br />fictional mi / ME day (ponies)
-            </div>
-          </div>
-        </div>
-        <p>
-          My actual walking rate does not change to reflect these modes. The
-          characters' fictional travel method affects the Middle-earth clock; my
-          walking remains a separate, measured activity.
-        </p>
-
-        <figure>
-          <img
-            src="images/fictional_travel_rate_by_segment.png"
-            alt="Bar chart showing fictional travel rate in miles per Middle-earth day for each narrative segment, ranked from highest (Aragorn horseback) to lowest (Bilbo through Mirkwood)"
-          />
-          <figcaption>
-            Fictional travel rate by segment (fictional miles per Middle-earth
-            day), derived from the reconstructed Middle-earth chronology.
-            Walking segments cluster between roughly 5 and 19 mi/day; horseback
-            and boat segments reach 38–77 mi/day. Travel mode is a narrative
-            annotation, not a measured fact.
-          </figcaption>
-        </figure>
-
-        <h3>
-          My daily walking stayed within a consistent range across all three
-          journeys
-        </h3>
-        <p>
-          Median daily walking: Frodo <strong>7.1 mi</strong>, Aragorn
-          <strong>6.5 mi</strong>, Bilbo <strong>7.9 mi</strong>. The three
-          distributions are similar in shape — roughly unimodal, centred between
-          6 and 9 miles. The journeys span more than two calendar years and very
-          different fictional contexts, yet the underlying walking data shows no
-          large shift between them.
-        </p>
-
-        <div class="callout note">
-          <p>
-            These findings come from the project's exploratory analysis of
-            <code>walking.csv</code> and <code>me_time.csv</code>. Fictional
-            travel rates are reconstructed from <code>chronology.json</code> and
-            represent modeled Middle-earth movement, not measured walking
-            speeds.
-          </p>
-        </div>
-      </section>
-
       <!-- ── Shire Calendar ──────────────────────────────────────── -->
       <section class="about-section">
         <h2>Recreating Middle-earth Time</h2>
 
-        <h3>The problem with Gregorian dates</h3>
+        <h3>The Shire Calendar</h3>
         <p>
-          Python's <code>datetime</code> module works well for Gregorian
-          calendar arithmetic — adding days, computing intervals, sorting
-          sequences. It cannot be used for the Shire Calendar because the Shire
-          Calendar has a different structure: every month has exactly 30 days,
-          and several days exist outside the month system entirely.
+          Gregorian dates weren't enough for this project. Tolkien's chronology
+          uses the Shire Calendar, with twelve 30-day months plus several
+          special days outside the months, including a leap day. I needed a way
+          to turn those dates into something a computer could compare, sort, and
+          interpolate.
+        </p>
+        <p>So I numbered them.</p>
+        <p>
+          I assigned every Shire Calendar day an absolute ordinal, anchored to 2
+          Yule, T.A. 2941. That gives Bilbo, Frodo, and Aragorn a common
+          numerical time axis while preserving their separate narrative
+          timelines.
+        </p>
+
+        <!-- <h3>The problem with Gregorian dates</h3>
+        <p>
+          Prior programmers have solved the problem of working with the quirks
+          of the Gregorian calendar. For instance, Python's
+          <code>datetime</code> module works well for Gregorian calendar
+          arithmetic, easily adding days and computing intervals while scoffing
+          at leap years and variable month lengths. I stand on the shoulders of
+          giants anytime I do calendar calculations.
+        </p>
+        <p>
+          Unfortunately, such calculators are utterly useless when it comes to
+          the Shire Calendar.
         </p>
 
         <h3>The Shire Calendar</h3>
@@ -1075,39 +1074,44 @@
             </tr>
           </thead>
           <tbody>
+            <tr class="special">
+              <td>2 Yule</td>
+              <td>Ordinal 1</td>
+              <td>First day of the year</td>
+            </tr>
             <tr>
               <td>Months 1–6</td>
-              <td>Ordinals 1–180</td>
+              <td>Ordinals 2–181</td>
               <td>30 days each</td>
             </tr>
             <tr class="special">
               <td>1 Lithe</td>
-              <td>Ordinal 181</td>
+              <td>Ordinal 182</td>
               <td>Midsummer period</td>
             </tr>
             <tr class="special">
               <td>Midyear's Day</td>
-              <td>Ordinal 182</td>
+              <td>Ordinal 183</td>
               <td>Mid-year celebration</td>
             </tr>
             <tr class="special">
               <td>Overlithe</td>
-              <td>Ordinal 183</td>
+              <td>Ordinal 184</td>
               <td>Leap years only (year divisible by 4)</td>
             </tr>
             <tr class="special">
               <td>2 Lithe</td>
-              <td>183 / 184</td>
+              <td>184 / 185</td>
               <td>Shifts by 1 in leap years</td>
             </tr>
             <tr>
               <td>Months 7–12</td>
-              <td>184–363 / 185–364</td>
+              <td>185–364 / 186–365</td>
               <td>30 days each; shifts in leap years</td>
             </tr>
             <tr class="special">
-              <td>Yule 1</td>
-              <td>Ordinal 364 / 365</td>
+              <td>1 Yule</td>
+              <td>Ordinal 365 / 366</td>
               <td>Last day of the year</td>
             </tr>
           </tbody>
@@ -1115,28 +1119,15 @@
 
         <h3>The ordinal system</h3>
         <p>
-          To make Middle-earth dates computationally useful, the calendar
-          implementation in
-          <code>notebooks/me-time-generator.ipynb</code> assigns each day an
-          absolute integer ordinal anchored to T.A. 2941 Yule 2 (the Shire New
-          Year equivalent). This ordinal is what the Middle-earth Time slider
-          actually navigates — a sequence of integers that can be compared,
-          filtered, interpolated, and used for range arithmetic without any of
-          the complications that come from working with named special days as
-          raw strings.
-        </p>
-        <p>
-          Named special days like "Midyear's Day" or "1 Lithe" appear as date
-          strings in the source anchor file and in <code>chronology.json</code>.
-          They are converted to ordinals during preprocessing. Everything
-          downstream works with the integer.
-        </p>
-        <p>
-          Multiple journey chronologies span the same ordinal range — Frodo and
-          Aragorn both operate in T.A. 3019 — so the ordinal space is shared.
-          The slider navigates the full ordinal range, and the data for each
-          active journey is looked up separately at each ordinal position.
-        </p>
+          To make Middle-earth dates computationally useful, each day gets an
+          absolute integer ordinal anchored to T.A. 2941 2 Yule (the Shire New
+          Year equivalent). Named special days like "Midyear's Day" appear in
+          the source data and convert to ordinals during preprocessing. The
+          slider navigates the full ordinal range; journey data is looked up
+          separately at each ordinal position, so Frodo and Aragorn can share
+          the same ordinal space and both be active in T.A. 3019 without
+          conflating their data.
+        </p> -->
       </section>
 
       <!-- ── Reconstructing Movement ─────────────────────────────── -->
@@ -1149,13 +1140,13 @@
           how far each character traveled on any given Shire date.
         </p>
         <p>
-          The movement model is built from a hand-curated anchor file
-          (<code>data/me-time-anchors.csv</code>). Each anchor records a Shire
-          Calendar date, a cumulative mileage value, a place name, and a
-          confidence level —
-          <strong>high</strong> for dates established in Tolkien's text or
-          appendices, <strong>estimated</strong> for reasoned approximations
-          where the text doesn't specify an exact date.
+          The movement model is built from a hand-curated anchor file combining
+          Conqueror mileage with Tolkien's dated events, published chronology,
+          and supporting reference material. Each anchor records a Shire
+          Calendar date, cumulative mileage, place, and whether the date is
+          explicitly established in Tolkien's chronology or estimated where the
+          text leaves a gap. (Exact dates for
+          <em>The Hobbit</em> in particular are sparse and therefore estimated.)
         </p>
 
         <div class="data-flow">
@@ -1178,10 +1169,12 @@
 
         <p>
           Between any two consecutive anchors, mileage is distributed linearly
-          across the relevant Middle-earth days. Recognized rest stops — the
-          Company's stay in Rivendell, the Fellowship's weeks in Lothlórien,
-          Bilbo's time in the Wood-elves' halls — produce zero-movement
+          across the relevant Middle-earth days. Recognized rest stops (the
+          Company's stay in Rivendell, the Fellowship's weeks in Lothlórien, and
+          Bilbo's time in the Wood-elves' halls) produce zero-movement
           intervals: the ordinal advances but the cumulative miles don't change.
+          This daily mileage distribution is what the visualization uses to
+          reconstruct the characters' movements across Middle-earth.
         </p>
 
         <div class="callout">
@@ -1193,13 +1186,6 @@
             the text with precision it doesn't have.
           </p>
         </div>
-
-        <p>
-          The output file, <code>me_time.csv</code>, contains one row per Shire
-          Calendar day per active journey — a date string, an ordinal integer, a
-          journey ID, and a cumulative miles value. This is what the browser
-          fetches at runtime to drive the Middle-earth Time slider.
-        </p>
       </section>
 
       <!-- ── Map and Routes ──────────────────────────────────────── -->
@@ -1222,18 +1208,14 @@
             rel="noopener"
             >CC BY-SA 4.0</a
           >. It's loaded as a static <code>&lt;img&gt;</code> element rather
-          than inline SVG. A second SVG element — sized to the same viewBox (0 0
-          3200 2400) — sits on top as a transparent overlay, and all route lines
-          and markers are drawn there. Because both elements share the same
-          intrinsic aspect ratio, overlay coordinates map directly to map
-          coordinates at any zoom level.
+          than inline SVG. A second SVG element, sized exactly the same, sits on
+          top as a transparent overlay. All route lines and markers are drawn
+          there. Because both elements share the same intrinsic aspect ratio,
+          overlay coordinates map directly to map coordinates at any zoom level.
         </p>
 
         <h3>Two layers of route data</h3>
-        <p>
-          Each journey's route in <code>routes.json</code> has two distinct
-          structures:
-        </p>
+        <p>Each journey's route has two distinct structures:</p>
         <p>
           <strong>Geometry</strong> — a dense array of
           <code>{x, y}</code> points hand-traced over the map, following roads,
@@ -1246,7 +1228,7 @@
           index into the dense geometry array. These are the connection between
           the fictional mileage model and the visual path.
         </p>
-        <p>
+        <!-- <p>
           The <code>_resolve()</code> function in
           <code>js/map.js</code> converts a fictional cumulative miles value
           into an SVG position:
@@ -1273,16 +1255,24 @@
           <code>stroke-dashoffset</code>
           technique reveals the completed portion of the route progressively as
           the marker advances.
+        </p> -->
+        <p>
+          The visualization converts a cumulative mileage value to an SVG
+          position by finding the two calibration anchors that bracket it,
+          calculating where the mileage falls between them, and walking the
+          dense geometry to place the marker exactly on the traced path. The
+          marker follows every bend in the route; it never cuts straight between
+          calibration points.
         </p>
 
         <div class="callout">
           <p>
-            Fictional mileage does not equal visual path length. The calibration
-            anchors align specific mileage values to specific geographic
-            positions on the map, but the path between them is the traced route
-            geometry, not a straight line. The visual route is a geographic
-            interpretation; it doesn't claim to locate every campsite or rest
-            stop with precision.
+            The map is geographic, not a mileage scale. Fictional mileage does
+            not equal visual path length. Calibration anchors tie specific
+            mileage values to named locations, while the traced geometry
+            supplies the shape of the route between them. The result is a
+            geographic interpretation of the journey, not a claim that every
+            mile or campsite is precisely located.
           </p>
         </div>
 
@@ -1320,33 +1310,16 @@
             revealed route line shows the complete path walked to this point.
           </figcaption>
         </figure>
-      </section>
 
-      <!-- ── Route Builder ───────────────────────────────────────── -->
-      <section class="about-section">
-        <h2>Building the Routes</h2>
+        <h3>Building the Routes</h3>
         <p>
-          The dense route geometry doesn't exist anywhere in a form suitable for
-          direct use. To produce it, I built a custom interactive tool:
-          <code>archive/tools/route-builder.html</code>.
-        </p>
-        <p>
-          The tool works by letting you zoom and pan the Middle-earth map and
-          click to add geometry points, following the visual path of each
-          journey. A separate mode lets you select geometry points and assign
-          mileage anchors to them — linking a fictional cumulative mileage value
-          to a specific geographic position. The tool exports
-          <code>routes.json</code> directly, and all three routes were traced
-          over multiple working sessions.
-        </p>
-        <p>
-          Before the full route builder existed, an earlier proof of concept
-          (<code>archive/proof_of_concept/poc.html</code>) tested the
-          fundamental overlay technique: rendering an SVG over the mapome image
-          with matching viewBox coordinates, and moving a marker along a sparse
-          set of hand-entered waypoints. That working prototype established the
-          coordinate system, confirmed the overlay approach, and served as the
-          foundation for the production rendering system.
+          I had to draw the routes myself. No usable route geometry existed in a
+          form I could directly incorporate into the visualization, so I built a
+          small interactive route-building tool, inspired by
+          <a href="https://geojson.io" target="_blank" rel="noopener noreferrer"
+            >geojson.io</a
+          >. The tool let me trace each journey over the base map, place mileage
+          anchors, and export the geometry used by the final visualization.
         </p>
       </section>
 
@@ -1354,34 +1327,13 @@
       <section class="about-section">
         <h2>Data Engineering</h2>
         <p>
-          The raw Google Fit export is a directory of daily CSV files alongside
-          an aggregate daily summary. <code>notebooks/etl.ipynb</code> processes
-          it in several stages: auditing the aggregate against individual daily
-          files, selecting a canonical source, trimming each record to the three
-          fields actually needed (date, steps, distance in miles), and running
-          explicit data quality checks.
-        </p>
-        <p>
-          The notebook then combines the daily records with the three Conqueror
-          journey metadata files, assigns each walking day to a journey segment
-          or marks it as a gap, and validates every boundary decision explicitly
-          — distinguishing intentional challenge pauses, inter-journey gaps, and
-          any anomalous days.
-        </p>
-        <p>
-          The output is two small, public-safe files:
-          <code>data/processed/daily_steps.csv</code>
-          (one row per day with date, distance, and journey assignment) and
-          <code>data/processed/journeys.csv</code> (one row per challenge
-          segment with boundary dates). No personal health data beyond daily
-          aggregate distances is published in the repository. The original
-          export stays gitignored.
-        </p>
-        <p>
-          The production data file served to the browser —
-          <code>docs/static/data/walking.csv</code>
-          — is a further export from the ETL notebook that adds cumulative
-          mileage columns for use by the visualization's My Time clock.
+          The raw data is a Google Fit export of daily step counts and
+          distances. A Jupyter notebook audits the export against the underlying
+          daily records, selects a canonical source, assigns each day to a
+          journey segment or gap, runs explicit data-quality checks at every
+          boundary, and produces public-safe outputs for the visualization. No
+          personal health data beyond daily aggregate distances is published;
+          the original export stays gitignored.
         </p>
       </section>
 
@@ -1389,27 +1341,20 @@
       <section class="about-section">
         <h2>Narrative Layer</h2>
         <p>
-          <code>chronology.json</code> exists as a separate data file,
-          independent of the movement model. Each entry records a Shire Calendar
-          date, a cumulative mileage anchor, a place name, and a brief
-          description of what was happening in the story.
+          A separate data file,
+          <code>chronology.json</code>, records dated story events independent
+          of the movement model — date, cumulative mileage anchor, place name,
+          and a brief description. The separation is intentional: narrative
+          events aren't another way of calculating mileage; they're a layer of
+          story that runs alongside it.
         </p>
         <p>
-          The separation matters. Narrative events aren't another way of
-          calculating mileage — they're a layer of story that runs alongside the
-          movement data. In My Time, narrative events are looked up by mileage:
-          the info panel shows the most recently reached event given your
-          current cumulative miles. In Middle-earth Time, they're looked up by
-          ordinal date: the panel shows the most recently passed story beat. The
-          same
-          <code>chronology.json</code> source works for both clocks, reached
-          through different lookup logic.
-        </p>
-        <p>
-          This means that in My Time, the narrative events reflect how far I've
-          traveled — how much of the journey I've earned with my actual walking.
-          In Middle-earth Time, they reflect where we are in the story — what
-          Tolkien placed at that date, independent of pace.
+          The two clocks use that same narrative data differently. In My Time,
+          narrative events are looked up by mileage: the info panel shows the
+          most recently reached story beat given your cumulative distance. In
+          Middle-earth Time, they're looked up by ordinal date: the panel shows
+          what Tolkien placed at that date, independent of pace. The same file
+          serves both clocks correctly without modification.
         </p>
       </section>
 
@@ -1418,48 +1363,12 @@
         <h2>The Interface</h2>
         <p>
           The visualization is built in vanilla HTML, CSS, and JavaScript — no
-          frameworks, no build step. The map, routes, and markers are all SVG.
-          The whole thing is a static file served from GitHub Pages.
-        </p>
-
-        <h3>Controls and navigation</h3>
-        <p>
-          <strong>Journey selector</strong> — switches between All Time (all
-          three routes visible simultaneously), Frodo, Aragorn, and Bilbo. In
-          All Time mode, the info panel shows progress bars for all three
-          journeys. In a single-journey mode, it shows full narrative detail for
-          that character.
-        </p>
-        <p>
-          <strong>My Time / Middle-earth Time toggle</strong> — switches the
-          clock system. The slider range, labels, and all data lookups change
-          accordingly. The renderer itself doesn't change.
-        </p>
-        <p>
-          <strong>Timeline slider</strong> — scrubs through the date sequence.
-          The left and right labels show the start and end dates for the current
-          mode and journey selection. In Frodo's My Time view, a visual marker
-          on the slider shows the 27-day challenge pause period (July–August
-          2024).
-        </p>
-        <p>
-          <strong>Playback</strong> — the play button animates the timeline at
-          35 ms/step, with ½×, 1×, and 2× speed options. Playback runs per
-          animation frame and pauses automatically at the end of the timeline.
-          Prev/next buttons step through the timeline one day at a time.
-        </p>
-        <p>
-          <strong>Map zoom/pan</strong> — mouse wheel zooms centered on the
-          cursor; click-drag pans. On touch devices, a single finger pans and a
-          two-finger pinch gesture zooms. Zoom buttons and a reset view button
-          are available as alternatives to gestures. Double-clicking the map
-          resets the view.
-        </p>
-        <p>
-          <strong>Pause badge</strong> — during a pause in Frodo's challenge in
-          My Time, a floating badge appears over the map denoting a pause to
-          lament for Gandalf, a real-world break I took between legs of the
-          Conqueror Challenges.
+          frameworks and no build step. The interface is designed for
+          exploration rather than instruction: pan and zoom let the route be
+          examined at different scales, playback turns the timeline into an
+          animated journey, and the responsive layout keeps the map and
+          narrative panel usable on smaller screens. A pause badge makes an
+          important real-world interruption visible instead of hiding it.
         </p>
 
         <figure>
@@ -1479,74 +1388,23 @@
       <section class="about-section">
         <h2>What the Project Demonstrates</h2>
         <p>
-          The project required several different kinds of reasoning to hold
-          together simultaneously, and each stage had to be resolved before the
-          next one could work:
+          The project required several distinct kinds of problem-solving to hold
+          together simultaneously. A custom calendar system had to be built from
+          scratch; a movement model had to be reconstructed from sparse textual
+          evidence rather than measured data; route geometry had to be
+          hand-traced and calibrated to fictional mileage; and the frontend had
+          to be built without a framework to avoid adding complexity where none
+          was needed. Each piece had to be coherent on its own before the pieces
+          could be brought together.
         </p>
-
-        <div class="progression">
-          <div class="prog-step">
-            <div class="prog-label">Data Engineering</div>
-            <div class="prog-desc">
-              Auditing and transforming a personal health data export into a
-              clean, reproducible structured dataset; explicit boundary
-              decisions at every segment edge; producing public-safe outputs
-              without publishing private records.
-            </div>
-          </div>
-          <div class="prog-step">
-            <div class="prog-label">Custom Calendar</div>
-            <div class="prog-desc">
-              Implementing the Shire Calendar from scratch when standard date
-              libraries don't handle it; building an ordinal system that enables
-              sorting, filtering, and interpolation across a non-Gregorian
-              timeline spanning multiple fictional years.
-            </div>
-          </div>
-          <div class="prog-step">
-            <div class="prog-label">Temporal Modeling</div>
-            <div class="prog-desc">
-              Constructing a day-by-day Middle-earth movement model from sparse
-              textual evidence; calibrating confidence levels for each anchor;
-              recognizing what the model can and can't claim.
-            </div>
-          </div>
-          <div class="prog-step">
-            <div class="prog-label">Geospatial Visualization</div>
-            <div class="prog-desc">
-              Hand-tracing route geometry over a fan-made SVG map; building a
-              calibration system that maps fictional mileage to geographic SVG
-              positions; resolving the difference between mileage and visual
-              path length.
-            </div>
-          </div>
-          <div class="prog-step">
-            <div class="prog-label">Interaction Design</div>
-            <div class="prog-desc">
-              Designing two independent time modes around a shared renderer;
-              building timeline playback, touch/pinch pan-zoom, responsive
-              mobile layout, and a floating narrative panel — all without a
-              framework.
-            </div>
-          </div>
-          <div class="prog-step">
-            <div class="prog-label">Narrative Storytelling</div>
-            <div class="prog-desc">
-              Keeping the fictional narrative layer distinct from the movement
-              data; designing the chronology lookup so it works correctly under
-              both clock systems; letting the data tell the story without
-              inventing details the data doesn't support.
-            </div>
-          </div>
-          <div class="prog-step">
-            <div class="prog-label">Personal Voice</div>
-            <div class="prog-desc">
-              Building something meaningful from a dataset that is genuinely
-              mine — not a demo or exercise, but two years of daily walking that
-              happened to map onto something worth visualizing.
-            </div>
-          </div>
-        </div>
+        <p>
+          The most interesting constraint throughout was maintaining clarity
+          about what was measured, what was modeled, and what was interpreted —
+          and making that distinction visible in the interface rather than
+          smoothing it over. The two-clock design forces that distinction into
+          the open: neither timeline claims to be the authoritative record of
+          the other.
+        </p>
       </section>
 
       <!-- ── Completion Certificates ─────────────────────────────── -->
@@ -1595,6 +1453,81 @@
 
         <div class="attr-list">
           <div class="attr-item">
+            <div class="attr-source">Primary Sources</div>
+            <div class="attr-desc">
+              Tolkien's <em>The Hobbit</em>, <em>The Lord of the Rings</em> and
+              appendices, and <em>Unfinished Tales</em>.
+            </div>
+          </div>
+          <div class="attr-item">
+            <div class="attr-source">Secondary Sources</div>
+            <div class="attr-desc">
+              Karen Wynn Fonstad, <em>The Atlas of Middle-earth</em>, revised
+              edition.
+            </div>
+          </div>
+          <div class="attr-item">
+            <div class="attr-source">Map</div>
+            <div class="attr-desc">
+              <a
+                href="https://github.com/k1tesurfen/mapome"
+                target="_blank"
+                rel="noopener"
+                >mapome</a
+              >
+              by k1tesurfen,
+              <a
+                href="https://creativecommons.org/licenses/by-sa/4.0/"
+                target="_blank"
+                rel="noopener"
+                >CC BY-SA 4.0</a
+              >.
+            </div>
+          </div>
+          <div class="attr-item">
+            <div class="attr-source">Walking Data</div>
+            <div class="attr-desc">
+              Personal Google Fit export; only daily aggregate distances are
+              published.
+            </div>
+          </div>
+          <div class="attr-item">
+            <div class="attr-source">Challenge Framework</div>
+            <div class="attr-desc">The Conqueror.</div>
+          </div>
+        </div>
+        <p>Original code © 2026 Bryan Johns, MIT License.</p>
+        <p>
+          This project is non-commercial and is not affiliated with the Tolkien
+          Estate, HarperCollins, or any rights holder. No claim is made to any
+          intellectual property associated with Middle-earth. See the repository
+          README for full attribution and licensing information.
+        </p>
+
+        <!-- <div class="attr-list">
+          <div class="attr-item">
+            <div class="attr-source">Tolkien's Works</div>
+            <div class="attr-desc">
+              Fictional characters, place names, chronology, and narrative
+              events are drawn from
+              <em>The Hobbit</em>, <em>The Lord of the Rings</em>, and their
+              appendices by J.R.R. Tolkien, published by HarperCollins /
+              Houghton Mifflin Harcourt. Select dates also draw on
+              <em>Unfinished Tales</em>. This project is non-commercial and is
+              not affiliated with the Tolkien Estate, HarperCollins, or any
+              rights holder. No claim is made to any intellectual property
+              associated with Middle-earth.
+            </div>
+          </div>
+          <div class="attr-item">
+            <div class="attr-source">Secondary Reference</div>
+            <div class="attr-desc">
+              Karen Wynn Fonstad, <em>The Atlas of Middle-earth</em>, revised
+              edition. Consulted as a secondary reference for routes, locations,
+              and geography.
+            </div>
+          </div>
+          <div class="attr-item">
             <div class="attr-source">Middle-earth Map</div>
             <div class="attr-desc">
               <a
@@ -1609,21 +1542,7 @@
                 target="_blank"
                 rel="noopener"
                 >CC BY-SA 4.0</a
-              >. Source files archived in <code>archive/map/</code>.
-            </div>
-          </div>
-          <div class="attr-item">
-            <div class="attr-source">Tolkien's Works</div>
-            <div class="attr-desc">
-              Fictional characters, place names, chronology, and narrative
-              events are drawn from
-              <em>The Hobbit</em>, <em>The Lord of the Rings</em>, and their
-              appendices by J.R.R. Tolkien, published by HarperCollins /
-              Houghton Mifflin Harcourt. Select dates also draw on
-              <em>Unfinished Tales</em>. This project is non-commercial and is
-              not affiliated with the Tolkien Estate, HarperCollins, or any
-              rights holder. No claim is made to any intellectual property
-              associated with Middle-earth.
+              >.
             </div>
           </div>
           <div class="attr-item">
@@ -1648,15 +1567,7 @@
             </div>
           </div>
         </div>
-
-        <div class="callout">
-          <p>
-            ⚠ The project brief notes Karen Wynn Fonstad's
-            <em>Atlas of Middle-earth</em> as a possible secondary reference for
-            route geography and chronology. Please confirm whether this source
-            was consulted and add a credit if appropriate.
-          </p>
-        </div>
+        <p>Original code © 2026 Bryan Johns, MIT License.</p> -->
       </section>
     </div>
     <!-- /.about-body -->
