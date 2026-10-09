@@ -1,0 +1,173 @@
+/* ── Override nbconvert ─────────────────────────────────────────────── */
+body {
+display: block;
+background: #0d0b08 !important;
+color: var(--text) !important;
+max-width: 780px !important;
+margin: 0 auto !important;
+padding: 0 12px 20px !important;
+}
+.about-header-title{
+color: var(--text-bright) !important;
+}
+.about-header-title:hover {
+color: var(--gold) !important;
+}
+.about-header-back {
+color: var(--text-muted) !important;
+transition:
+    color var(--transition),
+    border-color var(--transition) !important;
+}
+.about-header-back:hover {
+color: var(--gold) !important;
+border-color: var(--gold) !important;
+}
+h1 {
+font-size: 13px;
+font-weight: 600;
+color: var(--gold);
+letter-spacing: 0.06em;
+text-transform: uppercase;
+}
+a {
+color: var(--gold) !important;
+}
+.site-footer {
+margin-top: 20px !important;
+}
+.footer-links a {
+color: var(--text-muted) !important;
+}
+.footer-links a:hover,
+.footer-links a:focus {
+color: var(--text-bright) !important;
+text-decoration: underline;
+}
+
+/* ── Notebook output ────────────────────────────────────────────────── */
+
+.output_text,
+.output_text pre,
+.output_text pre span,
+.output_area pre,
+.jp-OutputArea-output pre {
+color: var(--text) !important;
+background: transparent !important;
+border: none !important;
+box-shadow: none !important;
+font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ── Tables ─────────────────────────────────────────────────────────── */
+table {
+width: 100%;
+border-collapse: collapse;
+background: #0d0b08 !important;
+color: var(--text) !important;
+border: 1px solid var(--border) !important;
+font-size: 13px;
+}
+table th {
+background: rgba(255, 255, 255, 0.04) !important;
+color: var(--text-bright) !important;
+border-bottom: 1px solid var(--border) !important;
+padding: 8px 12px;
+text-align: left;
+}
+table td {
+background: #0d0b08 !important;
+color: var(--text) !important;
+border-bottom: 1px solid var(--border) !important;
+padding: 8px 12px;
+}
+table tr:nth-child(even) td {
+background: #15120f !important;
+}
+
+/* ── Pandas DataFrame index column ─────────────────────────────────── */
+table.dataframe tbody th {
+    background-color: #0d0b08 !important;
+    background: #0d0b08 !important;
+    color: var(--text) !important;
+}
+table.dataframe tbody tr:nth-child(even) th {
+    background-color: #15120f !important;
+    background: #15120f !important;
+}
+
+/* ── Key Findings  ────────────────────────────────────────────────── */
+.findings-table {
+width: 100%;
+border-collapse: collapse;
+border: none !important;
+background: #0d0b08 !important;
+color: var(--text) !important;
+font-size: 13px;
+}
+.findings-table th,
+.findings-table td {
+background: #0d0b08 !important;
+color: var(--text) !important;
+border: none !important;
+border-bottom: 1px solid var(--border) !important;
+padding: 10px 12px;
+vertical-align: top;
+}
+.findings-table th {
+color: var(--text-bright) !important;
+font-weight: 600;
+text-align: left;
+}
+.findings-table th:first-child,
+.findings-table td:first-child {
+width: 32px !important;
+text-align: right;
+white-space: nowrap;
+color: var(--gold) !important;
+font-variant-numeric: tabular-nums;
+}
+.findings-table th:last-child,
+.findings-table td:last-child {
+width: auto !important;
+}
+.findings-table tr:nth-child(even) td {
+background: #15120f !important;
+}
+
+/* ── Markdown lists ────────────────────────────────────────────────── */
+ul,
+ol,
+li {
+color: var(--text) !important;
+}
+li::marker {
+color: var(--gold);
+}
+
+.rendered_html code,
+.jp-RenderedHTMLCommon code,
+.about-body code {
+color: var(--gold) !important;
+background: transparent !important;
+padding: 0 !important;
+font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+font-size: 0.9em !important;
+}
+
+/* ── Hide page title on mobile for spacing ──────────────────────────────────────── */
+.about-header-page-alt-mobile {
+font-size: 12px;
+color: var(--text-muted);
+letter-spacing: 0.06em;
+text-transform: uppercase;
+display: none;
+}
+@media (max-width: 640px) {
+    .about-header-page {
+        display: none;
+    }
+    .about-header-page-alt-mobile {
+        display: inline;
+    }
+}
