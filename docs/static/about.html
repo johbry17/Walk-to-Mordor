@@ -65,8 +65,9 @@
         <h1 class="about-hero-title">The Walk to Mordor</h1>
         <p class="about-hero-tagline">
           Three journeys. One walker. Two clocks.<br />
-          <!-- ~ or ~<br /> -->
-          One hobbit nerd's real journey through fictional time.
+          <span class="about-hero-sub-tagline"
+            >One hobbit nerd's real journey through fictional time.</span
+          >
         </p>
         <p class="about-hero-intro">
           Between March 2024 and June 2026, through
@@ -99,8 +100,14 @@
           <li><a href="#the-project">The Project</a></li>
           <li><a href="#two-clocks">Two Clocks</a></li>
           <li><a href="#the-data">The Data</a></li>
-          <li><a href="#building-the-visualization">Building the Visualization</a></li>
-          <li><a href="#what-this-project-taught-me">What This Project Taught Me</a></li>
+          <li>
+            <a href="#building-the-visualization">Building the Visualization</a>
+          </li>
+          <li>
+            <a href="#what-this-project-taught-me"
+              >What This Project Taught Me</a
+            >
+          </li>
           <li><a href="#sources-attribution">Sources &amp; Attribution</a></li>
         </ul>
       </nav>
@@ -127,13 +134,6 @@
           The same map, routes, and story events serve both views. What changes
           is the clock.
         </p>
-        <!-- <p>
-          These aren't two views of the same data. They're two different ways of
-          experiencing movement through the same journeys: one follows
-          <strong>my actual movement through time</strong>, while the other
-          reconstructs
-          <strong>the characters' movement through Middle-earth</strong>.
-        </p> -->
 
         <h3>Why I Built It</h3>
         <p>
@@ -151,21 +151,19 @@
           accidents to take you somewhere you couldn't have planned.
         </p>
         <p>
-          I already walked a lot. The challenges just gave me an extra reason to
-          walk, and I genuinely enjoyed seeing where I was along the route.
-          Eventually, I had two years of walking data. Naturally, I wanted to
-          see what was actually in it. How much did I walk? When did my pace
-          change? How did the three journeys compare? And what would happen if I
-          put all of that alongside Tolkien's story?
+          I was already walking regularly; the challenges just gave me an extra
+          reason to keep going, and I genuinely enjoyed seeing where I was along
+          the route. Eventually, I had two years of walking data. Naturally, I
+          wanted to see what was actually in it. How much did I walk? When did
+          my pace change? How did the three journeys compare? And what would
+          happen if I put all of that alongside Tolkien's story?
         </p>
         <p>I'm a data nerd. Of course I was gonna build something.</p>
 
         <h3>The Three Journeys</h3>
         <p>
           The three challenges were completed in the following order, with gaps
-          between them. Each journey maps to one of Tolkien's narrative arcs,
-          with its own start date, target mileage, and Shire Calendar
-          chronology.
+          between them.
         </p>
 
         <table class="journey-table">
@@ -175,7 +173,7 @@
               <th>Journey</th>
               <th>Walking Period</th>
               <th>Target</th>
-              <th>Avg. Daily Miles</th>
+              <th>Median Daily Miles</th>
               <th>Days Active</th>
             </tr>
           </thead>
@@ -210,9 +208,9 @@
         <p>
           Across the full project window, including gap periods between
           challenges:
-          <strong>5,196 miles walked over 806 days</strong>. And just the
-          challenge days?
-          <strong>Roughly 4,465 miles walked over 628 days</strong>.
+          <strong>5,196 miles walked over 806 days</strong>. Of those, I
+          accumulated roughly <strong>4,465 miles over 628 days</strong> during
+          the challenges — approximately the length of the Silk Road.
         </p>
 
         <p>
@@ -224,15 +222,14 @@
           takes place in T.A. 2941, almost 80 years earlier, and runs
           independently.
         </p>
-
+        <p class="back-to-top"><a href="#top">↑ Top</a></p>
       </section>
 
       <!-- ── Two Clocks ─────────────────────────────────────────── -->
       <section class="about-section" id="two-clocks">
         <h2>Two Clocks</h2>
-        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
         <p>
-          The central design question was simple:
+          The central design question:
           <strong
             >What happens when the same journey is measured by two different
             clocks?</strong
@@ -245,15 +242,8 @@
         </p>
         <p>
           Both clocks use the same map and routes. They simply answer different
-          questions. And the map and routes do not know (or care) which clock is
-          using them.
+          questions. The map and routes don't know which clock is running them.
         </p>
-        <!-- <p>
-          The answer was to treat them as genuinely independent systems that
-          happen to share the same map and route geometry. The map renderer
-          receives a journey and cumulative-mileage position from either system
-          without knowing (or caring) which clock generated it.
-        </p> -->
 
         <h3>My Time</h3>
         <p>
@@ -286,8 +276,8 @@
 
         <h3>Middle-earth Time</h3>
         <p>
-          The slider moves through Shire-calendar-derived dates: T.A. 2941
-          (Bilbo) and T.A. 3018–3019 (Frodo and Aragorn). Character position is
+          The slider moves through Shire Calendar dates: T.A. 2941 (Bilbo) and
+          T.A. 3018–3019 (Frodo and Aragorn). Character position is
           reconstructed from Tolkien's dated events and locations, calibrated to
           the fixed route mileage supplied by The Conqueror. The route's total
           fictional mileage stays fixed; what changes is when that mileage is
@@ -317,19 +307,13 @@
           </figcaption>
         </figure>
 
-        <h3>Contrasting the Clocks</h3>
+        <!-- <h3>Different Questions, Different Shapes</h3> -->
         <p>
           <strong>The story events work differently under each clock.</strong>
           In My Time, an event appears when my accumulated walking reaches its
           mileage point. In Middle-earth Time, events appear according to their
           place in Tolkien's chronology.
         </p>
-        <!-- <p>
-          This means that in My Time, the narrative events reflect how far I've
-          traveled — how much of the journey I've earned with my actual walking.
-          In Middle-earth Time, they reflect where we are in the story — what
-          Tolkien placed at that date, independent of pace.
-        </p> -->
 
         <p>
           The two timelines don't simply display the same information on
@@ -421,10 +405,10 @@
           not measurements from Tolkien's text. The result is a wide range:
           walking segments cluster around ordinary walking speeds, while
           horseback and boat travel can compress a large fictional distance into
-          a few Middle-earth days. My actual walking rate does not change to
-          reflect these modes, and anyone can clearly see the characters'
-          fictional travel method increasing daily mileage in the Middle-earth
-          clock.
+          a few Middle-earth days. My actual walking rate doesn't change to
+          reflect these modes. In the visualization, the effect is immediate:
+          the Middle-earth slider advances much faster during horseback and boat
+          segments than during walking ones.
         </p>
         <p>
           In other words, the model lets Aragorn's horse do something my Fitbit
@@ -455,25 +439,25 @@
 
         <h3>My daily walking stayed surprisingly consistent</h3>
         <p>
-          Across the three challenges, median daily walking remained in a narrow
-          range: Frodo <strong>7.1 mi</strong>, Aragorn <strong>6.5 mi</strong>,
-          and Bilbo <strong>7.9 mi</strong>. The journeys span more than two
-          years and very different fictional circumstances, yet the real-world
-          walking habit remained remarkably stable.
+          The three challenges span more than two years, completely different
+          fictional contexts, and very different total distances — yet the
+          walking itself barely changed. Median daily distance: Frodo
+          <strong>7.1 mi</strong>, Aragorn <strong>6.5 mi</strong>, and Bilbo
+          <strong>7.9 mi</strong>. The fictional circumstances changed. The
+          person walking didn't.
         </p>
-
+        <p class="back-to-top"><a href="#top">↑ Top</a></p>
       </section>
 
       <!-- ── The Data ───────────────────────────────────────────── -->
       <section class="about-section" id="the-data">
         <h2>The Data</h2>
-        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
 
         <h3>The Walking Data</h3>
         <p>
           The raw data is a Google Fit export of daily step counts and distance
-          measurements. The ETL process audits and cleans the export, assigns
-          each day to a journey segment or gap, and produces public-safe
+          measurements. A processing notebook audits and cleans the export,
+          assigns each day to a journey segment or gap, and produces public-safe
           aggregate data without publishing personally identifying health
           information.
         </p>
@@ -614,8 +598,6 @@
           Company's stay in Rivendell, the Fellowship's weeks in Lothlórien, and
           Bilbo's time in the Wood-elves' halls) produce zero-movement
           intervals: the ordinal advances but the cumulative miles don't change.
-          This daily mileage distribution is what the visualization uses to
-          reconstruct the characters' movements across Middle-earth.
         </p>
 
         <div class="callout">
@@ -627,34 +609,32 @@
             the text with precision it doesn't have.
           </p>
         </div>
-
+        <p class="back-to-top"><a href="#top">↑ Top</a></p>
       </section>
 
       <!-- ── Building the Visualization ────────────────────────── -->
       <section class="about-section" id="building-the-visualization">
         <h2>Building the Visualization</h2>
-        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
 
-        <h3>Map and Routes</h3>
+        <h3>The Map and Moving Routes</h3>
         <p>
-          The underlying Middle-earth map is from
+          The underlying map comes from
           <a
             href="https://github.com/k1tesurfen/mapome"
             target="_blank"
             rel="noopener"
             >mapome</a
           >
-          by k1tesurfen, an SVG map of Middle-earth licensed
+          a community-made map of Middle-earth licensed under
           <a
             href="https://creativecommons.org/licenses/by-sa/4.0/"
             target="_blank"
             rel="noopener"
             >CC BY-SA 4.0</a
-          >. It's loaded as a static <code>&lt;img&gt;</code> element rather
-          than inline SVG. A second SVG element, sized exactly the same, sits on
-          top as a transparent overlay. All route lines and markers are drawn
-          there. Because both elements share the same intrinsic aspect ratio,
-          overlay coordinates map directly to map coordinates at any zoom level.
+          >. It's a fixed image, with the journey routes and moving markers
+          drawn on top in a separate, transparent layer. Keeping the map and the
+          routes separate lets the characters move along their paths as the
+          timeline advances, without changing the underlying map.
         </p>
 
         <p>Each journey's route has two distinct structures:</p>
@@ -670,34 +650,6 @@
           index into the dense geometry array. These are the connection between
           the fictional mileage model and the visual path.
         </p>
-        <!-- <p>
-          The <code>_resolve()</code> function in
-          <code>js/map.js</code> converts a fictional cumulative miles value
-          into an SVG position:
-        </p>
-
-        <div class="data-flow">
-          <span class="note">Given: cumulative fictional miles</span><br />
-          1. Find the two calibration anchors that bracket this mileage<br />
-          2. Compute t = (cumMiles − anchorA.mile) / (anchorB.mile −
-          anchorA.mile)<br />
-          3. Interpolate a target arc length along the dense geometry between
-          anchor indices<br />
-          4. Walk the geometry to find the exact sub-segment containing that arc
-          length<br />
-          5. Interpolate x, y within that sub-segment<br />
-          <span class="generated"
-            >→ {x, y, revealLen} for marker position and stroke-dashoffset</span
-          >
-        </div>
-
-        <p>
-          The key point is that the marker follows every bend of the hand-traced
-          path — it never cuts straight between calibration anchors. The
-          <code>stroke-dashoffset</code>
-          technique reveals the completed portion of the route progressively as
-          the marker advances.
-        </p> -->
         <p>
           The visualization converts a cumulative mileage value to an SVG
           position by finding the two calibration anchors that bracket it,
@@ -796,11 +748,11 @@
         <p>
           The visualization is built in vanilla HTML, CSS, and JavaScript — no
           frameworks and no build step. The interface is designed for
-          exploration rather than instruction: pan and zoom let the route be
-          examined at different scales, playback turns the timeline into an
-          animated journey, and the responsive layout keeps the map and
-          narrative panel usable on smaller screens. A pause badge makes an
-          important real-world interruption visible instead of hiding it.
+          exploration rather than instruction. Pan and zoom to explore the
+          routes at different scales, or play back the timeline to watch each
+          journey unfold. The responsive layout keeps the map and narrative
+          panel usable on smaller screens, while a pause badge makes an
+          important interruption visible rather than hiding it.
         </p>
 
         <figure>
@@ -814,29 +766,26 @@
             two-row layout with touch-sized controls.
           </figcaption>
         </figure>
-
+        <p class="back-to-top"><a href="#top">↑ Top</a></p>
       </section>
 
       <!-- ── What This Project Taught Me ──────────────────────── -->
       <section class="about-section" id="what-this-project-taught-me">
         <h2>What This Project Taught Me</h2>
-        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
         <p>
-          The project required several distinct kinds of problem-solving to hold
-          together simultaneously. A custom calendar system had to be built from
-          scratch; a movement model had to be reconstructed from sparse textual
-          evidence rather than measured data; route geometry had to be
-          hand-traced and calibrated to fictional mileage; and the frontend had
-          to be built without a framework to avoid adding complexity where none
-          was needed. Each piece had to be coherent on its own before the pieces
-          could be brought together.
+          Nothing here came from a template. I built a calendar system the
+          standard date library couldn't handle, reconstructed character
+          movement from dated events in an 80-year-old fantasy novel, traced
+          route geometry by hand over a fan-made SVG map, and wrote the frontend
+          without a framework because adding one would have added complexity
+          before it resolved any.
         </p>
         <p>
-          The most interesting constraint throughout was maintaining clarity
-          about what was measured, what was modeled, and what was interpreted —
-          and making that distinction visible in the interface rather than
-          smoothing it over. The two-clock design forces that distinction into
-          the open: neither timeline claims to be the authoritative record of
+          The more interesting challenge, throughout, was maintaining honesty
+          about what each layer actually was — measured data, a model, an
+          interpretation — and keeping those distinctions visible rather than
+          smoothing them over. The two-clock design makes that distinction
+          structural: neither timeline claims to be the authoritative record of
           the other.
         </p>
       </section>
@@ -918,13 +867,12 @@
           />
           <figcaption>Completion Medals</figcaption>
         </figure>
-
+        <p class="back-to-top"><a href="#top">↑ Top</a></p>
       </section>
 
       <!-- ── Sources and Attribution ─────────────────────────────── -->
       <section class="about-section" id="sources-attribution">
         <h2>Sources &amp; Attribution</h2>
-        <p class="back-to-top"><a href="#top">↑ Back to top</a></p>
 
         <div class="attr-list">
           <div class="attr-item">
@@ -1048,7 +996,7 @@
     <!-- /.about-body -->
 
     <!-- ── Footer matching main site ─────────────────────────────── -->
-    <footer class="site-footer" role="contentinfo" style="margin: 10px 0;">
+    <footer class="site-footer" role="contentinfo" style="margin: 10px 0">
       <span class="footer-tagline">Fluent in Data. Fluent in Human.</span>
 
       <span class="footer-owner">

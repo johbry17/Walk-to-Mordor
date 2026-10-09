@@ -105,9 +105,17 @@ margin: 0 0 12px;
 
 .about-hero-tagline {
 font-size: 16px;
-color: var(--text-muted);
-font-style: italic;
+color: var(--text);
+font-weight: 500;
 margin: 0 0 28px;
+}
+
+.about-hero-sub-tagline {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.5;
+  margin: -14px 0 28px;
 }
 
 .about-hero-intro {
