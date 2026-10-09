@@ -680,3 +680,20 @@ text-decoration: underline;
     min-height: 0;
 }
 }
+
+/* ── Standalone scrollable About page (fix sticky header) ── */
+html {
+  height: auto;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+body {
+  height: auto;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+.about-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
