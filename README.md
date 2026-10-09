@@ -1,10 +1,11 @@
 # The Walk to Mordor
 
-*Three journeys. One walker. Two clocks.*  
-Mapping real-world movement and fictional chronology with illustrative geography.
+### *Three journeys. One walker. Two clocks.*  
+
+An interactive data-storytelling project mapping two years of real-world walking onto three fictional journeys through Middle-earth. Explore the same journeys through two timelines: the dates I actually walked and the dates Tolkien's characters did.
 
 🔗 [Live Visualization](https://johbry17.github.io/Walk-to-Mordor/)  
-🔗 [About Page](https://johbry17.github.io/Walk-to-Mordor/static/about)
+📖 [About the Project](https://johbry17.github.io/Walk-to-Mordor/static/about)
 
 ## Table of Contents
 
@@ -12,9 +13,14 @@ Mapping real-world movement and fictional chronology with illustrative geography
   - [The Three Journeys](#the-three-journeys)
   - [Two Clocks](#two-clocks)
   - [Data Architecture](#data-architecture)
+- [Key Findings](#key-findings)
 - [Features](#features)
 - [Tools & Technologies](#tools--technologies)
 - [Technical Challenges](#technical-challenges)
+  - [The Shire Calendar](#the-shire-calendar)
+  - [Reconstructing Middle-earth Movement](#reconstructing-middle-earth-movement)
+  - [Visual Route vs. Fictional Mileage](#visual-route-vs-fictional-mileage)
+  - [Route Builder](#route-builder)
 - [Gallery](#gallery)
 - [Usage](#usage)
 - [Repository Structure](#repository-structure)
@@ -26,25 +32,25 @@ Mapping real-world movement and fictional chronology with illustrative geography
 
 ## Project Overview
 
-An interactive data-storytelling project that maps two years of personal walking data onto three fictional journeys through Middle-earth: Bilbo's adventure in *The Hobbit*, Frodo's arduous trek to Mordor, and Aragorn's ascent in *The Return of the King*. 
+The Walk to Mordor is an interactive data-storytelling project built from two years of personal walking data. Between March 2024 and June 2026, I completed three virtual walking challenges inspired by Tolkien's journeys: Frodo's trek to Mordor, Aragorn's return to Gondor, and Bilbo's adventure to the Lonely Mountain.
 
-I completed all three as virtual walking challenges through [The Conqueror](https://www.theconqueror.events/), logging steps with Google Fit from March 2024 through June 2026. The visualization turns that walking history into something you can explore — advancing through real-world dates, or advancing through Tolkien's.
+Across the full project window, I walked **5,196 miles over 806 calendar days**. The visualization maps that movement onto Middle-earth, allowing users to explore each journey through two independent timelines: **My Time**, based on actual walking dates and distances, and **Middle-earth Time**, based on Tolkien's chronology.
+
+The comparison reveals how the same journeys produce radically different patterns of movement and elapsed time. Aragorn's 1,482-mile journey, for example, spans 225 calendar days in my walking data but just 30 days in the reconstructed Middle-earth timeline.
+
+The central engineering challenge was making both timelines resolve to the same geographic representation while keeping their underlying data and modeling systems independent.
 
 ### The Three Journeys
 
-| Journey | Character | Walking Period | Target | Miles Walked | Days Active\* |
-|---|---|---|---|---|---|
-| The Walk to Mordor | Frodo | Mar 2024 – Jan 2025 | 1,815 mi | 1,823 mi | 261 |
-| Return of the King | Aragorn | Jan 2025 – Aug 2025 | 1,482 mi | 1,494 mi | 225 |
-| The Hobbit | Bilbo | Jan 2026 – Jun 2026 | 1,100 mi | 1,148 mi | 142 |
+| Journey | Character | Walking Period | Target| Days Active** |
+|---|---|---|---|---|
+| The Walk to Mordor | Frodo | Mar 2024 – Jan 2025 | 1,815 mi | 261 |
+| Return of the King | Aragorn | Jan 2025 – Aug 2025 | 1,482 mi | 225 |
+| The Hobbit | Bilbo | Jan 2026 – Jun 2026 | 1,100 mi | 142 |
 
-\*Days with recorded walking activity within each challenge period.
+** *Days Active counts days with recorded walking activity assigned to each challenge. Frodo's challenge included a pause after Moria; the gap between challenges is excluded from these counts.*
 
-All three challenges exceeded their Conqueror targets. Across the full project window, I walked **5,196 miles over 806 calendar days**, including 628 days with recorded challenge activity.
-
-The visualization lets users explore the journeys through two independent timelines: **My Time**, based on the dates I actually walked, and **Middle-earth Time**, based on Tolkien's chronology.
-
-The central engineering challenge was making both timelines resolve to the same geographic representation while keeping the underlying data and modeling systems independent.
+All three challenges exceeded their Conqueror targets. I accumulated 4,465 miles over 628 daysactive days, in addition to walking during the gaps between challenges.
 
 ### Two Clocks
 
@@ -60,7 +66,7 @@ Both clocks resolve to the same output — a `{ journey_id, cumulative_miles }` 
 
 ### Data Architecture
 
-Four separate systems feed the visualization. They are deliberately kept distinct:
+Five complementary data sources and outputs feed the visualization. Each has a distinct responsibility:
 
 ```
 walking.csv            → real dates, actual daily miles, journey assignment
@@ -77,7 +83,15 @@ routes.json            → SVG geometry (dense point arrays) + mileage calibrati
                          anchors linking fictional miles to geometry indices
 ```
 
-The three kinds of distance are not interchangeable. Real mileage ≠ fictional mileage. Fictional mileage ≠ visual path length. Narrative events are keyed independently to both clock systems.
+The three kinds of distance are not interchangeable. Real mileage ≠ fictional mileage. Fictional mileage ≠ visual path length. Narrative events are associated with the clock-specific information needed to display them, rather than serving as a substitute for the movement model.
+
+## Key Findings
+
+* **The walking habit outlasted the challenges.** Walking continued during gaps between virtual challenges, so the project captures a broader activity pattern than challenge completion alone.
+* **The same journey can have radically different timescales.** Aragorn's 1,482-mile journey spans 225 real-world calendar days but just 30 days in the reconstructed Middle-earth timeline.
+* **Fictional movement includes long periods of rest.** In the reconstructed chronology, Frodo's mileage remains stationary for 95 of 185 Middle-earth days, including extended stays in Rivendell and Lothlórien.
+* **The model distinguishes evidence from interpretation.** Actual walking records, estimated fictional movement, and hand-traced map geometry remain separate, making the assumptions and limitations of each layer explicit.
+
 
 ## Features
 
@@ -120,9 +134,9 @@ Named special days (like "Midyear's Day" or "1 Lithe") are stored as date string
 
 The central modeling challenge: Tolkien's text gives narrative events with dates; The Conqueror gives total mileage; neither gives a continuous daily record for the other's timeline.
 
-`me-time-anchors.csv` bridges the gap: each row records a Shire Calendar date, a cumulative mileage value, a place name, and a confidence level (`high` for dates established in the text, `estimated` for reasoned interpolations). 
+`me-time-anchors.csv` bridges the gap: each row records a Shire Calendar date, a cumulative mileage value, a place name, and a confidence level (`high` for dates established in the text, `estimated` for reasoned interpolations). The anchor file distinguishes dates established by Tolkien's text from reasoned estimates, particularly for *The Hobbit*, where the chronology is less precisely documented. 
 
-Between anchors, mileage is distributed linearly across the relevant Middle-earth days. Recognized rest stops — Rivendell, Lothlórien, the Wood-elves' halls — produce zero-movement intervals in the output.
+Between anchors, mileage is distributed linearly across the relevant Middle-earth days. Recognized rest stops — Rivendell, Lothlórien, the Wood-elves' halls — produce zero-movement intervals in the output. Linear interpolation provides a continuous daily model; it does not imply that a character traveled at a constant rate or that every intermediate position is textually established.
 
 The result is a modeled approximation of movement through Tolkien's chronology. It is not a claim about canonical travel distances.
 
@@ -151,13 +165,19 @@ The dense route geometry does not exist in any published form, so I built a cust
 ## Gallery
 
 ![Default view — Overview, Frodo leaving Bag End](resources/images/map_start.png)
-*Default view: Overview, My Time. Frodo has just left Bag End on March 27, 2024.*
+*Default view: Overview, My Time, March 27, 2024. Frodo has just left Bag End.*
+
+![Overview, Middle-earth Time — Frodo and Aragorn near Mordor](resources/images/map_mordor.png)
+*Overview in Middle-earth Time, T.A. 3019. Frodo and Aragorn's journeys overlap during the final weeks of the War of the Ring.*
+
+![Two Clocks, One Walk, Three Journeys](resources/images/two_clocks.png)
+*The same journeys produce different movement patterns under the two clocks: My Time reflects actual walking, while Middle-earth Time preserves modeled periods of rest and travel.*
+
+![Cumulative daily miles](resources/images/daily_walking_plot.png)
+*Daily walking distance bar chart, March 2024 – June 2026, colored by journey with 14-day rolling average*
 
 ![Frodo solo, My Time — Bridge of Khazad-dûm](resources/images/map_moria.png)
 *Frodo's journey in My Time: passing the Bridge of Khazad-dûm. The badge marks a challenge rest period mapped to the lament for Gandalf.*
-
-![Overview, Middle-earth Time — Frodo and Aragorn near Mordor](resources/images/map_mordor.png)
-*Overview view in Middle-earth Time: T.A. 3019. Frodo and Aragorn simultaneously active; the info panel shows concurrent narrative events.*
 
 ![Aragorn solo, My Time — Paths of the Dead](resources/images/map_rohan.png)
 *Aragorn filtered solo: June 2025, Paths of the Dead. The revealed route shows the complete path walked so far.*
@@ -165,22 +185,20 @@ The dense route geometry does not exist in any published form, so I built a cust
 ![Bilbo, Middle-earth Time — Elvenking's Halls](resources/images/map_hobbit.png)
 *Bilbo in Middle-earth Time: T.A. 2941, escaping the Wood-elves. The timeline shows Middle-earth Calendar dates.*
 
-![Mobile layout](resources/images/map_mobile.png)
-*Responsive mobile layout: the map fills the viewport with the info panel positioned below.*
-
-### Exploratory Analysis
+![Cumulative walking distance](resources/images/cumulative_walking.png)
+*5,196 miles across the full project window. Grey segments represent gap days between challenges.*
 
 ![Journey comparison](resources/images/walk_comparison.png)
 *Three challenges compared: total miles, average daily pace, and active days.*
 
-![Cumulative walking distance](resources/images/cumulative_walking.png)
-*5,196 miles across the full project window. Grey segments represent gap days between challenges.*
+![Mobile layout](resources/images/map_mobile.png)
+*Responsive mobile layout: the map fills the viewport with the info panel positioned below.*
 
 ## Usage
 
 ### Running Locally
 
-The visualization has no build step and no dependencies.
+The interactive visualization is a static HTML, CSS, and JavaScript application with no build step or external runtime dependencies. To serve it locally from the repository root:
 
 ```bash
 git clone https://github.com/johbry17/walk-to-mordor.git
@@ -199,7 +217,7 @@ pip install pandas numpy matplotlib jupyterlab
 
 Run in order:
 1. `notebooks/etl.ipynb` — processes the raw Google Fit export and produces `data/processed/`.
-2. `notebooks/me-time-generator.ipynb` — generates `docs/static/data/me_time.csv`from the Middle-earth chronology and mileage anchors.
+2. `notebooks/me-time-generator.ipynb` — generates `docs/static/data/me_time.csv` from the Middle-earth chronology and mileage anchors.
 3. `notebooks/eda_walk_to_mordor.ipynb` and `notebooks/eda_two_clocks.ipynb` — exploratory analysis (no outputs written)
 
 The route builder also requires being served from the project root:
@@ -222,6 +240,9 @@ docs/                      — GitHub Pages root
   index.html               — redirect to static/index.html
   static/
     index.html             — main application
+    about.html             — about the project
+    eda-walking-data.html  — export of eda_walk_to_mordor.ipynb
+    eda-two-clocks.html    — export of eda_two_clocks.ipynb
     css/styles.css
     js/
       app.js               — data loading, clock logic, info panel rendering
@@ -270,13 +291,13 @@ raw_data/                  — gitignored; original Google Fit export
 
 ## References
 
-#### Primary Sources  
+### Primary Sources  
 - Tolkien, J.R.R. *The Hobbit*.
 - Tolkien, J.R.R. *The Lord of the Rings*, including the appendices.
 - Tolkien, J.R.R. *Unfinished Tales*.
 - Fonstad, Karen Wynn. *The Atlas of Middle-earth*. Revised edition.
 
-#### Data and Project Sources  
+### Data and Project Sources  
 - [The Conqueror](https://www.theconqueror.events/) — virtual walking challenge mileage and segment framework.
 - [Google Fit](https://www.google.com/fit/) — source of personal walking data.
 - [mapome](https://github.com/k1tesurfen/mapome) — source of the base Middle-earth map used for the visualization.
@@ -284,31 +305,31 @@ raw_data/                  — gitignored; original Google Fit export
 
 ## Licenses
 
-#### Original Code
+### Original Code
 
 > MIT License © 2026 Bryan Johns. See [LICENSE](LICENSE) for details.
 > 
 > The MIT License applies to the original code and project materials created for this repository.
 
-#### Middle-earth Map
+### Middle-earth Map
 
 > `preview-mapome-slim.svg` is derived from [mapome](https://github.com/k1tesurfen/mapome) by k1tesurfen and is licensed under CC BY-SA 4.0.
 > 
 > The original source files are archived in `archive/map/`.
 
-#### Tolkien's Works
+### Tolkien's Works
 
 > The fictional characters, locations, chronology, and narrative material referenced by this project are drawn from the works of J.R.R. Tolkien and associated appendices, published by HarperCollins and Houghton Mifflin Harcourt.
 > 
 > This project is non-commercial and is not affiliated with the Tolkien Estate, HarperCollins, Houghton Mifflin Harcourt, or any other rights holder. No claim is made to ownership of intellectual property associated with Middle-earth.
 
-#### The Conqueror
+### The Conqueror
 
 > The journey mileage framework and challenge structure are based on [The Conqueror](https://www.theconqueror.events/).
 > 
 > Completion certificates in `resources/conqueror_images/` are personal records. No affiliation with The Conqueror is implied or claimed.
 
-#### Personal Walking Data  
+### Personal Walking Data  
 
 > The walking data originated from my personal Google Fit export. Raw source data is gitignored and is not published in this repository.
 
