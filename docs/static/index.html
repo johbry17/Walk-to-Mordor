@@ -1,293 +1,446 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Walk to Mordor | A Personal Journey Through Middle-earth</title>
-  <meta content="Bryan C. Johns" name="author" />
-  <meta name="description" content="A personal walking journey mapped onto the journeys of Bilbo, Frodo, and Aragorn through Middle-earth, combining real-world steps, maps, and Tolkien's chronology.">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Walk to Mordor | A Personal Journey Through Middle-earth</title>
+    <meta content="Bryan C. Johns" name="author" />
+    <meta
+      name="description"
+      content="A personal walking journey mapped onto the journeys of Bilbo, Frodo, and Aragorn through Middle-earth, combining real-world steps, maps, and Tolkien's chronology."
+    />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
-  
-  <!-- Open Graph metadata for social sharing -->
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:title"
-    content="Walk to Mordor | A Personal Journey Through Middle-earth"
-  />
-  <meta
-    property="og:description"
-    content="A personal walking journey mapped onto the journeys of Bilbo, Frodo, and Aragorn through Middle-earth, combining real-world steps, maps, and Tolkien's chronology."
-  />
-  <meta
-    property="og:image"
-    content="https://johbry17.github.io/Walk-to-Mordor/static/images/masthead.png"
-  />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta
-    property="og:url"
-    content="https://johbry17.github.io/Walk-to-Mordor/"
-  />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
 
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta
-    name="twitter:title"
-    content="Walk to Mordor | A Personal Journey Through Middle-earth"
-  />
-  <meta
-    name="twitter:description"
-    content="A personal walking journey mapped onto the journeys of Bilbo, Frodo, and Aragorn through Middle-earth."
-  />
-  <meta
-    name="twitter:image"
-    content="https://johbry17.github.io/Walk-to-Mordor/static/images/masthead.png"
-  />
+    <!-- Open Graph metadata for social sharing -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Walk to Mordor | A Personal Journey Through Middle-earth"
+    />
+    <meta
+      property="og:description"
+      content="A personal walking journey mapped onto the journeys of Bilbo, Frodo, and Aragorn through Middle-earth, combining real-world steps, maps, and Tolkien's chronology."
+    />
+    <meta
+      property="og:image"
+      content="https://johbry17.github.io/Walk-to-Mordor/static/images/masthead.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:url"
+      content="https://johbry17.github.io/Walk-to-Mordor/"
+    />
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css">
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Walk to Mordor | A Personal Journey Through Middle-earth"
+    />
+    <meta
+      name="twitter:description"
+      content="A personal walking journey mapped onto the journeys of Bilbo, Frodo, and Aragorn through Middle-earth."
+    />
+    <meta
+      name="twitter:image"
+      content="https://johbry17.github.io/Walk-to-Mordor/static/images/masthead.png"
+    />
 
-</head>
-<body>
-
-  <!-- ── Header ───────────────────────────────────────────────────── -->
-  <header class="site-header" role="banner">
-    <div class="header-title">
-      <span class="title-main">The Walk to Mordor</span>
-      <span class="title-sub">Not all who wander count steps.</span>
-    </div>
-
-    <a href="about.html" class="header-about" title="About this project">About</a>
-
-    <div class="clock-toggle" role="group" aria-label="Time mode">
-      <button class="clock-btn active" data-clock="MY" aria-pressed="true" title="Follow my daily walking mileage, 2024-2026">My Time</button>
-      <button class="clock-btn"        data-clock="ME" aria-pressed="false" title="Follow Tolkien's calendar of events, T.A. 2941-3019">Middle-earth</button>
-    </div>
-
-    <div class="mobile-header-break" aria-hidden="true"></div>
-
-    <nav class="mode-nav" role="tablist" aria-label="Journey mode">
-      <button class="mode-btn active" data-mode="ALL"     role="tab" aria-selected="true"  tabindex="0" title="Show the whole story">Overview</button>
-      <button class="mode-btn"        data-mode="Mordor"  role="tab" aria-selected="false" tabindex="-1" title="Follow Frodo's journey">Frodo</button>
-      <button class="mode-btn"        data-mode="Return"  role="tab" aria-selected="false" tabindex="-1" title="Follow Aragorn's journey">Aragorn</button>
-      <button class="mode-btn"        data-mode="Hobbit"  role="tab" aria-selected="false" tabindex="-1" title="Follow Bilbo's journey">Bilbo</button>
-    </nav>
-
-    <button id="tl-prev" class="tl-nav-btn" aria-label="Previous step" title="Previous date (←)" disabled>‹</button>
-    <button id="play-btn" class="play-btn" aria-label="Play journey" title="Play journey">
-      <svg class="icon-play"  viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
-      <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-    </button>
-    <button id="tl-next" class="tl-nav-btn" aria-label="Next step" title="Next date (→)">›</button>
-
-    <div class="tl-speed" role="group" aria-label="Playback speed">
-      <button class="speed-btn" data-speed="0.5" aria-pressed="false" aria-label="Half speed" title="Play at half speed">½×</button>
-      <button class="speed-btn active" data-speed="1" aria-pressed="true" aria-label="Normal speed" title="Play at normal speed">1×</button>
-      <button class="speed-btn" data-speed="2" aria-pressed="false" aria-label="Double speed" title="Play at double speed">2×</button>
-    </div>
-  </header>
-
-  <!-- ── Main area (map + info panel) ─────────────────────────────── -->
-  <main class="main-area">
-
-    <!-- Info panel floats over the map -->
-    <aside class="info-panel" aria-live="polite" aria-label="Journey information">
-      <div class="info-date" id="info-date">—</div>
-
-      <div id="info-body"></div>
-
-      <!-- Journey status rows -->
-      <div class="journey-rows" id="journey-rows">
-        <div class="journey-row" data-journey="Mordor">
-          <span class="jr-dot" style="background:#C17F40"></span>
-          <span class="jr-name">Frodo</span>
-          <div class="jr-bar"><div class="jr-fill" id="fill-Mordor"></div></div>
-          <span class="jr-val" id="val-Mordor">—</span>
-        </div>
-        <div class="journey-row" data-journey="Return">
-          <span class="jr-dot" style="background:#4A7C8E"></span>
-          <span class="jr-name">Aragorn</span>
-          <div class="jr-bar"><div class="jr-fill" id="fill-Return"></div></div>
-          <span class="jr-val" id="val-Return">—</span>
-        </div>
-        <div class="journey-row" data-journey="Hobbit">
-          <span class="jr-dot" style="background:#5F8A5A"></span>
-          <span class="jr-name">Bilbo</span>
-          <div class="jr-bar"><div class="jr-fill" id="fill-Hobbit"></div></div>
-          <span class="jr-val" id="val-Hobbit">—</span>
-        </div>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- ── Header ───────────────────────────────────────────────────── -->
+    <header class="site-header" role="banner">
+      <div class="header-title">
+        <span class="title-main">The Walk to Mordor</span>
+        <span class="title-sub">Not all who wander count steps.</span>
       </div>
-    </aside>
 
-    <!-- Pause badge and reset: outside the transformable layer so they stay fixed -->
-    <!-- Timeline state badges -->
-    <div class="pause-badge" id="pause-badge" hidden>
-      <span>⏸ Month-Long Pause</span><br>to Lament for Gandalf
-    </div>
-    <div class="timeline-badge timeline-badge--between" id="between-badge" hidden>
-      ↔ Between Walking Challenges
-    </div>
-    <div class="timeline-badge timeline-badge--gap" id="gap-badge" hidden>
-      Many Years Later…
-    </div>
+      <a href="about.html" class="header-about" title="About this project"
+        >About</a
+      >
 
-    <!-- Floating map controls: zoom + reset, top-right -->
-    <div class="map-controls" role="group" aria-label="Map controls">
-      <button class="map-ctrl-btn" id="zoom-in"   aria-label="Zoom in"       title="Zoom in">+</button>
-      <button class="map-ctrl-btn" id="zoom-out"  aria-label="Zoom out"      title="Zoom out">−</button>
-      <button class="map-ctrl-btn" id="reset-view" aria-label="Reset map view" title="Reset view (double-click map)">&#8857;</button>
-    </div>
+      <div class="clock-toggle" role="group" aria-label="Time mode">
+        <button
+          class="clock-btn active"
+          data-clock="MY"
+          aria-pressed="true"
+          title="Follow my daily walking mileage, 2024-2026"
+        >
+          My Time
+        </button>
+        <button
+          class="clock-btn"
+          data-clock="ME"
+          aria-pressed="false"
+          title="Follow Tolkien's calendar of events, T.A. 2941-3019"
+        >
+          Middle-earth
+        </button>
+      </div>
 
-    <!-- Viewport clips; layer transforms for zoom/pan -->
-    <div class="map-viewport" id="map-viewport">
-      <div class="map-layer" id="map-layer">
-        <img id="base-map"
-             src="assets/preview-mapome-slim.svg"
-             alt="Middle-earth map (mapome by k1tesurfen, CC BY-SA 4.0)"
-             draggable="false">
+      <div class="mobile-header-break" aria-hidden="true"></div>
 
-        <svg id="overlay"
-             viewBox="0 0 3200 2400"
-             preserveAspectRatio="xMidYMid meet"
-             aria-hidden="true">
-          <!-- Populated by map.js -->
+      <nav class="mode-nav" role="tablist" aria-label="Journey mode">
+        <button
+          class="mode-btn active"
+          data-mode="ALL"
+          role="tab"
+          aria-selected="true"
+          tabindex="0"
+          title="Show the whole story"
+        >
+          Overview
+        </button>
+        <button
+          class="mode-btn"
+          data-mode="Mordor"
+          role="tab"
+          aria-selected="false"
+          tabindex="-1"
+          title="Follow Frodo's journey"
+        >
+          Frodo
+        </button>
+        <button
+          class="mode-btn"
+          data-mode="Return"
+          role="tab"
+          aria-selected="false"
+          tabindex="-1"
+          title="Follow Aragorn's journey"
+        >
+          Aragorn
+        </button>
+        <button
+          class="mode-btn"
+          data-mode="Hobbit"
+          role="tab"
+          aria-selected="false"
+          tabindex="-1"
+          title="Follow Bilbo's journey"
+        >
+          Bilbo
+        </button>
+      </nav>
+
+      <button
+        id="tl-prev"
+        class="tl-nav-btn"
+        aria-label="Previous step"
+        title="Previous date (←)"
+        disabled
+      >
+        ‹
+      </button>
+      <button
+        id="play-btn"
+        class="play-btn"
+        aria-label="Play journey"
+        title="Play journey"
+      >
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+          <polygon points="5,3 19,12 5,21" />
         </svg>
+        <svg
+          class="icon-pause"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          style="display: none"
+        >
+          <rect x="6" y="4" width="4" height="16" />
+          <rect x="14" y="4" width="4" height="16" />
+        </svg>
+      </button>
+      <button
+        id="tl-next"
+        class="tl-nav-btn"
+        aria-label="Next step"
+        title="Next date (→)"
+      >
+        ›
+      </button>
+
+      <div class="tl-speed" role="group" aria-label="Playback speed">
+        <button
+          class="speed-btn"
+          data-speed="0.5"
+          aria-pressed="false"
+          aria-label="Half speed"
+          title="Play at half speed"
+        >
+          ½×
+        </button>
+        <button
+          class="speed-btn active"
+          data-speed="1"
+          aria-pressed="true"
+          aria-label="Normal speed"
+          title="Play at normal speed"
+        >
+          1×
+        </button>
+        <button
+          class="speed-btn"
+          data-speed="2"
+          aria-pressed="false"
+          aria-label="Double speed"
+          title="Play at double speed"
+        >
+          2×
+        </button>
       </div>
+    </header>
+
+    <!-- ── Main area (map + info panel) ─────────────────────────────── -->
+    <main class="main-area">
+      <!-- Info panel floats over the map -->
+      <aside
+        class="info-panel"
+        aria-live="polite"
+        aria-label="Journey information"
+      >
+        <div class="info-date" id="info-date">—</div>
+
+        <div id="info-body"></div>
+
+        <!-- Journey status rows -->
+        <div class="journey-rows" id="journey-rows">
+          <div class="journey-row" data-journey="Mordor">
+            <span class="jr-dot" style="background: #c17f40"></span>
+            <span class="jr-name">Frodo</span>
+            <div class="jr-bar">
+              <div class="jr-fill" id="fill-Mordor"></div>
+            </div>
+            <span class="jr-val" id="val-Mordor">—</span>
+          </div>
+          <div class="journey-row" data-journey="Return">
+            <span class="jr-dot" style="background: #4a7c8e"></span>
+            <span class="jr-name">Aragorn</span>
+            <div class="jr-bar">
+              <div class="jr-fill" id="fill-Return"></div>
+            </div>
+            <span class="jr-val" id="val-Return">—</span>
+          </div>
+          <div class="journey-row" data-journey="Hobbit">
+            <span class="jr-dot" style="background: #5f8a5a"></span>
+            <span class="jr-name">Bilbo</span>
+            <div class="jr-bar">
+              <div class="jr-fill" id="fill-Hobbit"></div>
+            </div>
+            <span class="jr-val" id="val-Hobbit">—</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Pause badge and reset: outside the transformable layer so they stay fixed -->
+      <!-- Timeline state badges -->
+      <div class="pause-badge" id="pause-badge" hidden>
+        <span>⏸ Month-Long Pause</span><br />to Lament for Gandalf
+      </div>
+      <div
+        class="timeline-badge timeline-badge--between"
+        id="between-badge"
+        hidden
+      >
+        ↔ Between Walking Challenges
+      </div>
+      <div class="timeline-badge timeline-badge--gap" id="gap-badge" hidden>
+        Many Years Later…
+      </div>
+
+      <!-- Floating map controls: zoom + reset, top-right -->
+      <div class="map-controls" role="group" aria-label="Map controls">
+        <button
+          class="map-ctrl-btn"
+          id="zoom-in"
+          aria-label="Zoom in"
+          title="Zoom in"
+        >
+          +
+        </button>
+        <button
+          class="map-ctrl-btn"
+          id="zoom-out"
+          aria-label="Zoom out"
+          title="Zoom out"
+        >
+          −
+        </button>
+        <button
+          class="map-ctrl-btn"
+          id="reset-view"
+          aria-label="Reset map view"
+          title="Reset view (double-click map)"
+        >
+          &#8857;
+        </button>
+      </div>
+
+      <!-- Viewport clips; layer transforms for zoom/pan -->
+      <div class="map-viewport" id="map-viewport">
+        <div class="map-layer" id="map-layer">
+          <img
+            id="base-map"
+            src="assets/preview-mapome-slim.svg"
+            alt="Middle-earth map (mapome by k1tesurfen, CC BY-SA 4.0)"
+            draggable="false"
+          />
+
+          <svg
+            id="overlay"
+            viewBox="0 0 3200 2400"
+            preserveAspectRatio="xMidYMid meet"
+            aria-hidden="true"
+          >
+            <!-- Populated by map.js -->
+          </svg>
+        </div>
+      </div>
+    </main>
+
+    <!-- ── Timeline bar ──────────────────────────────────────────────── -->
+    <footer class="timeline-bar" role="contentinfo">
+      <span class="tl-label" id="tl-start" aria-hidden="true">—</span>
+
+      <div class="tl-slider-wrap">
+        <input
+          type="range"
+          id="timeline"
+          class="timeline-slider"
+          min="0"
+          max="100"
+          value="0"
+          step="1"
+          aria-label="Timeline position"
+        />
+      </div>
+
+      <span class="tl-label" id="tl-end" aria-hidden="true">—</span>
+    </footer>
+
+    <!-- Site footer -->
+    <footer class="site-footer" role="contentinfo">
+      <span class="footer-tagline">Fluent in Data. Fluent in Human.</span>
+
+      <span class="footer-owner">
+        &copy; <span id="copyright-year">2026</span>
+        Bryan C. Johns
+      </span>
+
+      <nav class="footer-links" aria-label="External links">
+        <a
+          href="https://informedwanderer.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="portfolio-link"
+        >
+          Portfolio
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/b-johns/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="linkedin-link"
+        >
+          LinkedIn
+        </a>
+
+        <a
+          href="https://github.com/johbry17/walk-to-mordor"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link"
+        >
+          GitHub
+        </a>
+      </nav>
+    </footer>
+
+    <script>
+      const yearElement = document.getElementById("copyright-year");
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+    </script>
+
+    <!-- Welcome modal — opens on every visit -->
+    <dialog id="welcome-dialog" class="welcome-dialog">
+      <div class="welcome-content">
+        <h1 class="welcome-title">The Walk to Mordor</h1>
+        <p class="welcome-subtitle">The Return of the King</p>
+        <p class="welcome-subtitle">There and Back Again</p>
+        <p class="welcome-characters">Frodo. Aragorn. Bilbo.</p>
+        <p class="welcome-tagline">
+          One hobbit nerd&#8217;s real journey through fictional time.
+        </p>
+        <p class="welcome-stat">Three journeys. One walker. Two clocks.</p>
+        <p class="welcome-cta">Tap anywhere to continue</p>
+      </div>
+    </dialog>
+
+    <!-- Clock / controls explainer — shown after welcome modal -->
+    <div
+      id="clock-popover"
+      class="clock-popover"
+      role="dialog"
+      aria-label="Timeline instructions"
+      hidden
+    >
+      <div class="clock-popover-title">Two timelines, one journey</div>
+
+      <p>
+        <strong>My Time</strong> follows my actual walks, 2024–2026.<br />
+        <strong>Middle-earth Time</strong> follows Tolkien's chronology.
+      </p>
+
+      <p class="clock-popover-controls">
+        <!-- <strong>Ready to explore?</strong> -->
+        Play with <strong>▶</strong>, step days with <strong>‹ ›</strong>, and
+        change speed with <strong>½×</strong> · <strong>1×</strong> ·
+        <strong>2×</strong>. Choose <strong>Overview</strong> for the whole
+        story, or a <strong>character</strong> to follow one journey.<br />
+        <strong>About</strong> explores the data, design decisions, and
+        technical challenges behind the project.
+      </p>
     </div>
 
-  </main>
+    <!-- Journey completion modal — My Time / Overview endpoint -->
+    <dialog id="completion-dialog" class="completion-dialog">
+      <div class="completion-content">
+        <div class="completion-kicker">THE JOURNEY IS COMPLETE</div>
 
-  <!-- ── Timeline bar ──────────────────────────────────────────────── -->
-  <footer class="timeline-bar" role="contentinfo">
-    <span class="tl-label" id="tl-start" aria-hidden="true">—</span>
+        <div class="completion-miles">4,400+ miles walked.</div>
 
-    <div class="tl-slider-wrap">
-      <input type="range"
-             id="timeline"
-             class="timeline-slider"
-             min="0" max="100" value="0" step="1"
-             aria-label="Timeline position">
-    </div>
-
-    <span class="tl-label" id="tl-end" aria-hidden="true">—</span>
-  </footer>
-
-  <!-- Site footer -->
-  <footer class="site-footer" role="contentinfo">
-    <span class="footer-tagline">Fluent in Data. Fluent in Human.</span>
-
-    <span class="footer-owner">
-      &copy; <span id="copyright-year">2026</span>
-      Bryan C. Johns
-    </span>
-
-    <nav class="footer-links" aria-label="External links">
-
-      <a
-        href="https://informedwanderer.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="portfolio-link"
-      >
-        Portfolio
-      </a>
-
-      <a
-        href="https://www.linkedin.com/in/b-johns/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="linkedin-link"
-      >
-        LinkedIn
-      </a>
-
-      <a
-        href="https://github.com/johbry17/walk-to-mordor"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="github-link"
-      >
-        GitHub
-      </a>
-    </nav>
-  </footer>
-
-  <script>
-    const yearElement = document.getElementById('copyright-year');
-    if (yearElement) {
-      yearElement.textContent = new Date().getFullYear();
-    }
-  </script>
-
-  <!-- Welcome modal — opens on every visit -->
-  <dialog id="welcome-dialog" class="welcome-dialog">
-    <div class="welcome-content">
-      <h1 class="welcome-title">The Walk to Mordor</h1>
-      <p class="welcome-subtitle">The Return of the King</p>
-      <p class="welcome-subtitle">There and Back Again</p>
-      <p class="welcome-characters">Frodo. Aragorn. Bilbo.</p>
-      <p class="welcome-tagline">One hobbit nerd&#8217;s real journey through fictional time.</p>
-      <p class="welcome-stat">Three journeys. One walker. Two clocks.</p>
-      <p class="welcome-cta">Tap anywhere to continue</p>
-    </div>
-  </dialog>
-
-  <!-- Clock / controls explainer — shown after welcome modal -->
-  <div
-    id="clock-popover"
-    class="clock-popover"
-    role="dialog"
-    aria-label="Timeline instructions"
-    hidden
-  >
-
-    <div class="clock-popover-title">Two timelines, one journey</div>
-
-    <p>
-      <strong>My Time</strong> follows my actual walks, 2024–2026.<br>
-      <strong>Middle-earth Time</strong> follows Tolkien's chronology.
-    </p>
-
-    <p class="clock-popover-controls">
-      <!-- <strong>Ready to explore?</strong> -->
-      Play with <strong>▶</strong>, step days with <strong>‹ ›</strong>, and change speed with <strong>½×</strong> · <strong>1×</strong> · <strong>2×</strong>.
-      Choose <strong>Overview</strong> for the whole story, or a <strong>character</strong> to follow one journey.
-    </p>
-  </div>
-
-  <!-- Journey completion modal — My Time / Overview endpoint -->
-  <dialog id="completion-dialog" class="completion-dialog">
-    <div class="completion-content">
-      <div class="completion-kicker">THE JOURNEY IS COMPLETE</div>
-
-      <div class="completion-miles">4,400+ miles walked.</div>
-
-      <!-- <div class="completion-journeys">
+        <!-- <div class="completion-journeys">
         Frodo. Aragorn. Bilbo.<br>
         Three journeys. One walker.
       </div> -->
 
-      <div class="completion-rule"></div>
+        <div class="completion-rule"></div>
 
-      <div class="completion-comparison">
-        That's roughly the length of the<br>
-        <strong>Silk Road.</strong>
+        <div class="completion-comparison">
+          That's roughly the length of the<br />
+          <strong>Silk Road.</strong>
+        </div>
+
+        <div class="completion-aside">
+          And if you include the miles between challenges?<br />
+          <span id="completion-miles-value"></span> in all.
+        </div>
+
+        <div class="completion-prompt">Tap anywhere to continue</div>
       </div>
+    </dialog>
 
-      <div class="completion-aside">
-        And if you include the miles between challenges?<br>
-        <span id="completion-miles-value"></span> in all.
-      </div>
-
-      <div class="completion-prompt">Tap anywhere to continue</div>
-    </div>
-  </dialog>
-
-  <script src="js/timeline.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/pan-zoom.js"></script>
-  <script src="js/app.js"></script>
-</body>
+    <script src="js/timeline.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/pan-zoom.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>
