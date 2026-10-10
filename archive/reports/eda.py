@@ -19,9 +19,9 @@ from matplotlib.lines import Line2D
 warnings.filterwarnings("ignore")
 
 # ── paths ──────────────────────────────────────────────────────────────────────
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).resolve().parents[2] # should be correct - moved the file
 DATA = ROOT / "docs" / "static" / "data"
-FIG  = ROOT / "reports" / "figures"
+FIG  = ROOT / "archive" /"reports" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 
 sys.path.insert(0, str(ROOT / "notebooks"))
@@ -1047,7 +1047,7 @@ report_lines += [
     "",
 ]
 
-report_path = ROOT / "reports" / "eda_report.md"
+report_path = ROOT / "archive" /"reports" / "eda_report.md"
 report_path.write_text("\n".join(report_lines), encoding="utf-8")
 print(f"  saved → {report_path.name}")
 print("\nAll outputs complete.")
