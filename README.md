@@ -56,7 +56,7 @@ All three challenges exceeded their Conqueror targets. I accumulated 4,465 miles
 
 The central design problem was representing two independent timelines — mine and Tolkien's — that produce the same map output.
 
-**My Time** advances through real-world calendar dates (March 2024 – June 2026). Each day's actual walking distance pushes the fictional position forward along the route. When I walked more, the character moved faster.
+**My Time** advances through real-world calendar dates (March 27, 2024 to June 10, 2026). Each day's actual walking distance pushes the fictional position forward along the route. When I walked more, the character moved faster.
 
 This mode represents what actually happened: my recorded walking data determines the character's progress.
 
