@@ -50,7 +50,7 @@ The central engineering challenge was making both timelines resolve to the same 
 
 ** *Days Active counts days with recorded walking activity assigned to each challenge. Frodo's challenge included a pause after Moria; the gap between challenges is excluded from these counts.*
 
-All three challenges exceeded their Conqueror targets. I accumulated 4,465 miles over 628 daysactive days, in addition to walking during the gaps between challenges.
+All three challenges exceeded their Conqueror targets. I accumulated 4,465 miles over 628 active days, in addition to walking during the gaps between challenges.
 
 ### Two Clocks
 
@@ -265,6 +265,9 @@ notebooks/
   eda_two_clocks.ipynb     — comparative analysis of real walking data and generated middle-earth data
   wtm_theme.py             — shared matplotlib palette and theme
 
+scripts/
+  inject_eda_metadata.py   — metadata for html converted EDAs
+
 archive/
   proof_of_concept/        — early SVG overlay prototype
   tools/
@@ -274,6 +277,7 @@ archive/
   map/                     — mapome source files (Affinity Designer)
     README.md
     LICENSE.txt            — CC BY-SA 4.0
+  reports/                 — prototype of eda_two_clocks.ipynb
 
 resources/
   images/                  — screenshots and EDA plots
