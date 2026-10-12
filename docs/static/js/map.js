@@ -257,12 +257,6 @@ class MapController {
   cue(jid) {
     const els = this._els[jid];
 
-  console.log('CUE ATTEMPT:', {
-    jid,
-    elsExists: !!els,
-    display: els?.core?.style.display,
-    ring: !!els?.ring
-  });
     if (!els || els.core.style.display === 'none') return;
 
     const ring = els.ring;
