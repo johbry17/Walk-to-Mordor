@@ -49,7 +49,7 @@
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "1 Lithe",
+    "me_date": "1 Lithe, T.A. 2941",
     "date_precision": "day",
     "mile": 491,
     "location": "Rivendell",
@@ -57,7 +57,7 @@
   },
   {
     "journey_id": "Hobbit",
-    "me_date": "Midyear's Day",
+    "me_date": "Midyear's Day, T.A. 2941",
     "date_precision": "day",
     "mile": 491,
     "location": "Rivendell",

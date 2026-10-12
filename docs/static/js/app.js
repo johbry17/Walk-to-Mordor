@@ -90,8 +90,28 @@ async function fetchData() {
 function _parseCsv(text) {
   const lines   = text.trim().split(/\r?\n/);
   const headers = lines[0].split(',');
+
+  // Parses a single CSV line into an array of values, 
+  // handling quoted fields with commas.
+  // Lithe, Midyear's Day, etc., include a year suffix ", T.A. 2941"
+  function parseCsvLine(line) {
+    const values = [];
+    const regex = /("(?:[^"]|"")*"|[^,]*)(,|$)/g;
+    let match;
+    while ((match = regex.exec(line)) !== null) {
+      let value = match[1];
+      if (value.startsWith('"') && value.endsWith('"')) {
+        value = value.slice(1, -1).replace(/""/g, '"');
+      }
+      values.push(value);
+      if (match[2] === '') break;
+    }
+    return values;
+  }
+
   return lines.slice(1).map(line => {
-    const vals = line.split(',');
+    // const vals = line.split(','); // simple split, doesn't handle quoted commas
+    const vals = parseCsvLine(line);
     const row  = {};
     headers.forEach((h, i) => {
       const v = vals[i] ?? '';
