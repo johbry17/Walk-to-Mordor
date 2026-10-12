@@ -139,6 +139,19 @@ function buildCumulativeByDate(walking) {
   return byDate;
 }
 
+function buildAllTimeCumulativeByDate(walking) {
+  const byDate = {};
+  let lastTotal = null;
+  for (const row of walking) {
+    if (row.all_time_cumulative_miles != null &&
+        row.all_time_cumulative_miles !== '') {
+      lastTotal = Number(row.all_time_cumulative_miles);
+    }
+    byDate[row.date] = lastTotal;
+  }
+  return byDate;
+}
+
 function generateCalendarDates(startDate, endDate) {
   const dates = [];
   const d   = new Date(startDate + 'T12:00:00Z');
@@ -525,7 +538,7 @@ function _fmtMEDate(meDate) {
   return `${months[m - 1]} ${d}, T.A. ${y}`;
 }
 
-function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd) {
+function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd, allTimeMiles = null) {
   // Date display
   let displayDate;
   if (clockMode === 'ME') {
@@ -537,6 +550,15 @@ function updateInfoPanel(clockMode, journeyMode, dateKey, journeyStates, ordinal
     displayDate = dateKey ? fmt.format(_parseDate(dateKey)) : '—';
   }
   document.getElementById('info-date').textContent = displayDate;
+
+  // Show total real-world miles only in Overview / My Time.
+  const totalEl = document.getElementById('all-time-total');
+  const showAllTimeTotal = clockMode === 'MY' && journeyMode === 'ALL';
+  totalEl.hidden = !showAllTimeTotal;
+  if (showAllTimeTotal) {
+    document.getElementById('all-time-miles').textContent =
+      fmtMiles(allTimeMiles);
+  }
 
   // Timeline state badges
   const isFrodoPause = clockMode === 'MY'
@@ -779,6 +801,7 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
 
   // ── My Time ───────────────────────────────────────────────────────
   const cumulativeByDate  = buildCumulativeByDate(walking);
+  const allTimeByDate     = buildAllTimeCumulativeByDate(walking);
   const journeyRanges     = buildJourneyRanges(journeys);
 
   const projectStart      = Object.values(journeyRanges).map(r => r.start).sort()[0];
@@ -1034,8 +1057,10 @@ fetchData().then(({ walking, meTime, journeys, routes, chronology }) => {
     if (clockMode === 'MY' && currentMode === 'ALL' && isTimelineEnd) {
       showCompletionModal();
     }
+    const allTimeMiles =
+      clockMode === 'MY' ? allTimeByDate[dateKey] ?? null : null;
 
-    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd);
+    updateInfoPanel(clockMode, currentMode, dateKey, journeyStates, ordinalToMeDate, globalChronEntry, isTimelineEnd, allTimeMiles);
     _updateNavButtons();
   }
 

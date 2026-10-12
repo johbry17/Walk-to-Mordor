@@ -196,15 +196,20 @@
       </div>
     </header>
 
-    <!-- ── Main area (map + info panel) ─────────────────────────────── -->
+    <!-- ── Main area (map + info panel) ────────────────────────────────────────── -->
     <main class="main-area">
-      <!-- Info panel floats over the map -->
+      <!-- Info panel floats over the map ─────────────────────────────── -->
       <aside
         class="info-panel"
         aria-live="polite"
         aria-label="Journey information"
       >
         <div class="info-date" id="info-date">—</div>
+
+        <div id="all-time-total" class="all-time-total" hidden>
+          <span class="all-time-total__label">Total walked · </span>
+          <strong id="all-time-miles">—</strong>
+        </div>
 
         <div id="info-body"></div>
 
@@ -237,7 +242,7 @@
         </div>
       </aside>
 
-      <!-- Pause badge and reset: outside the transformable layer so they stay fixed -->
+      <!-- Pause badge and reset: outside the transformable layer so they stay fixed ─────────────────── -->
       <!-- Timeline state badges -->
       <div class="pause-badge" id="pause-badge" hidden>
         <span>⏸ Month-Long Pause</span><br />to Lament for Gandalf
@@ -253,7 +258,7 @@
         Many Years Later…
       </div>
 
-      <!-- Floating map controls: zoom + reset, top-right -->
+      <!-- Floating map controls: zoom + reset, top-right ─────────────────────────────── -->
       <div class="map-controls" role="group" aria-label="Map controls">
         <button
           class="map-ctrl-btn"
@@ -281,7 +286,7 @@
         </button>
       </div>
 
-      <!-- Viewport clips; layer transforms for zoom/pan -->
+      <!-- Viewport clips; layer transforms for zoom/pan ─────────────────────────────── -->
       <div class="map-viewport" id="map-viewport">
         <div class="map-layer" id="map-layer">
           <img
@@ -323,7 +328,7 @@
       <span class="tl-label" id="tl-end" aria-hidden="true">—</span>
     </footer>
 
-    <!-- Site footer -->
+    <!-- Site footer ──────────────────────────────────────────────── -->
     <footer class="site-footer" role="contentinfo">
       <span class="footer-tagline">Fluent in Data. Fluent in Human.</span>
 
@@ -368,6 +373,8 @@
         yearElement.textContent = new Date().getFullYear();
       }
     </script>
+
+    <!-- Modals ────────────────────────────────────────────────────────────── -->
 
     <!-- Welcome modal — opens on every visit -->
     <dialog id="welcome-dialog" class="welcome-dialog">
@@ -437,6 +444,8 @@
         <div class="completion-prompt">Tap anywhere to continue</div>
       </div>
     </dialog>
+
+    <!-- JavaScript ────────────────────────────────────────────────────────── -->
 
     <script src="js/timeline.js"></script>
     <script src="js/map.js"></script>

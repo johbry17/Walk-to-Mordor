@@ -511,6 +511,34 @@ body {
   color: var(--text-muted);
 }
 
+/* Cumulative mileage in Overview My Time */
+/* All-time mileage — quiet metadata */
+.all-time-total {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-top: -10px;     /* Closer to the date */
+  margin-bottom: 8px;  /* More separation from the place */
+  border-top: 1px solid var(--border);
+  padding-top: 4px;
+  font-size: 10px;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+.all-time-total__label {
+  flex-shrink: 0;
+}
+.all-time-total strong {
+  font-size: inherit;
+  font-weight: 400;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.all-time-total[hidden] {
+  display: none !important;
+}
+
+/* Narrative Summary (Location, miles, events) */
 .info-place {
   font-size: 20px;
   font-weight: 600;
@@ -585,7 +613,7 @@ body {
 #fill-Return { background: var(--aragorn); }
 #fill-Hobbit { background: var(--bilbo); }
 
-/* Pause badges — centred near the top of the map area */
+/* Pause badges — centred near the top of the map area ────────────────────── */
 .pause-badge {
   position: absolute;
   top: 10px;
