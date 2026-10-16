@@ -397,6 +397,107 @@ color: var(--text);
 font-style: normal;
 }
 
+/* ── Medal lightbox ───────────────────────────────────────────── */
+.medals-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  padding: 24px;
+  color: var(--text);
+  background: #13110D;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+}
+.medals-dialog[open] {
+  animation: medals-enter 160ms ease-out;
+}
+.medals-dialog::backdrop {
+  background: var(--bg-overlay);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
+.medals-dialog .medals {
+  margin: 12px 0 0;
+}
+.medals-dialog .medals img {
+  display: block;
+  max-height: 50vh;
+  max-width: 480px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.medals-dialog .medals figcaption {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
+.medals-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: -8px -8px 0 auto;
+  padding: 0;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color var(--transition),
+    border-color var(--transition);
+}
+.medals-close:hover {
+  color: var(--gold);
+  border-color: var(--border);
+}
+.medals-close:focus-visible,
+#medals-link:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 4px;
+}
+
+#medals-link {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 168, 83, 0.45);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: text-decoration-color var(--transition);
+}
+#medals-link:hover {
+  text-decoration-color: var(--gold);
+}
+
+@keyframes medals-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .medals-dialog[open] {
+    animation: none;
+  }
+}
+
 /* ── Image figures ────────────────────────────────────────────── */
 figure {
 margin: 28px 0;

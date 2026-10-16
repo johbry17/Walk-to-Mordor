@@ -88,8 +88,21 @@
         <div class="callout note">
           <strong>The Conqueror:</strong> You give them money. They gamify your
           daily walks into a fictional journey and eventually mail you a shiny
-          medal. I got eleven.
+          medal. <a href="#medals-preview" id="medals-link">I got eleven.</a>
         </div>
+        <dialog id="medals-preview" class="medals-dialog">
+          <button class="medals-close" aria-label="Close">&times;</button>
+          <figure class="medals">
+            <img
+              src="images/medals.jpg"
+              alt="Eleven completion medals from three virtual walking challenges through Middle-earth"
+            />
+            <figcaption>
+              Eleven medals, three journeys, 4,465 miles, 628 (non-consecutive)
+              days.
+            </figcaption>
+          </figure>
+        </dialog>
         <br />
         <p class="about-hero-intro">
           I had two years of walking data, The Conqueror's mileposts, and
@@ -843,10 +856,11 @@
         <h3>Completion Certificates</h3>
         <p>
           The Conqueror issues a digital completion certificate for each
-          challenge segment finished. Across all three journeys there are eleven
-          segments total — from The Shire to Mordor, Rohan to Gondor, and An
+          challenge segment finished. I collected all eleven across the three
+          journeys — from The Shire to Mordor, Rohan to Gondor, and An
           Unexpected Journey to the Battle of the Five Armies.
         </p>
+        <p>Here are the final certificates from each journey:</p>
 
         <div class="cert-row">
           <figure class="cert-item">
@@ -873,16 +887,19 @@
         </div>
 
         <p>
-          These are the certificates for the final segment of each journey.
-          There are eight more for the segments that precede them.
+          And then there are the medals: eleven tangible reminders of all those
+          miles, accumulated one day at a time.
         </p>
 
         <figure class="medals">
           <img
             src="images/medals.jpg"
-            alt="Completion medals for the Walk to Mordor challenge"
+            alt="Eleven completion medals from three virtual walking challenges through Middle-earth"
           />
-          <figcaption>Completion Medals</figcaption>
+          <figcaption>
+            Eleven medals, three journeys, 5,196 miles. The physical souvenirs
+            of two years spent walking through Middle-earth.
+          </figcaption>
         </figure>
         <p class="back-to-top"><a href="#top">↑ Top</a></p>
       </section>
@@ -943,71 +960,6 @@
           intellectual property associated with Middle-earth. See the repository
           README for full attribution and licensing information.
         </p>
-
-        <!-- <div class="attr-list">
-          <div class="attr-item">
-            <div class="attr-source">Tolkien's Works</div>
-            <div class="attr-desc">
-              Fictional characters, place names, chronology, and narrative
-              events are drawn from
-              <em>The Hobbit</em>, <em>The Lord of the Rings</em>, and their
-              appendices by J.R.R. Tolkien, published by HarperCollins /
-              Houghton Mifflin Harcourt. Select dates also draw on
-              <em>Unfinished Tales</em>. This project is non-commercial and is
-              not affiliated with the Tolkien Estate, HarperCollins, or any
-              rights holder. No claim is made to any intellectual property
-              associated with Middle-earth.
-            </div>
-          </div>
-          <div class="attr-item">
-            <div class="attr-source">Secondary Reference</div>
-            <div class="attr-desc">
-              Karen Wynn Fonstad, <em>The Atlas of Middle-earth</em>, revised
-              edition. Consulted as a secondary reference for routes, locations,
-              and geography.
-            </div>
-          </div>
-          <div class="attr-item">
-            <div class="attr-source">Middle-earth Map</div>
-            <div class="attr-desc">
-              <a
-                href="https://github.com/k1tesurfen/mapome"
-                target="_blank"
-                rel="noopener"
-                >mapome</a
-              >
-              by k1tesurfen. Licensed
-              <a
-                href="https://creativecommons.org/licenses/by-sa/4.0/"
-                target="_blank"
-                rel="noopener"
-                >CC BY-SA 4.0</a
-              >.
-            </div>
-          </div>
-          <div class="attr-item">
-            <div class="attr-source">The Conqueror</div>
-            <div class="attr-desc">
-              Journey mileage framework and challenge structure from
-              <a
-                href="https://www.theconqueror.events/"
-                target="_blank"
-                rel="noopener"
-                >The Conqueror</a
-              >. Completion certificates are personal records. No affiliation
-              with The Conqueror is implied or claimed.
-            </div>
-          </div>
-          <div class="attr-item">
-            <div class="attr-source">Walking Data</div>
-            <div class="attr-desc">
-              Personal Google Fit export. Raw data is gitignored and not
-              published. Only daily aggregate distances appear in the public
-              repository.
-            </div>
-          </div>
-        </div>
-        <p>Original code © 2026 Bryan Johns, MIT License.</p> -->
       </section>
     </div>
     <!-- /.about-body -->
@@ -1049,6 +1001,28 @@
     <script>
       const yr = document.getElementById("copyright-year");
       if (yr) yr.textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Script for medals lightbox -->
+    <script>
+      const medalsLink = document.getElementById("medals-link");
+      const medalsDialog = document.getElementById("medals-preview");
+      const medalsClose = medalsDialog.querySelector(".medals-close");
+
+      medalsLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        medalsDialog.showModal();
+      });
+
+      medalsClose.addEventListener("click", () => {
+        medalsDialog.close();
+      });
+
+      medalsDialog.addEventListener("click", (event) => {
+        if (event.target === medalsDialog) {
+          medalsDialog.close();
+        }
+      });
     </script>
   </body>
 </html>
